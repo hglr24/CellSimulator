@@ -29,3 +29,5 @@ private void reseGame(){
 2.) Scorekeeper 
 * Just keep track of score
 
+Actual planning for the cell automata project is in Design_PLAN.
+
