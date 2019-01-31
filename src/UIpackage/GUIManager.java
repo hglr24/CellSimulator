@@ -94,8 +94,15 @@ public class GUIManager {
         buttonStop = drawButton("Stop", event -> stop());
 
         Text sLabel = new Text("Simulation Type: ");
-        simSelector = new ComboBox<>();
-        populateSims();
+        //ArrayList<String> simList = mySim.getState().getList();
+
+        ArrayList<String> simList = new ArrayList<>(); //delete later
+        simList.add("Simulation 1");                   //|
+        simList.add("Simulation 2");                   //|
+        simList.add("Simulation 3");                   //to here
+
+        simSelector = drawComboBox("Select...", simList);
+        simSelector.valueProperty().addListener((o, o2, selOption) -> changeSim(selOption));
 
         controls.getChildren().addAll(buttonStart, buttonStop, sLabel, simSelector);
         return controls;
@@ -106,6 +113,14 @@ public class GUIManager {
         newButton.setPrefSize(100, 20);
         newButton.setOnAction(handler);
         return newButton;
+    }
+
+    private ComboBox<String> drawComboBox(String prompt, List options) {
+        ComboBox<String> selector = new ComboBox<>();
+        selector.setPromptText("Select...");
+
+        selector.getItems().addAll(options);
+        return selector;
     }
 
     private Node drawLegend() {
@@ -123,8 +138,9 @@ public class GUIManager {
         return legend;
     }
 
-    private void populateSims() {
-        simSelector.getItems().addAll("Simulation 1", "Simulation 2", "Simulation 3");
+    private void changeSim(String newSim) {
+        //mySim.change(newSim);
+        System.out.println("Simulation changed: " + newSim);
     }
 
     private void start() {
@@ -159,7 +175,7 @@ public class GUIManager {
         //buttonStop.setDisable(!mySim.hasStarted());
     }
 
-    public void keyboardHandler(KeyCode code) {
+    private void keyboardHandler(KeyCode code) {
         if (code == KeyCode.ESCAPE) {
             stop();
         }
