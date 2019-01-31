@@ -3,18 +3,19 @@ package UIpackage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * This will be implemented into SimulationCoordinator later, bare-bones implementation here for testing
+ */
 public class GUIMain extends Application {
-    public static final String TITLE = "CellSociety";
+    private static final String TITLE = "CellSociety";
 
     @Override
     public void start (Stage stage) {
-        GUIManager display = new GUIManager(/*new Grid()*/);
+        GUIManager display = new GUIManager(/*myGrid (grid contained in SimulationCoordinator)*/);
         stage.setResizable(false);
         stage.setTitle(TITLE);
-        // add our user interface components to Frame and show it
         stage.setScene(display.getScene());
         stage.show();
-        // start somewhere, less typing for debugging
     }
 
     /**
