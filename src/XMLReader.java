@@ -1,5 +1,3 @@
-
-
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
@@ -19,16 +17,17 @@ public class XMLReader {
         myType = type;
     }
 
-    public Simulation getSimulation(File dataFile){
+    public SimulationInfo getSimulation(File dataFile){
         var root = getRootElement(dataFile);
-        if(! isValidFile(root, Simulation.type)){
-            throw new XMLException(errorMessage, Simulation.type);
+        System.out.println(root.toString());
+        if(! isValidFile(root, SimulationInfo.type)){
+            throw new XMLException("Data type invalid", SimulationInfo.type);
         }
-        var allFields = new HashMap<String, String>;
-        for(var field:Simulation.dataFields){
+        var allFields = new HashMap<String, String>();
+        for(var field: SimulationInfo.dataFields){
             allFields.put(field, getTextValue(root, field));
         }
-        return new Simulation(allFields);
+        return new SimulationInfo(allFields);
     }
 
     private Element getRootElement(File xmlFile){
@@ -43,6 +42,7 @@ public class XMLReader {
     }
 
     private boolean isValidFile(Element root, String type){
+        System.out.println(getAttribute(root, myType));
         return getAttribute(root, myType).equals(type);
     }
 

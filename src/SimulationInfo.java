@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Simulation {
-    public static final String type = "Simulation";
+public class SimulationInfo {
+    public static final String type = "SimulationInfo";
     public static final List<String> dataFields = List.of(
             "Title",
             "GridConfiguration",
@@ -21,7 +21,7 @@ public class Simulation {
     private String myParameters;
     private Map<String, String> myValues;
 
-    public Simulation(String title, String configuration, int width, int height, String states, String parameters){
+    public SimulationInfo(String title, String configuration, int width, int height, String states, String parameters){
         myTitle = title;
         myConfiguration = configuration;
         myWidth = width;
@@ -31,7 +31,7 @@ public class Simulation {
         myValues = new HashMap<>();
     }
 
-    public Simulation(Map<String, String> values){
+    public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), Integer.parseInt(values.get(dataFields.get(2))),
                 Integer.parseInt(values.get(dataFields.get(3))), values.get(dataFields.get(4)), values.get(dataFields.get(5)));
         myValues = values;
