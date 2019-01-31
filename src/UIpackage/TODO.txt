@@ -1,0 +1,6 @@
+Implement Grid object
+Legend contents
+
+Things I need in other classes:
+SimulationCoordinator:
+    public boolean hasStarted()
