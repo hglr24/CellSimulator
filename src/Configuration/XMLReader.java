@@ -1,3 +1,5 @@
+package Configuration;
+
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;

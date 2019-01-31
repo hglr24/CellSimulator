@@ -1,3 +1,5 @@
+package Configuration;
+
 public class XMLException extends RuntimeException{
     public XMLException(String errorMessage, Object errorValues){
         super(String.format(errorMessage, errorValues));

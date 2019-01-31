@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<data media="SimulationInfo">
-    <Title> "First SimulationInfo"</Title>
+<data media="Configuration.SimulationInfo">
+    <Title> "First Configuration.SimulationInfo"</Title>
     <GridConfiguration>[[0, 1, 2, 3]
                         [2, 3, 5, 3]
                         [1, 2, 3, 4]

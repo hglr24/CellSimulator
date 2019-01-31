@@ -1,9 +1,11 @@
+package Configuration;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SimulationInfo {
-    public static final String type = "SimulationInfo";
+    public static final String type = "Configuration.SimulationInfo";
     public static final List<String> dataFields = List.of(
             "Title",
             "GridConfiguration",

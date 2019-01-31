@@ -33,8 +33,8 @@ The SimulationCoordinator's primary job is to make sure the other pieces execute
 A Neighborhood represents the group of relevant information from cells that affect a particular cell's next State. Each Cell has its own Neighborhood. This neighborhood should be determined upon initialization. 
 #### State
 The State class enumerates the allowed states of cells.
-#### XMLReader
-The XMLReader class will read the XML file and create a RuleSet object based off of which simulation is called to be run in the file. It will pass the allowed states to the State class, the initial configuration and states of the Cells to the SimulationCoordinator class, and pass the grid size and game information to the GUIManager class.
+#### Configuration.XMLReader
+The Configuration.XMLReader class will read the XML file and create a RuleSet object based off of which simulation is called to be run in the file. It will pass the allowed states to the State class, the initial configuration and states of the Cells to the SimulationCoordinator class, and pass the grid size and game information to the GUIManager class.
 #### RuleSet
 The RuleSet class will be abstract, with subclasses representing each of the games. It will have information such as how the State of a Cell is calculated.
 #### GUIManager
@@ -119,8 +119,8 @@ The SimulationCoordinator class will be in charge of running the game, stepping 
     * private void step(); //controls real-time application operations
     * 
 
-#### XMLReader
-The XMLReader will read the XML file and pass relevant information to the SimulationCoordinator. The SimulationCoordinator will then pass allowed states to State, grid size and game info to the GUIManager, and the simulation parameters to RuleKeeper.
+#### Configuration.XMLReader
+The Configuration.XMLReader will read the XML file and pass relevant information to the SimulationCoordinator. The SimulationCoordinator will then pass allowed states to State, grid size and game info to the GUIManager, and the simulation parameters to RuleKeeper.
 * Methods 
     * private void readXML(File XMLfile);
     * public String[] getAllowedStates();

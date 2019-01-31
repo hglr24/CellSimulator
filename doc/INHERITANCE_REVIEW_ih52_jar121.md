@@ -2,7 +2,7 @@
 
 ## Part 1
 ### What is an implementation decision that your design is encapsulating (i.e., hiding) for other areas of the program?
-* Ian: My program is creating a SimulationInfo class that contains all of the XML parsed data, and makes it available to the classes that need the data to initialize the starting configuration. All of the XML info is read in and passed to a new SimulationInfo object.
+* Ian: My program is creating a Configuration.SimulationInfo class that contains all of the XML parsed data, and makes it available to the classes that need the data to initialize the starting configuration. All of the XML info is read in and passed to a new Configuration.SimulationInfo object.
 
 * Jorge: There is an XMLParser Class that reads in any XML file and returns a Simulation instance. The rest of the program has no need to know how it was created. Within the parser class, cells are also created and initialized in the grid that will be put into the simulation that is retur
 
