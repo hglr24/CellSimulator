@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class XMLReader {
-    public static final String errorMessage = "Error while parsing XML";
+    public static final String errorMessage = "File is not of type %s";
     private final DocumentBuilder myDocumentBuilder;
     private final String myType;
 
@@ -21,10 +21,6 @@ public class XMLReader {
 
     public SimulationInfo getSimulation(File dataFile){
         var root = getRootElement(dataFile);
-        System.out.println(root.toString());
-        if(! isValidFile(root, SimulationInfo.type)){
-            throw new XMLException("Data type invalid", SimulationInfo.type);
-        }
         var allFields = new HashMap<String, String>();
         for(var field: SimulationInfo.dataFields){
             allFields.put(field, getTextValue(root, field));
@@ -44,11 +40,11 @@ public class XMLReader {
     }
 
     private boolean isValidFile(Element root, String type){
-        System.out.println(getAttribute(root, myType));
         return getAttribute(root, myType).equals(type);
     }
 
     private String getAttribute(Element e, String attributeName){
+        System.out.println(e.getAttribute(attributeName));
         return e.getAttribute(attributeName);
     }
 

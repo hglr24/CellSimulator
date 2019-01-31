@@ -6,13 +6,11 @@ import java.io.FileReader;
 
 public class testParserMain{
     public static void main(String [] args){
-        XMLReader testRead = new XMLReader("Configuration.SimulationInfo");
+        XMLReader testRead = new XMLReader("SimulationInfo");
         File dataFile = new File("data\\TestXML.xml");
 
-//        String outString = br.readLine();
-//        System.out.println(outString);
-//        Configuration.SimulationInfo testSim = testRead.getSimulation(dataFile);
-//        System.out.println(examplePath);
+        SimulationInfo testSim = testRead.getSimulation(dataFile);
+        System.out.println(testSim.getTitle());
     }
 
 }

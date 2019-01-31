@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<data media="Configuration.SimulationInfo">
-    <Title> "First Configuration.SimulationInfo"</Title>
+<data media="Simulation">
+    <Title> "Game1"</Title>
     <GridConfiguration>[[0, 1, 2, 3]
                         [2, 3, 5, 3]
-                        [1, 2, 3, 4]
-                        [2, 3, 4, 7]]
+                        [1, 2, 3, 3]
+                        [2, 3, 1, 7]]
     </GridConfiguration>
     <GridWidth> 4 </GridWidth>
     <GridHeight> 4 </GridHeight>
     <States> 1, 2, 3, 4, 5, 6, 7, 8</States>
     <SimParmeters>[0.4, 12, 32] </SimParmeters>
 </data>
+
+
