@@ -9,6 +9,7 @@ public class GUIMain extends Application {
     @Override
     public void start (Stage stage) {
         GUIManager display = new GUIManager(/*new Grid()*/);
+        stage.setResizable(false);
         stage.setTitle(TITLE);
         // add our user interface components to Frame and show it
         stage.setScene(display.getScene());
