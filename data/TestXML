@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
-    <GameTitle> "First Game"</GameTitle>
+    <Title> "First Simulation"</Title>
     <GridConfiguration>[[0, 1, 2, 3]
                         [2, 3, 5, 3]
                         [1, 2, 3, 4]
                         [2, 3, 4, 7]]
     </GridConfiguration>
-    <States> 1, 2, 3, 4, 5, 6, 7, 8</States>
     <GridWidth> 4 </GridWidth>
     <GridHeight> 4 </GridHeight>
+    <States> 1, 2, 3, 4, 5, 6, 7, 8</States>
     <SimParmeters>[0.4, 12, 32] </SimParmeters>
 </data>
