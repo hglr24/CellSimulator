@@ -11,6 +11,5 @@ public class testParserMain{
 
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         int[][] configArray = testSim.getConfiguration();
-
     }
 }

@@ -64,6 +64,10 @@ public class SimulationInfo {
         return height;
     }
 
+    public String getShape(){
+        return myShape;
+    }
+
     public String getParameteres(){
         return myParameters;
     }

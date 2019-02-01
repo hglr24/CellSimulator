@@ -10,13 +10,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class XMLReader {
-    public static final String errorMessage = "File is not of type %s";
     private final DocumentBuilder myDocumentBuilder;
-    private final String myType;
 
     public XMLReader(String type){
         myDocumentBuilder = getDocumentBuilder();
-        myType = type;
     }
 
     public SimulationInfo getSimulation(File dataFile){
