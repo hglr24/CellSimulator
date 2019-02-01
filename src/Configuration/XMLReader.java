@@ -39,10 +39,6 @@ public class XMLReader {
         }
     }
 
-    private boolean isValidFile(Element root, String type){
-        return getAttribute(root, myType).equals(type);
-    }
-
     private String getAttribute(Element e, String attributeName){
         System.out.println(e.getAttribute(attributeName));
         return e.getAttribute(attributeName);

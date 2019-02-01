@@ -10,7 +10,7 @@ public class testParserMain{
         File dataFile = new File("data\\TestXML.xml");
 
         SimulationInfo testSim = testRead.getSimulation(dataFile);
-        System.out.println(testSim.getTitle());
-    }
+        int[][] configArray = testSim.getConfiguration();
 
+    }
 }

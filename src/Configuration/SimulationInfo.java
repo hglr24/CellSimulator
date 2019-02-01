@@ -11,7 +11,7 @@ public class SimulationInfo {
             "GridConfiguration",
             "GridWidth",
             "GridHeight",
-            "States",
+            "Shape",
             "SimParameters"
     );
 
@@ -19,16 +19,16 @@ public class SimulationInfo {
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
-    private String myStates;
+    private String myShape;
     private String myParameters;
     private Map<String, String> myValues;
 
-    public SimulationInfo(String title, String configuration, String width, String height, String states, String parameters){
+    public SimulationInfo(String title, String configuration, String width, String height, String shape, String parameters){
         myTitle = title;
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
-        myStates = states;
+        myShape = shape;
         myParameters = parameters;
         myValues = new HashMap<>();
     }
@@ -43,35 +43,28 @@ public class SimulationInfo {
         return myTitle;
     }
 
-    public String getConfiguration(){
-        return myConfiguration;
+    public int[][] getConfiguration(){
+        int[][] configuration = new int[this.getHeight()][this.getWidth()];
+        String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
+        for(int k = 0; k < this.getWidth(); k++){
+            for(int j = 0; j < this.getHeight(); j++){
+                configuration[k][j] = Integer.parseInt(splitString[(this.getWidth()*k + j)].trim());
+            }
+        }
+        return configuration;
     }
 
-    public String getWidth(){
-        return myWidth;
+    public int getWidth(){
+        int width = Integer.parseInt(myWidth.trim());
+        return width;
     }
 
-    public String getHeight(){
-        return myHeight;
-    }
-
-    public String getStates(){
-        return myStates;
+    public int getHeight(){
+        int height = Integer.parseInt(myHeight.trim());
+        return height;
     }
 
     public String getParameteres(){
         return myParameters;
     }
-
-    @Override
-    public String toString () {
-        var result = new StringBuilder();
-        result.append(type + " {\n");
-        for (var e : myValues.entrySet()) {
-            result.append("  ").append(e.getKey()).append("='").append(e.getValue()).append("',\n");
-        }
-        result.append("}\n");
-        return result.toString();
-    }
-
 }
