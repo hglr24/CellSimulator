@@ -50,7 +50,7 @@ public class GUIManager {
         int hsize = 20; //replace when we have Grid
         int vsize = 20;
 
-        ShapeGrid grid = new HexGrid(hsize, vsize);
+        ShapeGrid grid = new SquareGrid(hsize, vsize);
 
         myShapeGrid = new ArrayList<>(vsize); //initialize ArrayLists that hold shapes
         for (int i = 0; i < vsize; i++) {
@@ -61,7 +61,7 @@ public class GUIManager {
         return grid;
     }
 
-    private void updateCellColor(int row, int col) {
+    private void updateCellColor(int row, int col/*, State newState*/) {
         if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(Color.RED);
     }
 
@@ -76,6 +76,7 @@ public class GUIManager {
 
         Text sLabel = new Text("Simulation Type: ");
         //ArrayList<String> simList = mySim.getState().getList();
+        //Populate list with all possible types of simulation, default values if not specified in XML
 
         ArrayList<String> simList = new ArrayList<>(); //delete later
         simList.add("Simulation 1");                   //|
@@ -145,8 +146,8 @@ public class GUIManager {
         myGrid = newGrid;
         for (int i = 0; i < myGrid.getHeight(); i++) {
             for (int j= 0; j < myGrid.getWidth(); j++) {
-                Cell curr = myGrid.get2DList().get(i).get(j);
-                if (curr.hasChanged()) updateCellColor(i, j);
+                Cell curr = myGrid.getCells().get(i).get(j);
+                if (curr.hasChanged()) updateCellColor(i, j, curr.getNewState());
             }
         }
     }*/
