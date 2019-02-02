@@ -14,7 +14,6 @@ abstract class ShapeGrid extends GridPane {
     public ShapeGrid(int hsize, int vsize) {
         this.myHSize = hsize;
         this.myVSize = vsize;
-        this.setStyle("-fx-background-color: rgba(51,102,153,0.44);");
         this.setAlignment(Pos.CENTER);
         this.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
     }

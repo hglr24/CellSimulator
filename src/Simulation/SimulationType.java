@@ -20,4 +20,21 @@ public enum SimulationType {
         }
         return "NULL";
     }
+
+    public State[] getState() {
+        switch(this)
+        {
+            case GAME_OF_LIFE:
+                return GameOfLifeState.values();
+            case SEGREGATION:
+                return SegregationState.values();
+            case PREDATOR_PREY:
+                return PredatorPreyState.values();
+            case FIRE:
+                return FireState.values();
+            case PERCOLATION:
+                return PercolationState.values();
+        }
+        return null;
+    }
 }
