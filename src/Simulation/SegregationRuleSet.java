@@ -4,9 +4,14 @@ import java.util.List;
 
 import static Simulation.SegregationState.EMPTY;
 
-public class SegregationRuleSet extends RuleSet{
-    @Override
-    public State applyRules(List<Cell> neighbors, SegregationCell cell, double satPercent, Grid grid){
+public class SegregationRuleSet implements RuleSet{
+    private double mySatPercent;
+
+    public SegregationRuleSet(double[] parameters){
+        mySatPercent = parameters[0];
+    }
+
+    public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         double sameNeighbors = 0;
         for(Cell c:neighbors){
             if(c.getCurrentState() == cell.getCurrentState()){
@@ -14,8 +19,8 @@ public class SegregationRuleSet extends RuleSet{
             }
         }
         double samePercent = sameNeighbors/neighbors.size();
-        if(samePercent < satPercent ){
-            moveToEmpty(cell, grid);
+        if(samePercent < mySatPercent ){
+            moveToEmpty((SegregationCell) cell, grid);
             return EMPTY;
         }
         return cell.getCurrentState();
@@ -27,6 +32,7 @@ public class SegregationRuleSet extends RuleSet{
                 SegregationCell checkCell = (SegregationCell) grid.getCell(new SquareLocation(k, j));
                 if(checkCell.getCurrentState() == EMPTY && checkCell.getNextState() == EMPTY){
                     checkCell.setNextState((SegregationState) cell.getCurrentState());
+                    return;
                 }
             }
         }
