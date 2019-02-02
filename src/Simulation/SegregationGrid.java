@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import static Simulation.SegregationState.*;
 
 public class SegregationGrid extends BasicGrid{
-     SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet) {
+     public SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet) {
         this.height = height;
         this.width = width;
         SegregationCell[][] initCells = new SegregationCell[height][width];
@@ -14,10 +14,13 @@ public class SegregationGrid extends BasicGrid{
                 switch(initInts[k][j]){
                     case 0:
                         initCells[k][j] = new SegregationCell(k, j, EMPTY);
+                        break;
                     case 1:
                         initCells[k][j] = new SegregationCell(k, j, A);
+                        break;
                     case 2:
                         initCells[k][j] = new SegregationCell(k, j, B);
+                        break;
                 }
             }
         }

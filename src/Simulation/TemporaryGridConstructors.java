@@ -6,7 +6,7 @@ import static Simulation.PredatorPreyState.FISH;
 import static Simulation.PredatorPreyState.SHARK;
 
 public class TemporaryGridConstructors {
-    public void checkConstructors(){
+   /* public void checkConstructors(){
         PercolationCell[][] initCells = new PercolationCell[height][width];
         for(int k = 0; k < height; k++){
             for(int j = 0; j < width; j++){
@@ -34,7 +34,7 @@ public class TemporaryGridConstructors {
                 }
             }
         }
-    }
+    }*/
 
 
 }
