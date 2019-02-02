@@ -65,8 +65,7 @@ abstract class BasicGrid<E> implements Grid<E> {
         return adjacent;
     }
 
-    @Override
-    public ArrayList getCardinalNeighbors(Location location) {
+    public ArrayList<Cell> getCardinalNeighbors(Location location) {
         ArrayList<Cell> neighbors = new ArrayList<>();
 
         SquareLocation sl = (SquareLocation) location;
