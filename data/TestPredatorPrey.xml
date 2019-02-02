@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data media="Simulation">
+    <Title> Predator Prey </Title>
+    <GridConfiguration>
+        0 0 0 0 0 0 0
+        0 0 1 1 0 0 1
+        1 0 0 1 0 0 0
+        0 0 0 0 0 0 1
+        1 1 1 0 1 0 1
+        0 1 0 1 1 0 0
+    </GridConfiguration>
+    <GridWidth> 7 </GridWidth>
+    <GridHeight> 6 </GridHeight>
+    <Shape>Square</Shape>
+    <SimParameters>5, 5, 5</SimParameters>
+</data>
