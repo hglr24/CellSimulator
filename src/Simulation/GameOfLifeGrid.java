@@ -29,7 +29,19 @@ public class GameOfLifeGrid extends BasicGrid {
     @Override
     public ArrayList<GameOfLifeCell> findNeighbors(Location location) {
         ArrayList<GameOfLifeCell> neighbors = new ArrayList<>();
+
+        SquareLocation sl = (SquareLocation) location;
         //all 8 neighbors
+        int[] x = {-1, 0, 1};
+        for (int i : x) {
+            for (int j : x) {
+                if (i == 0 && j == 0)
+                    continue;
+                SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY() + j);
+                if (validLocation(temp))
+                    neighbors.add((GameOfLifeCell) getCell(temp));
+            }
+        }
 
         return neighbors;
     }
