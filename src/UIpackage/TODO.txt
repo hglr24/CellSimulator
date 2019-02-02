@@ -3,6 +3,7 @@ Legend contents
 Resource bundle (see example_browser)
 CSS file for style (see example_browser)
 make abstract ShapeGrid that extends to SquareGrid, HexGrid, TriGrid
+make and test enum for simulation types, state types (use .values())
 
 ----------------------------------------------------
 

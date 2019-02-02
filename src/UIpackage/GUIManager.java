@@ -45,42 +45,23 @@ public class GUIManager {
     }
 
     private Node drawInitialGrid() {
-        double maxdim = 460;
-        double cellsize;
         //int hsize = myGrid.getWidth();
         //int vsize = myGrid.getHeight();
         int hsize = 20; //replace when we have Grid
         int vsize = 20;
 
-        GridPane grid = new GridPane();
-        grid.setStyle("-fx-background-color: rgba(51,102,153,0.44);");
-        grid.setHgap(1.3);
-        grid.setVgap(1.3);
-        grid.setAlignment(Pos.CENTER);
-        grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-
-        if (hsize > vsize) cellsize =  maxdim / hsize - grid.getHgap();
-        else cellsize = maxdim / vsize - grid.getVgap();
+        ShapeGrid grid = new SquareGrid(hsize, vsize);
 
         myShapeGrid = new ArrayList<>(vsize); //initialize ArrayLists that hold shapes
         for (int i = 0; i < vsize; i++) {
             myShapeGrid.add(i, new ArrayList<>(hsize));
         }
 
-        for (int i = 0; i < hsize; i++) {
-            for (int j = 0; j < vsize; j++) {
-                Rectangle newShape = new Rectangle();
-                newShape.setFill(Color.GRAY);
-                newShape.setHeight(cellsize);
-                newShape.setWidth(cellsize);
-                grid.add(newShape, i, j);
-                myShapeGrid.get(i).add(j, newShape);
-            }
-        }
+        grid.draw(hsize, vsize, myShapeGrid);
         return grid;
     }
 
-    private void updateCellColor(int row, int col) {
+    private void updateCellColor(int row, int col/*, State newState*/) {
         if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(Color.RED);
     }
 
@@ -95,6 +76,7 @@ public class GUIManager {
 
         Text sLabel = new Text("Simulation Type: ");
         //ArrayList<String> simList = mySim.getState().getList();
+        //Populate list with all possible types of simulation, default values if not specified in XML
 
         ArrayList<String> simList = new ArrayList<>(); //delete later
         simList.add("Simulation 1");                   //|
@@ -164,8 +146,8 @@ public class GUIManager {
         myGrid = newGrid;
         for (int i = 0; i < myGrid.getHeight(); i++) {
             for (int j= 0; j < myGrid.getWidth(); j++) {
-                Cell curr = myGrid.get2DList().get(i).get(j);
-                if (curr.hasChanged()) updateCellColor(i, j);
+                Cell curr = myGrid.getCells().get(i).get(j);
+                if (curr.hasChanged()) updateCellColor(i, j, curr.getNewState());
             }
         }
     }*/
