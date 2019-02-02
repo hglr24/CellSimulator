@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data media="Simulation">
+    <Title> Game of Life </Title>
+    <GridConfiguration>
+        0 0 0 0 0 0 0
+        0 0 1 1 0 0 1
+        1 0 0 1 0 0 0
+        0 0 0 0 0 0 1
+        1 1 1 0 1 0 1
+        0 1 0 1 1 0 0
+    </GridConfiguration>
+    <GridWidth> 6 </GridWidth>
+    <GridHeight> 7 </GridHeight>
+    <Shape>Square</Shape>
+    <SimParameters> None </SimParameters>
+</data>

@@ -22,6 +22,7 @@ public class SimulationInfo {
     private String myShape;
     private String myParameters;
     private Map<String, String> myValues;
+    private String wrongParameters = "Incorrect parameters for stated simulation type";
 
     public SimulationInfo(String title, String configuration, String width, String height, String shape, String parameters){
         myTitle = title;
@@ -43,11 +44,54 @@ public class SimulationInfo {
         return myTitle;
     }
 
-    public int[][] getConfiguration(){
+    public int[][] getIntegerConfiguration(){
         int[][] configuration = new int[this.getHeight()][this.getWidth()];
+
+        if(this.getTitle().trim().equals("Segregation")){
+            if(this.getParameters().length != 3){
+                throw new XMLException(wrongParameters);
+            }
+            double probEmpty = this.getParameters()[1];
+            double probAgent1 = this.getParameters()[2];
+            for(int k = 0; k < this.getHeight(); k++){
+                for(int j = 0; j < this.getWidth(); j++){
+                    double singleProb = Math.random();
+                    if(singleProb < probEmpty){
+                        configuration[k][j] = 0;
+                    }
+                    else if(singleProb < probEmpty + probAgent1){
+                        configuration[k][j] = 1;
+                    }
+                    else{
+                        configuration[k][j] = 2;
+                    }
+                }
+            }
+            return configuration;
+        }
+
+        if(this.getTitle().trim().equals("Percolation")){
+            if(this.getParameters().length != 1){
+                throw new XMLException(wrongParameters);
+            }
+            double probEmpty = this.getParameters()[0];
+            for(int k = 0; k < this.getHeight(); k++){
+                for(int j = 0; j < this.getWidth(); j++){
+                    double singleProb = Math.random();
+                    if(singleProb < probEmpty){
+                        configuration[k][j] = 0;
+                    }
+                    else{
+                        configuration[k][j] = 2;
+                    }
+                }
+            }
+            return configuration;
+        }
+
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
-        for(int k = 0; k < this.getWidth(); k++){
-            for(int j = 0; j < this.getHeight(); j++){
+        for(int k = 0; k < this.getHeight(); k++){
+            for(int j = 0; j < this.getWidth(); j++){
                 configuration[k][j] = Integer.parseInt(splitString[(this.getWidth()*k + j)].trim());
             }
         }
@@ -68,7 +112,12 @@ public class SimulationInfo {
         return myShape;
     }
 
-    public String getParameteres(){
-        return myParameters;
+    public double[] getParameters(){
+        String[] splitParams = myParameters.replaceAll("\\s","").split(",");
+        double[] paramsOut = new double[splitParams.length];
+        for(int k = 0; k < splitParams.length; k++){
+            paramsOut[k] = Double.parseDouble(splitParams[k]);
+        }
+        return paramsOut;
     }
 }
