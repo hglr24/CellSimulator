@@ -101,7 +101,7 @@ public class GUIManager {
             myShapeGrid.add(i, new ArrayList<>(hsize));
         }
         grid.draw(hsize, vsize, myShapeGrid);
-        //updateGrid(myGrid); //TODO
+        updateGrid(myGrid);
         return grid;
     }
 
@@ -194,7 +194,7 @@ public class GUIManager {
         for (int i = 0; i < myGrid.getHeight(); i++) {
             for (int j= 0; j < myGrid.getWidth(); j++) {
                 Cell curr = myGrid.getCells()[i][j];
-                if (curr.hasChanged()) updateCellColor(i, j, curr.getNextState());
+                updateCellColor(i, j, curr.getNextState());
             }
         }
     }

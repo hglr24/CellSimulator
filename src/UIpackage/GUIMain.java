@@ -14,7 +14,16 @@ public class GUIMain extends Application {
     public void start (Stage stage) {
         SimulationType simTestType = SimulationType.SEGREGATION;
         SimManager simTest = new SimManager();
-        GameOfLifeGrid testGrid = new GameOfLifeGrid(20, 20, new GameOfLifeCell[20][20], new GameOfLifeRuleSet()); //TODO this is for testing
+
+        int [][] testArray = new int[][] {
+                {0, 1, 2, 0, 1},
+                {2, 1, 0, 1, 1},
+                {0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 1},
+                {2, 2, 2, 2, 1}
+        };
+
+        SegregationGrid testGrid = new SegregationGrid(5, 5, testArray, new SegregationRuleSet(new double[] {1.0})); //TODO this is for testing
         GUIManager display = new GUIManager(testGrid, simTest, simTestType);
         stage.setResizable(false);
         stage.setTitle(TITLE);

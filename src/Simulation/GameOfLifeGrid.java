@@ -8,7 +8,7 @@ import static Simulation.GameOfLifeState.LIVE;
 
 public class GameOfLifeGrid extends BasicGrid {
 
-    GameOfLifeGrid(int height, int width, int[][] initInts, GameOfLifeRuleSet ruleSet) {
+    public GameOfLifeGrid(int height, int width, int[][] initInts, GameOfLifeRuleSet ruleSet) {
         this.height = height;
         this.width = width;
         GameOfLifeCell[][] initCells = new GameOfLifeCell[height][width];
@@ -17,8 +17,10 @@ public class GameOfLifeGrid extends BasicGrid {
                 switch (initInts[k][j]) {
                     case 0:
                         initCells[k][j] = new GameOfLifeCell(k, j, DEAD);
+                        break;
                     case 1:
                         initCells[k][j] = new GameOfLifeCell(k, j, LIVE);
+                        break;
                 }
             }
         }
