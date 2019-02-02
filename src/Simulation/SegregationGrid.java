@@ -28,37 +28,10 @@ public class SegregationGrid extends BasicGrid{
         this.ruleSet = ruleSet;
     }
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
 
     @Override
     public ArrayList<SegregationCell> findNeighbors(Location location) {
-        ArrayList<SegregationCell> neighbors = new ArrayList<>();
-        SquareLocation sl = (SquareLocation) location;
-        //all 8 neighbors
-        int[] x = {-1, 0, 1};
-        for (int i : x) {
-            for (int j : x) {
-                if (i == 0 && j == 0)
-                    continue;
-                SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY() + j);
-                if (validLocation(temp))
-                    neighbors.add((SegregationCell) getCell(temp));
-            }
-        }
-
-        return neighbors;
+         return getAdjacentCells(location);
     }
 
-    @Override
-    public RuleSet getRuleSet() {
-        return ruleSet;
-    }
 }
