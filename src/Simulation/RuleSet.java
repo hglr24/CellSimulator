@@ -2,6 +2,6 @@ package Simulation;
 
 import java.util.List;
 
-interface RuleSet {
-    State determineState(List<Cell> neighbors, Location location);
+interface RuleSet{
+    State applyRules(List<Cell> neighbors, Cell cell);
 }

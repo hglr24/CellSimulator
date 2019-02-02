@@ -2,6 +2,8 @@ package Simulation;
 
 import java.util.List;
 
+
+//This class may no longer be necessary
 public class RuleKeeper {
     private SimulationType activeSim;
 
@@ -12,11 +14,11 @@ public class RuleKeeper {
         gameOfLifeRuleSet = new GameOfLifeRuleSet();
     }
 
-    public State determineState(List<Cell> neighbors, Location location){
+    public State applyRules(List<Cell> neighbors, Location location){
 
         switch(activeSim){
             case GAME_OF_LIFE:
-                return gameOfLifeRuleSet.determineState(neighbors, location);
+                return gameOfLifeRuleSet.applyRules(neighbors, location);
             case FIRE:
 
             case PERCOLATION:
