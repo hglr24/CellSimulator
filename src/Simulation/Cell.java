@@ -11,8 +11,11 @@ public abstract class Cell {
     protected State currentState;
     protected State nextState;
 
-    public void determineState(RuleSet ruleSet) {
-        nextState = ruleSet.applyRules(neighbors, this);
+    public void determineState(Grid grid) {
+        if(hasChanged())
+            return;
+
+        nextState = grid.getRuleSet().applyRules(neighbors, this, grid);
         changed = (nextState != currentState);
     }
 
@@ -32,8 +35,9 @@ public abstract class Cell {
         return changed;
     }
 
-    public void update(){
+    public void goToNextState(){
         currentState = nextState;
+        changed = false;
     }
 
     public void setNeighbors(Grid grid){
