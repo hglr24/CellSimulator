@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class GameOfLifeGrid extends BasicGrid {
     private int height;
     private int width;
-    private GameOfLifeCell[][] cells;
     private GameOfLifeRuleSet ruleSet;
 
     GameOfLifeGrid(int height, int width, GameOfLifeCell[][] initCells, GameOfLifeRuleSet ruleSet) {
@@ -46,18 +45,6 @@ public class GameOfLifeGrid extends BasicGrid {
         return neighbors;
     }
 
-    @Override
-    public GameOfLifeCell[][] getCells() {
-        return cells;
-    }
-
-    @Override
-    public Cell getCell(Location location) {
-        if (!validLocation(location) || !(location instanceof SquareLocation))
-            throw new IllegalArgumentException("Invalid Location");
-        SquareLocation sl = (SquareLocation) location;
-        return cells[sl.getX()][sl.getY()];
-    }
 
     @Override
     public RuleSet getRuleSet() {
