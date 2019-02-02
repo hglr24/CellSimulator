@@ -3,6 +3,9 @@ package Simulation;
 abstract class BasicGrid<E> implements Grid<E> {
 
     protected GameOfLifeCell[][] cells;
+    protected int height;
+    protected int width;
+    protected RuleSet ruleSet;
 
     @Override
     public boolean validLocation(Location location) {
@@ -39,6 +42,21 @@ abstract class BasicGrid<E> implements Grid<E> {
             throw new IllegalArgumentException("Invalid Location");
         SquareLocation sl = (SquareLocation) location;
         return cells[sl.getX()][sl.getY()];
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public RuleSet getRuleSet() {
+        return ruleSet;
     }
 
 }
