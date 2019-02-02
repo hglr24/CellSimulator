@@ -1,4 +1,5 @@
 package Simulation;
 
-public interface State {
+interface State {
+    
 }

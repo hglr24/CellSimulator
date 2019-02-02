@@ -3,7 +3,9 @@ package Simulation;
 import java.util.List;
 
 public class GameOfLifeRuleSet implements RuleSet {
-    public State determineState(List<Cell> neighbors, Location location){
+    @Override
+    public State applyRules(List<Cell> neighbors, Cell cell){
         return GameOfLifeState.DEAD;
     }
+
 }
