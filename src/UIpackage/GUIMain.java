@@ -1,5 +1,6 @@
 package UIpackage;
 
+import Simulation.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,7 +12,10 @@ public class GUIMain extends Application {
 
     @Override
     public void start (Stage stage) {
-        GUIManager display = new GUIManager(/*myGrid (grid contained in SimulationCoordinator)*/);
+        SimulationType simTestType = SimulationType.SEGREGATION;
+        SimManager simTest = new SimManager();
+        GameOfLifeGrid testGrid = new GameOfLifeGrid(20, 20, new GameOfLifeCell[20][20], new GameOfLifeRuleSet()); //TODO this is for testing
+        GUIManager display = new GUIManager(testGrid, simTest, simTestType);
         stage.setResizable(false);
         stage.setTitle(TITLE);
         stage.setScene(display.getScene());

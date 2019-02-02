@@ -18,7 +18,7 @@ public class RuleKeeper {
 
         switch(activeSim){
             case GAME_OF_LIFE:
-                return gameOfLifeRuleSet.applyRules(neighbors, location);
+                //return gameOfLifeRuleSet.applyRules(neighbors, location);
             case FIRE:
 
             case PERCOLATION:

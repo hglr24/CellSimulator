@@ -4,33 +4,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum FireState implements State {
-    EMPTY, TREE, BURNING;
+    EMPTY("Empty", Color.GRAY), TREE("Tree", Color.PALEGREEN), BURNING("Burning", Color.LIGHTCORAL);
+
+    private String myLabel;
+    private Paint myColor;
+
+    FireState(String label, Paint color) {
+        myLabel = label;
+        myColor = color;
+    }
 
     @Override
     public Paint getColor() {
-        switch(this)
-        {
-            case EMPTY:
-                return Color.GRAY;
-            case TREE:
-                return Color.PALEGREEN;
-            case BURNING:
-                return Color.LIGHTCORAL;
-        }
-        return null;
+        return myColor;
     }
 
     @Override
     public String toString() {
-        switch(this)
-        {
-            case EMPTY:
-                return "Empty";
-            case TREE:
-                return "Tree";
-            case BURNING:
-                return "Burning";
-        }
-        return "NULL";
+        return myLabel;
     }
 }
