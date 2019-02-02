@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data media="Simulation">
+    <Title>Segregation</Title>
+    <GridConfiguration>
+        Random
+    </GridConfiguration>
+    <GridWidth> 300 </GridWidth>
+    <GridHeight> 700 </GridHeight>
+    <Shape>Square</Shape>
+    <SimParameters>0.33, 0.33, 0.33</SimParameters>
+</data>
