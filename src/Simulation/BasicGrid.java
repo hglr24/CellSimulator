@@ -2,6 +2,8 @@ package Simulation;
 
 abstract class BasicGrid<E> implements Grid<E> {
 
+    protected GameOfLifeCell[][] cells;
+
     @Override
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
@@ -23,6 +25,20 @@ abstract class BasicGrid<E> implements Grid<E> {
                 c.update();
             }
         }
+    }
+
+
+    @Override
+    public GameOfLifeCell[][] getCells() {
+        return cells;
+    }
+
+    @Override
+    public Cell getCell(Location location) {
+        if (!validLocation(location) || !(location instanceof SquareLocation))
+            throw new IllegalArgumentException("Invalid Location");
+        SquareLocation sl = (SquareLocation) location;
+        return cells[sl.getX()][sl.getY()];
     }
 
 }
