@@ -3,7 +3,7 @@ package Simulation;
 
 import java.util.ArrayList;
 
-abstract class Cell {
+public abstract class Cell {
 
     protected ArrayList<Cell> neighbors;
     protected boolean changed;
@@ -11,11 +11,11 @@ abstract class Cell {
     protected State currentState;
     protected State nextState;
 
-    public void determineState(RuleSet ruleSet) {
+    public void determineState(Grid grid) {
         if(hasChanged())
             return;
 
-        nextState = ruleSet.applyRules(neighbors, this);
+        nextState = grid.getRuleSet().applyRules(neighbors, this, grid);
         changed = (nextState != currentState);
     }
 
@@ -35,7 +35,7 @@ abstract class Cell {
         return changed;
     }
 
-    public void update(){
+    public void goToNextState(){
         currentState = nextState;
         changed = false;
     }
