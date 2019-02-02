@@ -1,18 +1,19 @@
 package Simulation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 
 public class GameOfLifeGrid extends BasicGrid {
     private int height;
     private int width;
-    private GameOfLifeCell [][] cells;
+    private GameOfLifeCell[][] cells;
+    private GameOfLifeRuleSet ruleSet;
 
-    GameOfLifeGrid(int height, int width, GameOfLifeCell[][] initCells){
+    GameOfLifeGrid(int height, int width, GameOfLifeCell[][] initCells, GameOfLifeRuleSet ruleSet) {
         this.height = height;
         this.width = width;
         this.cells = initCells;
+        this.ruleSet = ruleSet;
     }
 
     @Override
@@ -26,8 +27,9 @@ public class GameOfLifeGrid extends BasicGrid {
     }
 
     @Override
-    public ArrayList<GameOfLifeCell> getNeighbors(Location location) {
+    public ArrayList<GameOfLifeCell> findNeighbors(Location location) {
         ArrayList<GameOfLifeCell> neighbors = new ArrayList<>();
+        //all 8 neighbors
 
         return neighbors;
     }
@@ -39,9 +41,14 @@ public class GameOfLifeGrid extends BasicGrid {
 
     @Override
     public Cell getCell(Location location) {
-        if(!validLocation(location) || !(location instanceof  SquareLocation))
+        if (!validLocation(location) || !(location instanceof SquareLocation))
             throw new IllegalArgumentException("Invalid Location");
         SquareLocation sl = (SquareLocation) location;
         return cells[sl.getX()][sl.getY()];
+    }
+
+    @Override
+    public RuleSet getRuleSet() {
+        return ruleSet;
     }
 }

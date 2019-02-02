@@ -9,10 +9,4 @@ public class GameOfLifeCell extends Cell {
         nextState = initState;
     }
 
-    @Override
-    void findNeighbors() {
-
-
-    }
-
 }

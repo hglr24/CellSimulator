@@ -1,11 +1,9 @@
 package Simulation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 
 public interface Grid<E> {
-
 
     int getHeight();
 
@@ -15,7 +13,11 @@ public interface Grid<E> {
 
     Cell getCell(Location location);
 
-    List<E> getNeighbors(Location location);
+    ArrayList<E> findNeighbors(Location location);
 
-    E getCells();
+    Cell[][] getCells();
+
+    void update();
+
+    RuleSet getRuleSet();
 }
