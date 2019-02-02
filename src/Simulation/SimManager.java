@@ -12,7 +12,10 @@ public class SimManager {
         SimulationInfo testSim = testRead.getSimulation(dataFile);
 
         switch(testSim.getTitle()){
-            SegregationRuleSet trythis = new SegrationRuleSet(testSim.getPara())
+            default:
+            SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
+            SegregationGrid sg = new SegregationGrid(testSim.getHeight(),testSim.getWidth(),
+                    testSim.getIntegerConfiguration(),rules);
     }
 
 
