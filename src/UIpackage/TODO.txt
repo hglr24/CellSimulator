@@ -1,16 +1,6 @@
 Implement Grid object
-Legend contents
+optimize CellSize for triangles and hexagons
+
+Optional:
 Resource bundle (see example_browser)
 CSS file for style (see example_browser)
-make abstract ShapeGrid that extends to SquareGrid, HexGrid, TriGrid
-make and test enum for simulation types, state types (use .values())
-
-----------------------------------------------------
-
-Things I need in other classes:
-SimulationCoordinator:
-    public boolean hasStarted()
-    public State getState()
-
-State:
-    public ArrayList<String> getList()
