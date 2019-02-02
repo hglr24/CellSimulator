@@ -66,6 +66,26 @@ abstract class BasicGrid<E> implements Grid<E> {
     }
 
     @Override
+    public ArrayList getCardinalNeighbors(Location location) {
+        ArrayList<Cell> neighbors = new ArrayList<>();
+
+        SquareLocation sl = (SquareLocation) location;
+        int[] x = {-1, 1};
+        for (int i : x) {
+
+            SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY());
+            if (validLocation(temp))
+                neighbors.add(getCell(temp));
+
+            SquareLocation temp2 = new SquareLocation(sl.getX(), sl.getY() + i);
+            if (validLocation(temp2))
+                neighbors.add(getCell(temp2));
+        }
+
+        return neighbors;
+    }
+
+    @Override
     public int getHeight() {
         return height;
     }
