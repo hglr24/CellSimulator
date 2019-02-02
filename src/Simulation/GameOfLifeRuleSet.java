@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GameOfLifeRuleSet implements RuleSet {
     @Override
-    public State applyRules(List<Cell> neighbors, Cell cell){
+    public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         int live = 0;
         for(Cell c: neighbors){
             if(c.getCurrentState() == GameOfLifeState.LIVE)
