@@ -1,7 +1,6 @@
 package UIpackage;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -10,7 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -20,7 +18,9 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import Simulation.*;
 
 public class GUIManager {
     private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
@@ -75,19 +75,20 @@ public class GUIManager {
         buttonStop = drawButton("Stop", event -> stop());
 
         Text sLabel = new Text("Simulation Type: ");
-        //ArrayList<String> simList = mySim.getState().getList();
-        //Populate list with all possible types of simulation, default values if not specified in XML
-
-        ArrayList<String> simList = new ArrayList<>(); //delete later
-        simList.add("Simulation 1");                   //|
-        simList.add("Simulation 2");                   //|
-        simList.add("Simulation 3");                   //to here
-
-        simSelector = drawComboBox("Select...", simList);
-        simSelector.valueProperty().addListener((o, o2, selOption) -> changeSim(selOption));
+        List<SimulationType> simList = Arrays.asList(SimulationType.values());
+        simSelector = drawComboBox("Select...", makeStringArray(simList));
+        simSelector.valueProperty().addListener((options, oldValue, newValue) -> changeSim(newValue));
 
         controls.getChildren().addAll(buttonStart, buttonStop, sLabel, simSelector);
         return controls;
+    }
+
+    private ArrayList<String> makeStringArray(List<SimulationType> list) {
+        ArrayList<String> rtn = new ArrayList<>();
+        for (SimulationType type : list) {
+            rtn.add(type.toString());
+        }
+        return rtn;
     }
 
     private Button drawButton(String label, EventHandler<ActionEvent> handler) {
@@ -99,8 +100,7 @@ public class GUIManager {
 
     private ComboBox<String> drawComboBox(String prompt, List options) {
         ComboBox<String> selector = new ComboBox<>();
-        selector.setPromptText("Select...");
-
+        selector.setPromptText(prompt);
         selector.getItems().addAll(options);
         return selector;
     }
@@ -120,9 +120,11 @@ public class GUIManager {
         return legend;
     }
 
-    private void changeSim(String newSim) {
+    private void changeSim(String newType) {
+        SimulationType newSim = SimulationType.valueOf(newType);
+
         //mySim.change(newSim);
-        System.out.println("Simulation changed: " + newSim);
+        System.out.println("Simulation changed: " + newType);
     }
 
     private void start() {
