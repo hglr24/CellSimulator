@@ -3,7 +3,7 @@ package Simulation;
 
 import java.util.ArrayList;
 
-abstract class Cell {
+public abstract class Cell {
 
     protected ArrayList<Cell> neighbors;
     protected boolean changed;

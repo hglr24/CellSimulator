@@ -1,6 +1,9 @@
 Implement Grid object
-optimize CellSize for triangles and hexagons
+Load new XML file somehow??
+Add Pause and Step button
+Speed selector
 
 Optional:
 Resource bundle (see example_browser)
 CSS file for style (see example_browser)
+Lock ShapeGrid maxsize in window?

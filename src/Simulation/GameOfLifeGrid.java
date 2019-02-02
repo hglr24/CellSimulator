@@ -9,7 +9,7 @@ public class GameOfLifeGrid extends BasicGrid {
     private GameOfLifeCell[][] cells;
     private GameOfLifeRuleSet ruleSet;
 
-    GameOfLifeGrid(int height, int width, GameOfLifeCell[][] initCells, GameOfLifeRuleSet ruleSet) {
+    public GameOfLifeGrid(int height, int width, GameOfLifeCell[][] initCells, GameOfLifeRuleSet ruleSet) {
         this.height = height;
         this.width = width;
         this.cells = initCells;
