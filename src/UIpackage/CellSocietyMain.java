@@ -4,7 +4,6 @@ import Configuration.SimulationInfo;
 import Configuration.XMLReader;
 import Simulation.*;
 import javafx.animation.AnimationTimer;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.File;
@@ -18,7 +17,6 @@ public class CellSocietyMain extends Application {
     private String myShape;
     private GUIManager myGUI;
     private Grid myCurrentGrid;
-    private Timeline myTimeline;
     private AnimationTimer myTimer;
     private double mySpeed;
     private boolean hasStarted = false;
@@ -27,7 +25,7 @@ public class CellSocietyMain extends Application {
     @Override
     public void start (Stage stage) {
         mySpeed = 1;
-        initializeTimeline();
+        initializeTimer();
         myCurrentGrid = parseXML();
 
         myGUI = new GUIManager(myCurrentGrid, this, mySimType, myShape);
@@ -37,34 +35,35 @@ public class CellSocietyMain extends Application {
         stage.show();
     }
 
-    private void initializeTimeline() {
-        myTimeline = new Timeline();
-        myTimeline.setCycleCount(Timeline.INDEFINITE);
-    }
-
     private Grid parseXML() {
-        XMLReader testRead = new XMLReader("SimulationInfo");
-        File dataFile = new File("data\\TestSegregation.xml");
+        XMLReader testRead = new XMLReader();
+//        File dataFile = new File("data\\TestSegregation.xml");
+        File dataFile = new File("data\\TestGameOfLife.xml");
+
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
         myShape = testSim.getShape();
+        mySimType = testSim.getType();
 
-        switch(testSim.getTitle()){
-            case "Segregation":
+
+
+        switch(testSim.getType()){
+            case SEGREGATION:
                 SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                 gridType = new SegregationGrid(testSim.getHeight(),testSim.getWidth(),
                         testSim.getIntegerConfiguration(),rules);
-                mySimType = SimulationType.SEGREGATION;
+                break;
+            case GAME_OF_LIFE:
+                GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
+                gridType = new GameOfLifeGrid(testSim.getHeight(),testSim.getWidth(),
+                        testSim.getIntegerConfiguration(),rules2);
                 break;
                 //TODO make cases for each sim type
         }
         return gridType;
     }
 
-    public void startSim() {
-        hasStarted = true;
-        isPaused = false;
-
+    private void initializeTimer() {
         myTimer = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
@@ -75,15 +74,20 @@ public class CellSocietyMain extends Application {
                 }
             }
         };
+    }
+
+    void startSim() {
+        hasStarted = true;
+        isPaused = false;
         myTimer.start();
     }
 
-    public void stepSim() {
+    void stepSim() {
         myCurrentGrid.update();
         myGUI.updateGrid(myCurrentGrid);
     }
 
-    public void pauseSim() {
+    void pauseSim() {
         if (isPaused) startSim();
         else {
             isPaused = true;
@@ -91,16 +95,25 @@ public class CellSocietyMain extends Application {
         }
     }
 
-    public void stopSim() {
+    void loadNewSim() {
         hasStarted = false;
         myTimer.stop();
+        //load new simulation from new file
     }
 
     public void changeSim(SimulationType newType) {
 
     }
 
-    public boolean hasStarted() {
+    void setSpeed(double newSpeed) {
+        mySpeed = newSpeed;
+    }
+
+    double getSpeed() {
+        return mySpeed;
+    }
+
+    boolean hasStarted() {
         return hasStarted;
     }
 

@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum SegregationState implements State {
-    EMPTY("Empty", Color.GRAY), A("A", Color.SALMON), B("B", Color.SKYBLUE);
+    EMPTY("Empty", Color.LIGHTGRAY), A("A", Color.INDIANRED), B("B", Color.SLATEBLUE);
 
     private String myLabel;
     private Paint myColor;

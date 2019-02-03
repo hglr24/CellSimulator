@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum PredatorPreyState implements State {
-EMPTY("Empty", Color.GRAY), FISH("Fish", Color.SALMON), SHARK("Shark", Color.SLATEBLUE);
+EMPTY("Empty", Color.LIGHTGRAY), FISH("Fish", Color.SALMON), SHARK("Shark", Color.SLATEBLUE);
 
     private String myLabel;
     private Paint myColor;

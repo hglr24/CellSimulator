@@ -1,7 +1,8 @@
 Load new XML file somehow??
-Speed selector
+Speed slider
+Resource bundle (see example_browser)
 
 Optional:
-Resource bundle (see example_browser)
+Make legend and controls objects
 CSS file for style (see example_browser)
 Lock ShapeGrid maxsize in window?
