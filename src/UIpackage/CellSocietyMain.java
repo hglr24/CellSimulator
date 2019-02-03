@@ -4,7 +4,6 @@ import Configuration.SimulationInfo;
 import Configuration.XMLReader;
 import Simulation.*;
 import javafx.animation.AnimationTimer;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.File;
@@ -18,7 +17,6 @@ public class CellSocietyMain extends Application {
     private String myShape;
     private GUIManager myGUI;
     private Grid myCurrentGrid;
-    private Timeline myTimeline;
     private AnimationTimer myTimer;
     private double mySpeed;
     private boolean hasStarted = false;
@@ -27,7 +25,7 @@ public class CellSocietyMain extends Application {
     @Override
     public void start (Stage stage) {
         mySpeed = 1;
-        initializeTimeline();
+        initializeTimer();
         myCurrentGrid = parseXML();
 
         myGUI = new GUIManager(myCurrentGrid, this, mySimType, myShape);
@@ -35,11 +33,6 @@ public class CellSocietyMain extends Application {
         stage.setTitle(TITLE);
         stage.setScene(myGUI.getScene());
         stage.show();
-    }
-
-    private void initializeTimeline() {
-        myTimeline = new Timeline();
-        myTimeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     private Grid parseXML() {
@@ -67,10 +60,7 @@ public class CellSocietyMain extends Application {
         return gridType;
     }
 
-    public void startSim() {
-        hasStarted = true;
-        isPaused = false;
-
+    private void initializeTimer() {
         myTimer = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
@@ -81,15 +71,20 @@ public class CellSocietyMain extends Application {
                 }
             }
         };
+    }
+
+    void startSim() {
+        hasStarted = true;
+        isPaused = false;
         myTimer.start();
     }
 
-    public void stepSim() {
+    void stepSim() {
         myCurrentGrid.update();
         myGUI.updateGrid(myCurrentGrid);
     }
 
-    public void pauseSim() {
+    void pauseSim() {
         if (isPaused) startSim();
         else {
             isPaused = true;
@@ -97,16 +92,25 @@ public class CellSocietyMain extends Application {
         }
     }
 
-    public void stopSim() {
+    void loadNewSim() {
         hasStarted = false;
         myTimer.stop();
+        //load new simulation from new file
     }
 
     public void changeSim(SimulationType newType) {
 
     }
 
-    public boolean hasStarted() {
+    void setSpeed(double newSpeed) {
+        mySpeed = newSpeed;
+    }
+
+    double getSpeed() {
+        return mySpeed;
+    }
+
+    boolean hasStarted() {
         return hasStarted;
     }
 

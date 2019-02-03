@@ -137,7 +137,7 @@ public class GUIManager {
         controls.setStyle(CONTROLS_COLOR);
 
         buttonStart = drawButton("Start", event -> start());
-        buttonStop = drawButton("Stop", event -> stop());
+        buttonStop = drawButton("Stop", event -> loadNewSim());
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
         Text sLabel = new Text("Simulation Type: ");
@@ -215,7 +215,7 @@ public class GUIManager {
         return rtn;
     }
 
-    public void updateGrid(Grid newGrid) {
+    void updateGrid(Grid newGrid) {
         myGrid = newGrid;
         for (int i = 0; i < myGrid.getHeight(); i++) {
             for (int j= 0; j < myGrid.getWidth(); j++) {
@@ -244,8 +244,8 @@ public class GUIManager {
         System.out.println("Simulation started.");
     }
 
-    private void stop() {
-        mySim.stopSim();
+    private void loadNewSim() {
+        mySim.loadNewSim();
         buttonEnable();
         System.out.println("Simulation stopped.");
     }
@@ -286,17 +286,27 @@ public class GUIManager {
     }
 
     private void keyboardHandler(KeyCode code) {
-        if (code == KeyCode.ESCAPE) {
-            stop();
-        }
-        if (code == KeyCode.CONTROL) {
-            start();
-        }
-        if (code == KeyCode.SHIFT) {
-            pause();
-        }
-        if (code == KeyCode.S) {
-            step();
+        switch (code) {
+            case ESCAPE:
+                loadNewSim();
+                break;
+            case CONTROL:
+                start();
+                break;
+            case SHIFT:
+                pause();
+                break;
+            case S:
+                step();
+                break;
+            case U:
+                System.out.println("Simulation speed increased.");
+                mySim.setSpeed(mySim.getSpeed() / 2);
+                break;
+            case D:
+                System.out.println("Simulation speed decreased.");
+                mySim.setSpeed(mySim.getSpeed() * 2);
+                break;
         }
     }
 

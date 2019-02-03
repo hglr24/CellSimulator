@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum GameOfLifeState implements State {
-    LIVE("Live", Color.PALEGOLDENROD), DEAD("Dead", Color.GRAY);
+    LIVE("Live", Color.GOLDENROD), DEAD("Dead", Color.GRAY);
 
     private String myLabel;
     private Paint myColor;
