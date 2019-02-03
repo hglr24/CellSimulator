@@ -1,33 +1,51 @@
 package UIpackage;
 
-import Configuration.SimulationInfo;
-import Configuration.XMLReader;
+import Configuration.*;
 import Simulation.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 
-/**
- * This will be implemented into SimulationCoordinator later, bare-bones implementation here for testing
- */
 public class CellSocietyMain extends Application {
     private static final String TITLE = "CellSociety";
+    private Stage myStage;
     private SimulationType mySimType;
     private String myShape;
     private GUIManager myGUI;
     private Grid myCurrentGrid;
     private AnimationTimer myTimer;
+    private static final FileChooser myFileChooser = new FileChooser();
     private double mySpeed;
     private boolean hasStarted = false;
     private boolean isPaused = false;
+    private boolean simChanged;
 
     @Override
     public void start (Stage stage) {
-        mySpeed = 1;
+        myStage = stage;
         initializeTimer();
-        myCurrentGrid = parseXML();
+        initializeFileOpener();
 
+        //File dataFile = new File("data\\TestSegregation.xml");
+        //File dataFile = new File("data\\TestGameOfLife.xml");
+        //File dataFile = new File("data\\TestFire.xml");
+        File dataFile = new File("data\\TestPredatorPrey.xml");
+        //File dataFile = new File("data\\TestPercolation.xml");
+
+        openFile(dataFile);
+    }
+
+    private void openFile(File file) {
+        myCurrentGrid = parseXML(file);
+        if (simChanged) {
+            mySpeed = 1;
+            makeGUI(myStage);
+        }
+    }
+
+    private void makeGUI(Stage stage) {
         myGUI = new GUIManager(myCurrentGrid, this, mySimType, myShape);
         stage.setResizable(false);
         stage.setTitle(TITLE);
@@ -35,44 +53,48 @@ public class CellSocietyMain extends Application {
         stage.show();
     }
 
-    private Grid parseXML() {
+    private Grid parseXML(File dataFile) {
         XMLReader testRead = new XMLReader();
-//       File dataFile = new File("data\\TestSegregation.xml");
-       // File dataFile = new File("data\\TestGameOfLife.xml");
-        //File dataFile = new File("data\\TestFire.xml");
-       // File dataFile = new File("data\\TestPercolation.xml");
-        File dataFile = new File("data\\TestPredatorPrey.xml");
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
-        myShape = testSim.getShape();
-        mySimType = testSim.getType();
+        simChanged = false;
 
-        switch(testSim.getType()){
-            case SEGREGATION:
-                SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
-                gridType = new SegregationGrid(testSim.getHeight(),testSim.getWidth(),
-                        testSim.getIntegerConfiguration(),rules);
-                break;
-            case GAME_OF_LIFE:
-                GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
-                gridType = new GameOfLifeGrid(testSim.getHeight(),testSim.getWidth(),
-                        testSim.getIntegerConfiguration(),rules2);
-                break;
-            case FIRE:
-                FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
-                gridType = new FireGrid(testSim.getHeight(),testSim.getWidth(),
-                        testSim.getIntegerConfiguration(),rules3);
-                break;
-            case PERCOLATION:
-                PercolationRuleSet rules4 = new PercolationRuleSet();
-                gridType = new PercolationGrid(testSim.getHeight(),testSim.getWidth(),
-                        testSim.getIntegerConfiguration(),rules4);
-                break;
-            case PREDATOR_PREY:
-                PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
-                gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                        testSim.getIntegerConfiguration(),rules5);
-                break;
+        if(testSim.getType() != null) {
+            mySimType = testSim.getType();
+            myShape = testSim.getShape();
+            simChanged = true;
+
+            switch (testSim.getType()) {
+                case SEGREGATION:
+                    SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
+                    gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
+                            testSim.getIntegerConfiguration(), rules);
+                    break;
+                case GAME_OF_LIFE:
+                    GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
+                    gridType = new GameOfLifeGrid(testSim.getHeight(), testSim.getWidth(),
+                            testSim.getIntegerConfiguration(), rules2);
+                    break;
+                case FIRE:
+                    FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
+                    gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
+                            testSim.getIntegerConfiguration(), rules3);
+                    break;
+                case PERCOLATION:
+                    PercolationRuleSet rules4 = new PercolationRuleSet();
+                    gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
+                            testSim.getIntegerConfiguration(), rules4);
+                    break;
+                case PREDATOR_PREY:
+                    PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
+                    gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
+                            testSim.getIntegerConfiguration(),rules5);
+                    break;
+            }
+        }
+        else {
+            myGUI.errorBox("Load Error", "Invalid XML file");
+            return myCurrentGrid;
         }
         return gridType;
     }
@@ -88,6 +110,22 @@ public class CellSocietyMain extends Application {
                 }
             }
         };
+    }
+
+    private void initializeFileOpener() {
+        myFileChooser.setTitle("Open Simulation XML File");
+        myFileChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "/data"));
+        myFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
+    }
+
+    void loadNewSim() {
+        hasStarted = false;
+        myTimer.stop();
+        File newFile = myFileChooser.showOpenDialog(new Stage());
+        if (newFile != null) {
+            openFile(newFile);
+        }
+        else myGUI.errorBox("Load Error", "Invalid file selection");
     }
 
     void startSim() {
@@ -109,18 +147,12 @@ public class CellSocietyMain extends Application {
         }
     }
 
-    void loadNewSim() {
-        hasStarted = false;
-        myTimer.stop();
-        //load new simulation from new file
-    }
-
     public void changeSim(SimulationType newType) {
 
     }
 
     void setSpeed(double newSpeed) {
-        mySpeed = newSpeed;
+        mySpeed = 1 / newSpeed;
     }
 
     double getSpeed() {
@@ -129,6 +161,10 @@ public class CellSocietyMain extends Application {
 
     boolean hasStarted() {
         return hasStarted;
+    }
+
+    boolean isPaused() {
+        return isPaused;
     }
 
     /**

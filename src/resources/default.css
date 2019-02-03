@@ -1,0 +1,52 @@
+.root {
+    -fx-background-color: rgb(170,189,206);
+}
+
+.controls {
+    -fx-padding: 15, 15, 15, 40;
+    -fx-spacing: 10;
+    -fx-background-color: rgb(110,122,153);
+    -fx-alignment: center;
+}
+
+.legend {
+    -fx-alignment: center;
+    -fx-padding: 15;
+    -fx-vgap: 50;
+}
+
+.legend-item {
+    -fx-background-color: rgb(96,153,183);
+    -fx-padding: 15;
+    -fx-spacing: 15;
+    -fx-font-family: Verdana;
+    -fx-font-size: 14;
+    -fx-font-weight: normal;
+}
+
+.right-pane-item {
+    -fx-background-color: rgb(96,153,183);
+    -fx-spacing: 8;
+    -fx-padding: 10;
+    -fx-border-radius: 2;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-font-family: Verdana;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.title {
+    -fx-alignment: center;
+    -fx-background-color: rgb(110,122,153);
+    -fx-font-family: Verdana;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 5;
+}
+
+.button {
+    -fx-pref-width: 100;
+    -fx-pref-height: 20;
+}
