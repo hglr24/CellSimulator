@@ -12,7 +12,7 @@ public class SimManager {
         SimulationInfo testSim = testRead.getSimulation(dataFile);
 
 
-    }
+
 
 
     }

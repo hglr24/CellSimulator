@@ -4,33 +4,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum PredatorPreyState implements State {
-    EMPTY, FISH, SHARK;
+EMPTY("Empty", Color.GRAY), FISH("Fish", Color.SALMON), SHARK("Shark", Color.SLATEBLUE);
+
+    private String myLabel;
+    private Paint myColor;
+
+    PredatorPreyState(String label, Paint color) {
+        myLabel = label;
+        myColor = color;
+    }
 
     @Override
     public Paint getColor() {
-        switch(this)
-        {
-            case EMPTY:
-                return Color.GRAY;
-            case FISH:
-                return Color.SALMON;
-            case SHARK:
-                return Color.SLATEBLUE;
-        }
-        return null;
+        return myColor;
     }
 
     @Override
     public String toString() {
-        switch(this)
-        {
-            case EMPTY:
-                return "Empty";
-            case FISH:
-                return "Fish";
-            case SHARK:
-                return "Shark";
-        }
-        return "NULL";
+        return myLabel;
     }
 }

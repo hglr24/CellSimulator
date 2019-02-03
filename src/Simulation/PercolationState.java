@@ -4,33 +4,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum PercolationState implements State {
-    BLOCKED, OPEN, PERCOLATED;
+    BLOCKED("Blocked", Color.GRAY), OPEN("Open", Color.GHOSTWHITE), PERCOLATED("Percolated", Color.CORNFLOWERBLUE);
+
+    private String myLabel;
+    private Paint myColor;
+
+    PercolationState(String label, Paint color) {
+        myLabel = label;
+        myColor = color;
+    }
 
     @Override
     public Paint getColor() {
-        switch(this)
-        {
-            case BLOCKED:
-                return Color.GRAY;
-            case OPEN:
-                return Color.GHOSTWHITE;
-            case PERCOLATED:
-                return Color.CORNFLOWERBLUE;
-        }
-        return null;
+        return myColor;
     }
 
     @Override
     public String toString() {
-        switch(this)
-        {
-            case BLOCKED:
-                return "Blocked";
-            case OPEN:
-                return "Open";
-            case PERCOLATED:
-                return "Percolated";
-        }
-        return "NULL";
+        return myLabel;
     }
 }

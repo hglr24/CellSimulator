@@ -33,24 +33,43 @@ public class GUIManager {
     private ComboBox<String> simSelector;
     private Button buttonStart;
     private Button buttonStop;
+    private Button buttonStep;
+    private Button buttonPause;
     private HashMap<SimulationType, String> simTypeMap;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
-    private SimManager mySim;
+    private CellSocietyMain mySim;
     private SimulationType mySimType;
     private GridPane myLegendPane;
+    private String myShape;
     private static final String BACKGROUND_COLOR = "-fx-background-color: rgb(170,189,206);";
     private static final String LEGEND_COLOR = "-fx-background-color: rgb(96,153,183);";
+    private static final int LEGEND_SQUARE_SIZE = 20;
+    private static final Insets LEGEND_DATA_INSETS = new Insets(15);
+    private static final Insets LEGEND_PANE_INSETS = new Insets(15);
+    private static final Insets LEGEND_BOX_INSETS = new Insets(10);
+    private static final int LEGEND_DATA_SPACING = 15;
+    private static final int LEGEND_PANE_SPACING = 8;
+    private static final Border LEGEND_BORDER = new Border(new BorderStroke(Color.BLACK,
+            BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(2)));
+    private static final Font TITLE_FONT = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20);
+    private static final int LEGEND_HEIGHT = 20;
     private static final String CONTROLS_COLOR = "-fx-background-color: rgb(110,122,153);";
+    private static final Insets CONTROLS_INSETS = new Insets(15, 15, 15, 40);
+    private static final int CONTROLS_SPACING = 10;
+    private static final int BUTTON_WIDTH = 100;
+    private static final int BUTTON_HEIGHT = 20;
 
-    public GUIManager(/*Grid initData, SimulationCoordinator sim, SimulationType simtype*/) {
-        //myGrid = initData; //TODO
-        //mySim = sim;
-        mySimType = SimulationType.SEGREGATION; //TODO this is for testing
+    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape) {
+        myGrid = initData;
+        mySim = sim;
+        mySimType = simtype;
+        myShape = shape;
+        createSimTypeMap();
+
         myBorderPane = new BorderPane();
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
-        createSimTypeMap();
         myBorderPane.setBottom(drawControls());
         myScene.setOnKeyPressed(e -> keyboardHandler(e.getCode()));
         resetGUI();
@@ -77,47 +96,63 @@ public class GUIManager {
     }
 
     private Node drawInitialGrid() {
-        //int hsize = myGrid.getWidth(); //TODO
-        //int vsize = myGrid.getHeight();
-        int hsize = 20; //replace when we have Grid
-        int vsize = 20;
+        int hsize = myGrid.getWidth();
+        int vsize = myGrid.getHeight();
 
-        ShapeGrid grid = new TriGrid(hsize, vsize);
+        ShapeGrid grid = makeShapeGrid(hsize, vsize);
+
         grid.setStyle(BACKGROUND_COLOR);
         myShapeGrid = new ArrayList<>(vsize); //initialize ArrayLists that hold shapes
         for (int i = 0; i < vsize; i++) {
             myShapeGrid.add(i, new ArrayList<>(hsize));
         }
         grid.draw(hsize, vsize, myShapeGrid);
-        //updateGrid(myGrid); //TODO
+        updateGrid(myGrid);
         return grid;
     }
 
-    private void updateCellColor(int row, int col/*, State newState*/) { //TODO
-        if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(Color.RED);
+    private ShapeGrid makeShapeGrid(int hsize, int vsize) {
+        ShapeGrid grid;
+        switch(myShape) {
+            case "Square":
+                grid = new SquareGrid(hsize, vsize);
+                break;
+            case "Triangle":
+                grid = new TriGrid(hsize, vsize);
+                break;
+            case "Hexagon":
+                grid = new HexGrid(hsize, vsize);
+                break;
+            default:
+                grid = new SquareGrid(hsize, vsize);
+                break;
+        }
+        return grid;
     }
 
     private Node drawControls() {
         HBox controls = new HBox();
-        controls.setPadding(new Insets(15, 12, 15, 40));
-        controls.setSpacing(10);
+        controls.setPadding(CONTROLS_INSETS);
+        controls.setSpacing(CONTROLS_SPACING);
         controls.setStyle(CONTROLS_COLOR);
 
         buttonStart = drawButton("Start", event -> start());
         buttonStop = drawButton("Stop", event -> stop());
+        buttonStep = drawButton("Step", event -> step());
+        buttonPause = drawButton("Pause", event -> pause());
         Text sLabel = new Text("Simulation Type: ");
 
         ArrayList<String> simTypeStrings = new ArrayList<>(simTypeMap.values());
         simSelector = drawComboBox("Select...", simTypeStrings);
         simSelector.valueProperty().addListener((options, oldValue, newValue) -> changeSim(newValue));
 
-        controls.getChildren().addAll(buttonStart, buttonStop, sLabel, simSelector);
+        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, sLabel, simSelector);
         return controls;
     }
 
     private Button drawButton(String label, EventHandler<ActionEvent> handler) {
         Button newButton = new Button(label);
-        newButton.setPrefSize(100, 20);
+        newButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         newButton.setOnAction(handler);
         return newButton;
     }
@@ -134,26 +169,25 @@ public class GUIManager {
         myTitlePane.setStyle(CONTROLS_COLOR);
         HBox titleBox = new HBox();
         Text title = new Text(mySimType.toString());
-        title.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        title.setFont(TITLE_FONT);
         titleBox.getChildren().add(title);
         myTitlePane.getChildren().add(titleBox);
     }
 
     private void drawLegend() {
         VBox legend = new VBox();
-        legend.setPadding(new Insets(10));
+        legend.setPadding(LEGEND_BOX_INSETS);
         legend.setStyle(LEGEND_COLOR);
-        legend.setSpacing(8);
-        legend.setPrefHeight(20);
-        legend.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(2))));
+        legend.setSpacing(LEGEND_PANE_SPACING);
+        legend.setPrefHeight(LEGEND_HEIGHT);
+        legend.setBorder(LEGEND_BORDER);
 
         Text label = new Text("State Legend");
-        label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        label.setFont(TITLE_FONT);
         legend.getChildren().add(label);
         populateLegend(legend);
         myLegendPane.setAlignment(Pos.CENTER);
-        myLegendPane.setPadding(new Insets(15));
+        myLegendPane.setPadding(LEGEND_PANE_INSETS);
         myLegendPane.setStyle(BACKGROUND_COLOR);
         myLegendPane.add(legend, 0, 0);
     }
@@ -164,10 +198,10 @@ public class GUIManager {
         ArrayList<String> stateLabels = makeLegendStrings(stateList);
         for (String s : stateLabels) {
             HBox infoRow = new HBox();
-            infoRow.setPadding(new Insets(15));
-            infoRow.setSpacing(15);
-            Rectangle stateColor = new Rectangle(20, 20);
-            stateColor.setFill(stateList.get(stateLabels.indexOf(s)).getColor()); //TODO get real colors
+            infoRow.setPadding(LEGEND_DATA_INSETS);
+            infoRow.setSpacing(LEGEND_DATA_SPACING);
+            Rectangle stateColor = new Rectangle(LEGEND_SQUARE_SIZE, LEGEND_SQUARE_SIZE);
+            stateColor.setFill(stateList.get(stateLabels.indexOf(s)).getColor());
             infoRow.getChildren().addAll(stateColor, new Text(s));
             legend.getChildren().add(infoRow);
         }
@@ -181,45 +215,74 @@ public class GUIManager {
         return rtn;
     }
 
+    public void updateGrid(Grid newGrid) {
+        myGrid = newGrid;
+        for (int i = 0; i < myGrid.getHeight(); i++) {
+            for (int j= 0; j < myGrid.getWidth(); j++) {
+                Cell curr = myGrid.getCells()[i][j];
+                updateCellColor(i, j, curr.getNextState());
+            }
+        }
+    }
+
+    private void updateCellColor(int row, int col, State newState) {
+        if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(newState.getColor());
+    }
+
     private void changeSim(String newTypeString) {
         for (SimulationType type : simTypeMap.keySet()) {
             if (simTypeMap.get(type).equals(newTypeString)) mySimType = type;
         }
-        //mySim.change(mySimType);
+        //mySim.changeSim(mySimType); //reset sim params before gui reset  //TODO
         resetGUI();
         System.out.println("Simulation changed: " + newTypeString);
     }
 
     private void start() {
-        //mySim.start();
+        mySim.startSim();
+        buttonEnable();
         System.out.println("Simulation started.");
     }
 
     private void stop() {
-        //mySim.stop();
+        mySim.stopSim();
+        buttonEnable();
         System.out.println("Simulation stopped.");
     }
 
     private void pause() {
-        //mySim.pause();
+        mySim.pauseSim();
+        if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
+        else buttonPause.setText("Pause");
+        buttonEnable();
         System.out.println("Simulation paused.");
     }
 
-    //waiting for Grid object to be made //TODO
-    /*public void updateGrid(Grid newGrid) {
+    private void step() {
+        mySim.stepSim();
         buttonEnable();
-        myGrid = newGrid;
-        for (int i = 0; i < myGrid.getHeight(); i++) {
-            for (int j= 0; j < myGrid.getWidth(); j++) {
-                Cell curr = myGrid.getCells().get(i).get(j);
-                if (curr.hasChanged()) updateCellColor(i, j, curr.getNewState());
-            }
-        }
-    }*/
+        System.out.println("Simulation stepped.");
+    }
 
     private void buttonEnable() {
-        //buttonStart.setDisable(mySim.hasStarted()); //TODO
-        //buttonStop.setDisable(!mySim.hasStarted());
+        buttonStart.setDisable(mySim.hasStarted());
+        buttonStop.setDisable(!mySim.hasStarted());
+        buttonStep.setDisable(mySim.hasStarted());
+        buttonPause.setDisable(!mySim.hasStarted());
+    }
+
+    private void errorBox(String errorType, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(errorType);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private boolean inBounds(int row, int col) {
+        if (col < myGrid.getWidth() && row < myGrid.getHeight()) return true;
+        errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+        return false;
     }
 
     private void keyboardHandler(KeyCode code) {
@@ -232,21 +295,9 @@ public class GUIManager {
         if (code == KeyCode.SHIFT) {
             pause();
         }
-    }
-
-    private void errorBox(String errorType, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(errorType);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private boolean inBounds(int row, int col) {
-        //if (row < myGrid.getWidth() && col < myGrid.getHeight()) return true; //TODO
-        //errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
-        //return false;
-        return true;
+        if (code == KeyCode.S) {
+            step();
+        }
     }
 
     Scene getScene() {

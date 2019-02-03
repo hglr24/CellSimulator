@@ -8,8 +8,8 @@ import static Simulation.PredatorPreyState.FISH;
 import static Simulation.PredatorPreyState.SHARK;
 
 public class TemporaryGridConstructors {
-    public void checkConstructors(){
-        GameOfLifeCell[][] initCells = new GameOfLifeCell[height][width];
+   /* public void checkConstructors(){
+        PercolationCell[][] initCells = new PercolationCell[height][width];
         for(int k = 0; k < height; k++){
             for(int j = 0; j < width; j++){
                 switch(initInts[k][j]){
@@ -35,6 +35,7 @@ public class TemporaryGridConstructors {
             }
         }
 
+
         FireCell[][] initCells = new FireCell[height][width];
         for(int k = 0; k < height; k++){
             for(int j = 0; j < width; j++){
@@ -51,6 +52,5 @@ public class TemporaryGridConstructors {
 
 
     }
-
-
+    }*/
 }

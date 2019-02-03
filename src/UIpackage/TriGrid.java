@@ -30,7 +30,7 @@ public class TriGrid extends ShapeGrid {
     }
 
     public void calcCellSize() {
-        if (super.getHSize() > super.getVSize()) myCellRadius =  super.getHeightMax() / super.getHSize() - this.getHgap();
+        if ((super.getHSize() / 4) > super.getVSize()) myCellRadius =  super.getHeightMax() / super.getHSize() - this.getHgap();
         else myCellRadius = super.getHeightMax() / super.getVSize() - this.getVgap();
         myCellRadius *= 0.5;
     }
