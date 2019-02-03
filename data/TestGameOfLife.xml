@@ -3,15 +3,19 @@
     <Title> Game of Life </Title>
     <SimulationType>GAME_OF_LIFE</SimulationType>
     <GridConfiguration>
-        0 0 0 0 0 0 0
-        0 0 1 1 0 0 1
-        1 0 0 1 0 0 0
-        0 0 0 0 0 0 1
-        1 1 1 0 1 0 1
-        0 1 0 1 1 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 1 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 1 0 0 0 0 0 0 0 0 0 0
+        0 1 1 1 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0
     </GridConfiguration>
-    <GridWidth> 6 </GridWidth>
-    <GridHeight> 7 </GridHeight>
+    <GridWidth> 14 </GridWidth>
+    <GridHeight> 10 </GridHeight>
     <Shape>Square</Shape>
     <SimParameters> None </SimParameters>
 </data>
