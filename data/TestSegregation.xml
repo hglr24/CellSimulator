@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
     <Title>Segregation</Title>
+    <SimulationType>SEGREGATION</SimulationType>
     <GridConfiguration>
         Random
     </GridConfiguration>

@@ -43,18 +43,24 @@ public class CellSocietyMain extends Application {
     }
 
     private Grid parseXML() {
-        XMLReader testRead = new XMLReader("SimulationInfo");
-        File dataFile = new File("data\\TestSegregation.xml");
+        XMLReader testRead = new XMLReader();
+//        File dataFile = new File("data\\TestSegregation.xml");
+        File dataFile = new File("data\\TestGameOfLife.xml");
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
         myShape = testSim.getShape();
+        mySimType = testSim.getType();
 
-        switch(testSim.getTitle()){
-            case "Segregation":
+        switch(testSim.getType()){
+            case SEGREGATION:
                 SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                 gridType = new SegregationGrid(testSim.getHeight(),testSim.getWidth(),
                         testSim.getIntegerConfiguration(),rules);
-                mySimType = SimulationType.SEGREGATION;
+                break;
+            case GAME_OF_LIFE:
+                GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
+                gridType = new GameOfLifeGrid(testSim.getHeight(),testSim.getWidth(),
+                        testSim.getIntegerConfiguration(),rules2);
                 break;
                 //TODO make cases for each sim type
         }
