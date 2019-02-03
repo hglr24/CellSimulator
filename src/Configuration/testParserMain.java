@@ -6,7 +6,7 @@ import java.io.FileReader;
 
 public class testParserMain{
     public static void main(String [] args){
-        XMLReader testRead = new XMLReader("SimulationInfo");
+        XMLReader testRead = new XMLReader();
         File dataFile = new File("data\\TestSegregation.xml");
 
         SimulationInfo testSim = testRead.getSimulation(dataFile);

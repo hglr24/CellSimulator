@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class XMLReader {
     private final DocumentBuilder myDocumentBuilder;
 
-    public XMLReader(String type){
+    public XMLReader(){
         myDocumentBuilder = getDocumentBuilder();
     }
 
