@@ -6,7 +6,7 @@ import Configuration.XMLReader;
 import java.io.File;
 
 public class SimManager {
-    public static void main(){
+    /*public static void main(){
         XMLReader testRead = new XMLReader("SimulationInfo");
         File dataFile = new File("data\\TestSegregation.xml");
         SimulationInfo testSim = testRead.getSimulation(dataFile);
@@ -19,5 +19,5 @@ public class SimManager {
     }
 
 
-    }
+    }*/
 }

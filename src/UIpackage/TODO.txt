@@ -1,6 +1,4 @@
-Implement Grid object
 Load new XML file somehow??
-Add Pause and Step button
 Speed selector
 
 Optional:
