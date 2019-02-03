@@ -11,8 +11,7 @@ public class SimManager {
         File dataFile = new File("data\\TestSegregation.xml");
         SimulationInfo testSim = testRead.getSimulation(dataFile);
 
-        switch(testSim.getTitle()){
-            SegregationRuleSet trythis = new SegrationRuleSet(testSim.getPara())
+
     }
 
 
