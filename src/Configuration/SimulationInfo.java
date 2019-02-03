@@ -1,13 +1,18 @@
 package Configuration;
 
+import Simulation.SimulationType;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static Simulation.SimulationType.*;
 
 public class SimulationInfo {
     public static final String type = "Simulation";
     public static final List<String> dataFields = List.of(
             "Title",
+            "SimulationType",
             "GridConfiguration",
             "GridWidth",
             "GridHeight",
@@ -16,6 +21,7 @@ public class SimulationInfo {
     );
 
     private String myTitle;
+    private SimulationType mySimType;
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
@@ -24,8 +30,9 @@ public class SimulationInfo {
     private Map<String, String> myValues;
     private String wrongParameters = "Incorrect parameters for stated simulation type";
 
-    public SimulationInfo(String title, String configuration, String width, String height, String shape, String parameters){
+    public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
         myTitle = title;
+        mySimType = stringToType(simType);
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
@@ -36,12 +43,33 @@ public class SimulationInfo {
 
     public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
-                values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)));
+                values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)), values.get(dataFields.get(6)));
         myValues = values;
+    }
+
+    private SimulationType stringToType(String simulationName){
+        switch(simulationName)
+        {
+            case "GAME_OF_LIFE":
+                return GAME_OF_LIFE;
+            case "SEGREGATION":
+                return SEGREGATION;
+            case "PREDATOR_PREY":
+                return PREDATOR_PREY;
+            case "FIRE":
+                return FIRE;
+            case "PERCOLATION":
+                return PERCOLATION;
+        }
+        return null;
     }
 
     public String getTitle(){
         return myTitle;
+    }
+
+    public SimulationType getType(){
+        return mySimType;
     }
 
     public int[][] getIntegerConfiguration(){
@@ -71,6 +99,7 @@ public class SimulationInfo {
         }
 
         if(this.getTitle().trim().equals("Percolation")){
+            int startFill = 0;
             if(this.getParameters().length != 1){
                 throw new XMLException(wrongParameters);
             }
@@ -79,6 +108,10 @@ public class SimulationInfo {
                 for(int j = 0; j < this.getWidth(); j++){
                     double singleProb = Math.random();
                     if(singleProb < probEmpty){
+                        if(startFill == 0 && (j == 0 || k == 0)){
+                            configuration[k][j] = 1;
+                            startFill++;
+                        }
                         configuration[k][j] = 0;
                     }
                     else{
@@ -120,4 +153,5 @@ public class SimulationInfo {
         }
         return paramsOut;
     }
+
 }

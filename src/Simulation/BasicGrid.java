@@ -43,7 +43,7 @@ abstract class BasicGrid<E> implements Grid<E> {
         if (!validLocation(location) || !(location instanceof SquareLocation))
             throw new IllegalArgumentException("Invalid Location");
         SquareLocation sl = (SquareLocation) location;
-        return cells[sl.getX()][sl.getY()];
+        return cells[sl.getY()][sl.getX()];
     }
 
     public ArrayList<Cell> getAdjacentCells(Location location) {

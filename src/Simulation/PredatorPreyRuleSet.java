@@ -2,19 +2,19 @@ package Simulation;
 
 import java.util.List;
 
-import static Simulation.FireState.*;
+import static Simulation.PredatorPreyState.*;
 
 public class PredatorPreyRuleSet implements RuleSet {
 
-    private double sharkHealth;
-    private double fishReproduce;
-    private double sharkReproduce;
+    private int sharkHealth;
+    private int fishReproduce;
+    private int sharkReproduce;
 
     public PredatorPreyRuleSet(double[] parameters) {
 
-        sharkHealth = parameters[0];
-        fishReproduce = parameters[1];
-        sharkReproduce = parameters[2];
+        sharkHealth = (int) parameters[0];
+        fishReproduce = (int) parameters[1];
+        sharkReproduce = (int) parameters[2];
     }
 
     @Override
@@ -22,7 +22,7 @@ public class PredatorPreyRuleSet implements RuleSet {
         //a lot here
         switch ((PredatorPreyState) cell.getCurrentState()) {
             case FISH:
-                return EMPTY;
+                return Fish(neighbors,(PredatorPreyCell) cell,grid);
             case SHARK:
                 return EMPTY;
             default:
@@ -30,5 +30,26 @@ public class PredatorPreyRuleSet implements RuleSet {
 
         }
 
+    }
+
+    private PredatorPreyState Fish(List<Cell> neighbors, PredatorPreyCell cell, Grid grid){
+        cell.setFishReproduceDays(cell.getFishReproduceDays()-1);
+
+        //gather options
+        for(Cell c: neighbors){
+            if(c.nextState == EMPTY){
+
+            }
+        }
+        //choose random option
+
+        //move
+
+        if(cell.getFishReproduceDays()==0){
+            //"also reproduce"
+            cell.setFishReproduceDays(fishReproduce);
+
+        }
+        return EMPTY;
     }
 }

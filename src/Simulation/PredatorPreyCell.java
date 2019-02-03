@@ -1,6 +1,5 @@
 package Simulation;
 
-
 public class PredatorPreyCell extends Cell {
 
     private int sharkEnergyDays;

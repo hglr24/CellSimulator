@@ -39,13 +39,10 @@ public class CellSocietyMain extends Application {
         XMLReader testRead = new XMLReader();
 //        File dataFile = new File("data\\TestSegregation.xml");
         File dataFile = new File("data\\TestGameOfLife.xml");
-
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
         myShape = testSim.getShape();
         mySimType = testSim.getType();
-
-
 
         switch(testSim.getType()){
             case SEGREGATION:
