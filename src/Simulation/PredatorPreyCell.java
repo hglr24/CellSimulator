@@ -42,5 +42,13 @@ public class PredatorPreyCell extends Cell {
     public void setSharkReproduceDays(int sharkReproduceDays) {
         this.sharkReproduceDays = sharkReproduceDays;
     }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public void setNextState(State nextState) {
+        this.nextState = nextState;
+    }
 }
 
