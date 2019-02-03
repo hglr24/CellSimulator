@@ -22,12 +22,13 @@ public class FireRuleSet implements RuleSet {
             default:
                 boolean fireNear = false;
                 for (Cell c : neighbors) {
-                    if (c.getCurrentState() == BURNING)
+                    if (c.getCurrentState() == BURNING) {
                         fireNear = true;
-                    break;
+                        break;
+                    }
                 }
 
-                if (fireNear && Math.random() > probCatch) {
+                if (fireNear && Math.random() < probCatch) {
                     return BURNING;
                 } else {
                     return TREE;
