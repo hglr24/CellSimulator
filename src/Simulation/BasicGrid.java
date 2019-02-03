@@ -13,7 +13,7 @@ abstract class BasicGrid<E> implements Grid<E> {
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
         SquareLocation sl = (SquareLocation) location;
-        return sl.getX() >= 0 && sl.getY() >= 0 && sl.getX()< getWidth() && sl.getY() < getHeight();
+        return sl.getX() >= 0 && sl.getY() >= 0 && sl.getX()< getHeight() && sl.getY() < getWidth();
     }
 
     @Override
@@ -43,7 +43,7 @@ abstract class BasicGrid<E> implements Grid<E> {
         if (!validLocation(location) || !(location instanceof SquareLocation))
             throw new IllegalArgumentException("Invalid Location");
         SquareLocation sl = (SquareLocation) location;
-        return cells[sl.getY()][sl.getX()];
+        return cells[sl.getX()][sl.getY()];
     }
 
     public ArrayList<Cell> getAdjacentCells(Location location) {

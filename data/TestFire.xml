@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
     <Title> Fire </Title>
+    <SimulationType>FIRE</SimulationType>
     <GridConfiguration>
-        0 0 0 0 0 0 0
-        0 0 1 1 0 0 1
-        1 0 0 1 0 0 0
-        0 0 0 0 0 0 1
-        1 1 1 0 1 0 1
-        0 1 0 1 1 0 0
+        1 1 1 1 1 1
+        1 1 1 1 1 1
+        1 1 1 2 1 1
+        1 1 1 1 1 1
+        1 1 1 1 1 1
     </GridConfiguration>
-    <GridWidth> 7 </GridWidth>
-    <GridHeight> 6 </GridHeight>
+    <GridWidth> 6 </GridWidth>
+    <GridHeight> 5 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters> 0.4 </SimParameters>
+    <SimParameters> 0.6 </SimParameters>
 </data>

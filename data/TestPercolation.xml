@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
     <Title> Percolation </Title>
+    <SimulationType>PERCOLATION</SimulationType>
     <GridConfiguration>
         Random
     </GridConfiguration>
-    <GridWidth> 600 </GridWidth>
-    <GridHeight> 700 </GridHeight>
+    <GridWidth> 25 </GridWidth>
+    <GridHeight> 16 </GridHeight>
     <Shape>Square</Shape>
     <SimParameters>0.5</SimParameters>
 </data>

@@ -37,8 +37,10 @@ public class CellSocietyMain extends Application {
 
     private Grid parseXML() {
         XMLReader testRead = new XMLReader();
-//        File dataFile = new File("data\\TestSegregation.xml");
-        File dataFile = new File("data\\TestGameOfLife.xml");
+//       File dataFile = new File("data\\TestSegregation.xml");
+       // File dataFile = new File("data\\TestGameOfLife.xml");
+        //File dataFile = new File("data\\TestFire.xml");
+        File dataFile = new File("data\\TestPercolation.xml");
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
         myShape = testSim.getShape();
@@ -54,6 +56,16 @@ public class CellSocietyMain extends Application {
                 GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
                 gridType = new GameOfLifeGrid(testSim.getHeight(),testSim.getWidth(),
                         testSim.getIntegerConfiguration(),rules2);
+                break;
+            case FIRE:
+                FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
+                gridType = new FireGrid(testSim.getHeight(),testSim.getWidth(),
+                        testSim.getIntegerConfiguration(),rules3);
+                break;
+            case PERCOLATION:
+                PercolationRuleSet rules4 = new PercolationRuleSet();
+                gridType = new PercolationGrid(testSim.getHeight(),testSim.getWidth(),
+                        testSim.getIntegerConfiguration(),rules4);
                 break;
                 //TODO make cases for each sim type
         }
