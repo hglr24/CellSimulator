@@ -1,21 +1,15 @@
 package UIpackage;
 
-import Simulation.State;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
@@ -27,15 +21,12 @@ import java.util.List;
 import Simulation.*;
 
 public class GUIManager {
-    private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
     private Scene myScene;
     private ArrayList<ArrayList<Shape>> myShapeGrid;
-    private ComboBox<String> simSelector;
     private Button buttonStart;
-    private Button buttonStop;
     private Button buttonStep;
     private Button buttonPause;
-    private HashMap<SimulationType, String> simTypeMap;
+    private HashMap<SimulationType, String> mySimTypeMap;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
@@ -43,23 +34,10 @@ public class GUIManager {
     private SimulationType mySimType;
     private GridPane myLegendPane;
     private String myShape;
-    private static final String BACKGROUND_COLOR = "-fx-background-color: rgb(170,189,206);";
-    private static final String LEGEND_COLOR = "-fx-background-color: rgb(96,153,183);";
+    private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
     private static final int LEGEND_SQUARE_SIZE = 20;
-    private static final Insets LEGEND_DATA_INSETS = new Insets(15);
-    private static final Insets LEGEND_PANE_INSETS = new Insets(15);
-    private static final Insets LEGEND_BOX_INSETS = new Insets(10);
-    private static final int LEGEND_DATA_SPACING = 15;
-    private static final int LEGEND_PANE_SPACING = 8;
-    private static final Border LEGEND_BORDER = new Border(new BorderStroke(Color.BLACK,
-            BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(2)));
-    private static final Font TITLE_FONT = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20);
-    private static final int LEGEND_HEIGHT = 20;
-    private static final String CONTROLS_COLOR = "-fx-background-color: rgb(110,122,153);";
-    private static final Insets CONTROLS_INSETS = new Insets(15, 15, 15, 40);
-    private static final int CONTROLS_SPACING = 10;
-    private static final int BUTTON_WIDTH = 100;
-    private static final int BUTTON_HEIGHT = 20;
+    private static final int MAX_SIM_SPEED = 10;
+    private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
     public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape) {
         myGrid = initData;
@@ -71,6 +49,7 @@ public class GUIManager {
         myBorderPane = new BorderPane();
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
         myBorderPane.setBottom(drawControls());
+        myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
         myScene.setOnKeyPressed(e -> keyboardHandler(e.getCode()));
         resetGUI();
     }
@@ -83,15 +62,15 @@ public class GUIManager {
         myBorderPane.setRight(myLegendPane);
         myBorderPane.setTop(myTitlePane);
         drawLegend();
+        drawSlider();
         drawTitle();
         buttonEnable();
     }
 
     private void createSimTypeMap() { //Maps keys (SimulationTypes) to values (String representations)
-        simTypeMap = new HashMap<>();
-        List<SimulationType> simList = Arrays.asList(SimulationType.values());
-        for (SimulationType type : simList) {
-            simTypeMap.put(type, type.toString());
+        mySimTypeMap = new HashMap<>();
+    for (SimulationType type : SimulationType.values()) {
+            mySimTypeMap.put(type, type.toString());
         }
     }
 
@@ -101,8 +80,7 @@ public class GUIManager {
 
         ShapeGrid grid = makeShapeGrid(hsize, vsize);
 
-        grid.setStyle(BACKGROUND_COLOR);
-        myShapeGrid = new ArrayList<>(vsize); //initialize ArrayLists that hold shapes
+        myShapeGrid = new ArrayList<>(vsize);
         for (int i = 0; i < vsize; i++) {
             myShapeGrid.add(i, new ArrayList<>(hsize));
         }
@@ -132,27 +110,25 @@ public class GUIManager {
 
     private Node drawControls() {
         HBox controls = new HBox();
-        controls.setPadding(CONTROLS_INSETS);
-        controls.setSpacing(CONTROLS_SPACING);
-        controls.setStyle(CONTROLS_COLOR);
+        controls.getStyleClass().add("controls");
 
         buttonStart = drawButton("Start", event -> start());
-        buttonStop = drawButton("Stop", event -> loadNewSim());
+        Button buttonStop = drawButton("Load", event -> loadNewSim());
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
         Text sLabel = new Text("Simulation Type: ");
 
-        ArrayList<String> simTypeStrings = new ArrayList<>(simTypeMap.values());
-        simSelector = drawComboBox("Select...", simTypeStrings);
+        ArrayList<String> simTypeStrings = new ArrayList<>(mySimTypeMap.values());
+        ComboBox<String> simSelector = drawComboBox("Select...", simTypeStrings);
         simSelector.valueProperty().addListener((options, oldValue, newValue) -> changeSim(newValue));
 
-        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, sLabel, simSelector);
+        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep);
+        //controls.getChildren().addAll(sLabel, simSelector);
         return controls;
     }
 
     private Button drawButton(String label, EventHandler<ActionEvent> handler) {
         Button newButton = new Button(label);
-        newButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         newButton.setOnAction(handler);
         return newButton;
     }
@@ -165,41 +141,28 @@ public class GUIManager {
     }
 
     private void drawTitle() {
-        myTitlePane.setAlignment(Pos.CENTER);
-        myTitlePane.setStyle(CONTROLS_COLOR);
+        myTitlePane.getStyleClass().add("title");
         HBox titleBox = new HBox();
         Text title = new Text(mySimType.toString());
-        title.setFont(TITLE_FONT);
         titleBox.getChildren().add(title);
         myTitlePane.getChildren().add(titleBox);
     }
 
     private void drawLegend() {
-        VBox legend = new VBox();
-        legend.setPadding(LEGEND_BOX_INSETS);
-        legend.setStyle(LEGEND_COLOR);
-        legend.setSpacing(LEGEND_PANE_SPACING);
-        legend.setPrefHeight(LEGEND_HEIGHT);
-        legend.setBorder(LEGEND_BORDER);
-
-        Text label = new Text("State Legend");
-        label.setFont(TITLE_FONT);
-        legend.getChildren().add(label);
+        VBox legend = newLegendBox("State Legend");
+        myLegendPane.getStyleClass().add("legend");
         populateLegend(legend);
-        myLegendPane.setAlignment(Pos.CENTER);
-        myLegendPane.setPadding(LEGEND_PANE_INSETS);
-        myLegendPane.setStyle(BACKGROUND_COLOR);
         myLegendPane.add(legend, 0, 0);
     }
 
     private void populateLegend(VBox legend) {
         State[] states = mySimType.getState(); //get each kind of state for simulation mySimType
-        List<State> stateList = Arrays.asList(states); //convert states to strings
+        List<State> stateList = new ArrayList<>();
+        if(states != null) stateList = Arrays.asList(states); //convert states to strings
         ArrayList<String> stateLabels = makeLegendStrings(stateList);
         for (String s : stateLabels) {
             HBox infoRow = new HBox();
-            infoRow.setPadding(LEGEND_DATA_INSETS);
-            infoRow.setSpacing(LEGEND_DATA_SPACING);
+            infoRow.getStyleClass().add("legend-item");
             Rectangle stateColor = new Rectangle(LEGEND_SQUARE_SIZE, LEGEND_SQUARE_SIZE);
             stateColor.setFill(stateList.get(stateLabels.indexOf(s)).getColor());
             infoRow.getChildren().addAll(stateColor, new Text(s));
@@ -213,6 +176,30 @@ public class GUIManager {
             rtn.add(state.toString());
         }
         return rtn;
+    }
+
+    private VBox newLegendBox(String title) {
+        VBox newBox = new VBox();
+        newBox.getStyleClass().add("right-pane-item");
+
+        Text label = new Text(title);
+        newBox.getChildren().add(label);
+        return newBox;
+    }
+
+    private void drawSlider() {
+        VBox sliderBox = newLegendBox("Speed");
+        Slider slider = new Slider();
+        slider.setMin(0);
+        slider.setMax(MAX_SIM_SPEED);
+        slider.setValue(mySim.getSpeed());
+        slider.setShowTickLabels(true);
+        slider.setMajorTickUnit(2);
+        slider.setBlockIncrement(1);
+
+        slider.valueProperty().addListener((arg, oldValue, newValue) -> mySim.setSpeed((Double) newValue));
+        sliderBox.getChildren().add(slider);
+        myLegendPane.add(sliderBox, 0, 1);
     }
 
     void updateGrid(Grid newGrid) {
@@ -230,10 +217,10 @@ public class GUIManager {
     }
 
     private void changeSim(String newTypeString) {
-        for (SimulationType type : simTypeMap.keySet()) {
-            if (simTypeMap.get(type).equals(newTypeString)) mySimType = type;
+        for (SimulationType type : mySimTypeMap.keySet()) {
+            if (mySimTypeMap.get(type).equals(newTypeString)) mySimType = type;
         }
-        //mySim.changeSim(mySimType); //reset sim params before gui reset  //TODO
+        //mySim.changeSim(mySimType); //reset sim params before gui reset  //TODO once we have multiple sims in single XML
         resetGUI();
         System.out.println("Simulation changed: " + newTypeString);
     }
@@ -241,13 +228,13 @@ public class GUIManager {
     private void start() {
         mySim.startSim();
         buttonEnable();
-        System.out.println("Simulation started.");
+        System.out.println("Simulation started");
     }
 
     private void loadNewSim() {
         mySim.loadNewSim();
         buttonEnable();
-        System.out.println("Simulation stopped.");
+        System.out.println("Simulation stopped");
     }
 
     private void pause() {
@@ -255,23 +242,22 @@ public class GUIManager {
         if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
         else buttonPause.setText("Pause");
         buttonEnable();
-        System.out.println("Simulation paused.");
+        System.out.println("Simulation paused");
     }
 
     private void step() {
         mySim.stepSim();
         buttonEnable();
-        System.out.println("Simulation stepped.");
+        System.out.println("Simulation stepped");
     }
 
     private void buttonEnable() {
         buttonStart.setDisable(mySim.hasStarted());
-        buttonStop.setDisable(!mySim.hasStarted());
-        buttonStep.setDisable(mySim.hasStarted());
+        buttonStep.setDisable(mySim.hasStarted() && !mySim.isPaused());
         buttonPause.setDisable(!mySim.hasStarted());
     }
 
-    private void errorBox(String errorType, String message) {
+    void errorBox(String errorType, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(errorType);
@@ -298,14 +284,6 @@ public class GUIManager {
                 break;
             case S:
                 step();
-                break;
-            case U:
-                System.out.println("Simulation speed increased.");
-                mySim.setSpeed(mySim.getSpeed() / 2);
-                break;
-            case D:
-                System.out.println("Simulation speed decreased.");
-                mySim.setSpeed(mySim.getSpeed() * 2);
                 break;
         }
     }

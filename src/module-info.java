@@ -7,4 +7,5 @@ module UI_module {
     requires javafx.web;
 
     exports UIpackage;
+    exports Simulation;
 }
