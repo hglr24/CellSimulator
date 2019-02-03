@@ -12,6 +12,7 @@ public abstract class Cell {
     protected State nextState;
 
     public void determineState(Grid grid) {
+        changed = (nextState != currentState);
         if(hasChanged())
             return;
 
@@ -44,4 +45,5 @@ public abstract class Cell {
         this.neighbors = grid.findNeighbors(getLocation());
 
     }
+
 }
