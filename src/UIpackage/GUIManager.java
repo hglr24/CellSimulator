@@ -33,13 +33,16 @@ public class GUIManager {
     private ComboBox<String> simSelector;
     private Button buttonStart;
     private Button buttonStop;
+    private Button buttonStep;
+    private Button buttonPause;
     private HashMap<SimulationType, String> simTypeMap;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
-    private SimManager mySim;
+    private CellSocietyMain mySim;
     private SimulationType mySimType;
     private GridPane myLegendPane;
+    private String myShape;
     private static final String BACKGROUND_COLOR = "-fx-background-color: rgb(170,189,206);";
     private static final String LEGEND_COLOR = "-fx-background-color: rgb(96,153,183);";
     private static final int LEGEND_SQUARE_SIZE = 20;
@@ -58,13 +61,15 @@ public class GUIManager {
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 20;
 
-    public GUIManager(Grid initData, SimManager sim, SimulationType simtype) {
+    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape) {
         myGrid = initData;
         mySim = sim;
         mySimType = simtype;
+        myShape = shape;
+        createSimTypeMap();
+
         myBorderPane = new BorderPane();
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
-        createSimTypeMap();
         myBorderPane.setBottom(drawControls());
         myScene.setOnKeyPressed(e -> keyboardHandler(e.getCode()));
         resetGUI();
@@ -94,7 +99,8 @@ public class GUIManager {
         int hsize = myGrid.getWidth();
         int vsize = myGrid.getHeight();
 
-        ShapeGrid grid = new SquareGrid(hsize, vsize); //Change grid shape for testing here
+        ShapeGrid grid = makeShapeGrid(hsize, vsize);
+
         grid.setStyle(BACKGROUND_COLOR);
         myShapeGrid = new ArrayList<>(vsize); //initialize ArrayLists that hold shapes
         for (int i = 0; i < vsize; i++) {
@@ -102,6 +108,25 @@ public class GUIManager {
         }
         grid.draw(hsize, vsize, myShapeGrid);
         updateGrid(myGrid);
+        return grid;
+    }
+
+    private ShapeGrid makeShapeGrid(int hsize, int vsize) {
+        ShapeGrid grid;
+        switch(myShape) {
+            case "Square":
+                grid = new SquareGrid(hsize, vsize);
+                break;
+            case "Triangle":
+                grid = new TriGrid(hsize, vsize);
+                break;
+            case "Hexagon":
+                grid = new HexGrid(hsize, vsize);
+                break;
+            default:
+                grid = new SquareGrid(hsize, vsize);
+                break;
+        }
         return grid;
     }
 
@@ -113,13 +138,15 @@ public class GUIManager {
 
         buttonStart = drawButton("Start", event -> start());
         buttonStop = drawButton("Stop", event -> stop());
+        buttonStep = drawButton("Step", event -> step());
+        buttonPause = drawButton("Pause", event -> pause());
         Text sLabel = new Text("Simulation Type: ");
 
         ArrayList<String> simTypeStrings = new ArrayList<>(simTypeMap.values());
         simSelector = drawComboBox("Select...", simTypeStrings);
         simSelector.valueProperty().addListener((options, oldValue, newValue) -> changeSim(newValue));
 
-        controls.getChildren().addAll(buttonStart, buttonStop, sLabel, simSelector);
+        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, sLabel, simSelector);
         return controls;
     }
 
@@ -189,7 +216,6 @@ public class GUIManager {
     }
 
     public void updateGrid(Grid newGrid) {
-        buttonEnable();
         myGrid = newGrid;
         for (int i = 0; i < myGrid.getHeight(); i++) {
             for (int j= 0; j < myGrid.getWidth(); j++) {
@@ -207,29 +233,42 @@ public class GUIManager {
         for (SimulationType type : simTypeMap.keySet()) {
             if (simTypeMap.get(type).equals(newTypeString)) mySimType = type;
         }
-        //mySim.change(mySimType); //reset sim params before gui reset
+        //mySim.changeSim(mySimType); //reset sim params before gui reset  //TODO
         resetGUI();
         System.out.println("Simulation changed: " + newTypeString);
     }
 
     private void start() {
-        //mySim.start();
+        mySim.startSim();
+        buttonEnable();
         System.out.println("Simulation started.");
     }
 
     private void stop() {
-        //mySim.stop();
+        mySim.stopSim();
+        buttonEnable();
         System.out.println("Simulation stopped.");
     }
 
     private void pause() {
-        //mySim.pause();
+        mySim.pauseSim();
+        if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
+        else buttonPause.setText("Pause");
+        buttonEnable();
         System.out.println("Simulation paused.");
     }
 
+    private void step() {
+        mySim.stepSim();
+        buttonEnable();
+        System.out.println("Simulation stepped.");
+    }
+
     private void buttonEnable() {
-        //buttonStart.setDisable(mySim.hasStarted()); //TODO
-        //buttonStop.setDisable(!mySim.hasStarted());
+        buttonStart.setDisable(mySim.hasStarted());
+        buttonStop.setDisable(!mySim.hasStarted());
+        buttonStep.setDisable(mySim.hasStarted());
+        buttonPause.setDisable(!mySim.hasStarted());
     }
 
     private void errorBox(String errorType, String message) {
@@ -241,7 +280,7 @@ public class GUIManager {
     }
 
     private boolean inBounds(int row, int col) {
-        if (row < myGrid.getWidth() && col < myGrid.getHeight()) return true;
+        if (col < myGrid.getWidth() && row < myGrid.getHeight()) return true;
         errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
         return false;
     }
@@ -255,6 +294,9 @@ public class GUIManager {
         }
         if (code == KeyCode.SHIFT) {
             pause();
+        }
+        if (code == KeyCode.S) {
+            step();
         }
     }
 
