@@ -24,10 +24,6 @@ public class PercolationGrid extends BasicGrid{
                 }
             }
         }
-        for(int j = 0; j < width; j++){
-            if(initCells[0][j].currentState==OPEN)
-                initCells[0][j] = new PercolationCell(0, j, PERCOLATED);
-        }
         this.cells = initCells;
         this.ruleSet = ruleSet;
     }
