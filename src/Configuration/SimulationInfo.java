@@ -108,11 +108,13 @@ public class SimulationInfo {
                 for(int j = 0; j < this.getWidth(); j++){
                     double singleProb = Math.random();
                     if(singleProb < probEmpty){
-                        if(startFill == 0 && (j == 0 || k == 0)){
+                        if(startFill == 0 && k == 0){
                             configuration[k][j] = 1;
-                            startFill++;
+                            startFill = 1;
                         }
-                        configuration[k][j] = 0;
+                        else {
+                            configuration[k][j] = 0;
+                        }
                     }
                     else{
                         configuration[k][j] = 2;
