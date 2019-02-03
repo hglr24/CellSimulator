@@ -31,7 +31,8 @@ public class CellSocietyMain extends Application {
         //File dataFile = new File("data\\TestSegregation.xml");
         //File dataFile = new File("data\\TestGameOfLife.xml");
         //File dataFile = new File("data\\TestFire.xml");
-        File dataFile = new File("data\\TestPercolation.xml");
+        File dataFile = new File("data\\TestPredatorPrey.xml");
+        //File dataFile = new File("data\\TestPercolation.xml");
 
         openFile(dataFile);
     }
@@ -84,7 +85,11 @@ public class CellSocietyMain extends Application {
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
                             testSim.getIntegerConfiguration(), rules4);
                     break;
-                //TODO make cases for each sim type
+                case PREDATOR_PREY:
+                    PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
+                    gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
+                            testSim.getIntegerConfiguration(),rules5);
+                    break;
             }
         }
         else {
