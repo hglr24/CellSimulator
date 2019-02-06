@@ -31,7 +31,7 @@ public class SegregationGrid extends BasicGrid{
 
     @Override
     public ArrayList<SegregationCell> findNeighbors(Location location) {
-         return getAdjacentCells(location);
+         return getAdjacentNeighbors(location);
     }
 
 }

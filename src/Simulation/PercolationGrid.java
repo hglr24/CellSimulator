@@ -30,6 +30,6 @@ public class PercolationGrid extends BasicGrid{
 
     @Override
     public ArrayList<PercolationCell> findNeighbors(Location location) {
-        return this.getAdjacentCells(location);
+        return this.getAdjacentNeighbors(location);
     }
 }
