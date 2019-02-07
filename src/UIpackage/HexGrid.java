@@ -7,23 +7,21 @@ import java.util.ArrayList;
 
 public class HexGrid extends ShapeGrid {
     private double myCellRadius;
-    private static final double H_GAP = 1.3;
-    private static final double V_GAP = 1.3;
     private ArrayList<GridPane> rowList;
 
-    public HexGrid(int hsize, int vsize) {
+    HexGrid(int hsize, int vsize, int cellsize) {
         super(hsize, vsize);
-        calcCellSize();
+        myCellRadius = cellsize / 2.0;
         rowList = new ArrayList<>();
         makeHorizGrids(vsize);
-        this.setVgap(V_GAP - myCellRadius / 2);
+        this.setVgap(-myCellRadius / 2 - 1);
     }
 
     private void makeHorizGrids(int vsize) {
         for (int i = 0; i < vsize; i++) {
             GridPane rowPane = new GridPane();
-            rowPane.setHgap(H_GAP);
             rowList.add(i, rowPane);
+            rowPane.setHgap(-1);
             this.add(rowPane, 0, i);
         }
     }
@@ -40,11 +38,5 @@ public class HexGrid extends ShapeGrid {
                 shapes.get(i).add(j, newShape);
             }
         }
-    }
-
-    public void calcCellSize() {
-        if (super.getHSize() > super.getVSize()) myCellRadius =  super.getHeightMax() / super.getHSize() - this.getHgap();
-        else myCellRadius = super.getHeightMax() / super.getVSize() - this.getVgap();
-        myCellRadius *= 0.5;
     }
 }

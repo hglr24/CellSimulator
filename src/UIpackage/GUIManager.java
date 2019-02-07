@@ -1,13 +1,11 @@
 package UIpackage;
 
+import Simulation.Cell;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.control.Button;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -16,7 +14,6 @@ import javafx.event.ActionEvent;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import Simulation.*;
 
@@ -26,7 +23,6 @@ public class GUIManager {
     private Button buttonStart;
     private Button buttonStep;
     private Button buttonPause;
-    private HashMap<SimulationType, String> mySimTypeMap;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
@@ -34,17 +30,20 @@ public class GUIManager {
     private SimulationType mySimType;
     private GridPane myLegendPane;
     private String myShape;
+    private int myStageID;
+    private int myCellSize;
     private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
     private static final int LEGEND_SQUARE_SIZE = 20;
     private static final int MAX_SIM_SPEED = 10;
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
-    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape) {
+    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape, int stageID, int cellsize) {
         myGrid = initData;
         mySim = sim;
         mySimType = simtype;
         myShape = shape;
-        createSimTypeMap();
+        myStageID = stageID;
+        myCellSize = cellsize;
 
         myBorderPane = new BorderPane();
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
@@ -56,6 +55,7 @@ public class GUIManager {
 
     private void resetGUI() {
         System.out.println("GUI Reset");
+        initializeShapeArrays();
         myBorderPane.setCenter(drawInitialGrid());
         myTitlePane = new HBox();
         myLegendPane = new GridPane();
@@ -67,42 +67,48 @@ public class GUIManager {
         buttonEnable();
     }
 
-    private void createSimTypeMap() { //Maps keys (SimulationTypes) to values (String representations)
-        mySimTypeMap = new HashMap<>();
-    for (SimulationType type : SimulationType.values()) {
-            mySimTypeMap.put(type, type.toString());
+    private void initializeShapeArrays() {
+        int hsize = myGrid.getWidth();
+        int vsize = myGrid.getHeight();
+        myShapeGrid = new ArrayList<>(vsize);
+        for (int i = 0; i < vsize; i++) {
+            myShapeGrid.add(i, new ArrayList<>(hsize));
         }
     }
 
     private Node drawInitialGrid() {
         int hsize = myGrid.getWidth();
         int vsize = myGrid.getHeight();
+        HBox centerPane = new HBox();
+        ScrollPane centerBox = new ScrollPane();
+        HBox gridBox = new HBox();
+        ShapeGrid grid = makeShapeGrid(hsize, vsize, myCellSize);
 
-        ShapeGrid grid = makeShapeGrid(hsize, vsize);
-
-        myShapeGrid = new ArrayList<>(vsize);
-        for (int i = 0; i < vsize; i++) {
-            myShapeGrid.add(i, new ArrayList<>(hsize));
-        }
         grid.draw(hsize, vsize, myShapeGrid);
+        grid.getStyleClass().add("shape-grid");
+        gridBox.getStyleClass().addAll("shape-grid", "grid-container");
+        centerPane.getStyleClass().add("shape-grid");
+        gridBox.getChildren().add(grid);
+        centerBox.setContent(gridBox);
+        centerPane.getChildren().add(centerBox);
         updateGrid(myGrid);
-        return grid;
+        return centerPane;
     }
 
-    private ShapeGrid makeShapeGrid(int hsize, int vsize) {
+    private ShapeGrid makeShapeGrid(int hsize, int vsize, int cellsize) {
         ShapeGrid grid;
         switch(myShape) {
             case "Square":
-                grid = new SquareGrid(hsize, vsize);
+                grid = new SquareGrid(hsize, vsize, cellsize);
                 break;
             case "Triangle":
-                grid = new TriGrid(hsize, vsize);
+                grid = new TriGrid(hsize, vsize, cellsize);
                 break;
             case "Hexagon":
-                grid = new HexGrid(hsize, vsize);
+                grid = new HexGrid(hsize, vsize, cellsize);
                 break;
             default:
-                grid = new SquareGrid(hsize, vsize);
+                grid = new SquareGrid(hsize, vsize, cellsize);
                 break;
         }
         return grid;
@@ -116,14 +122,8 @@ public class GUIManager {
         Button buttonStop = drawButton("Load", event -> loadNewSim());
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
-        Text sLabel = new Text("Simulation Type: ");
-
-        ArrayList<String> simTypeStrings = new ArrayList<>(mySimTypeMap.values());
-        ComboBox<String> simSelector = drawComboBox("Select...", simTypeStrings);
-        simSelector.valueProperty().addListener((options, oldValue, newValue) -> changeSim(newValue));
 
         controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep);
-        //controls.getChildren().addAll(sLabel, simSelector);
         return controls;
     }
 
@@ -131,13 +131,6 @@ public class GUIManager {
         Button newButton = new Button(label);
         newButton.setOnAction(handler);
         return newButton;
-    }
-
-    private ComboBox<String> drawComboBox(String prompt, List<String> options) {
-        ComboBox<String> selector = new ComboBox<>();
-        selector.setPromptText(prompt);
-        selector.getItems().addAll(options);
-        return selector;
     }
 
     private void drawTitle() {
@@ -192,12 +185,12 @@ public class GUIManager {
         Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(MAX_SIM_SPEED);
-        slider.setValue(mySim.getSpeed());
+        slider.setValue(mySim.getSpeed(myStageID));
         slider.setShowTickLabels(true);
         slider.setMajorTickUnit(2);
         slider.setBlockIncrement(1);
 
-        slider.valueProperty().addListener((arg, oldValue, newValue) -> mySim.setSpeed((Double) newValue));
+        slider.valueProperty().addListener((arg, oldValue, newValue) -> mySim.setSpeed(myStageID, (Double) newValue));
         sliderBox.getChildren().add(slider);
         myLegendPane.add(sliderBox, 0, 1);
     }
@@ -216,45 +209,34 @@ public class GUIManager {
         if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(newState.getColor());
     }
 
-    private void changeSim(String newTypeString) {
-        for (SimulationType type : mySimTypeMap.keySet()) {
-            if (mySimTypeMap.get(type).equals(newTypeString)) mySimType = type;
-        }
-        //mySim.changeSim(mySimType); //reset sim params before gui reset  //TODO once we have multiple sims in single XML
-        resetGUI();
-        System.out.println("Simulation changed: " + newTypeString);
-    }
-
     private void start() {
-        mySim.startSim();
+        mySim.startSim(myStageID);
         buttonEnable();
-        System.out.println("Simulation started");
+        System.out.println("Simulation " + myStageID + " started");
     }
 
     private void loadNewSim() {
-        mySim.loadNewSim();
-        buttonEnable();
-        System.out.println("Simulation stopped");
+        mySim.loadNewSim(myStageID);
     }
 
     private void pause() {
-        mySim.pauseSim();
+        mySim.pauseSim(myStageID);
         if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
         else buttonPause.setText("Pause");
         buttonEnable();
-        System.out.println("Simulation paused");
+        System.out.println("Simulation " + myStageID + " paused");
     }
 
     private void step() {
-        mySim.stepSim();
+        mySim.stepSim(myStageID);
         buttonEnable();
-        System.out.println("Simulation stepped");
+        System.out.println("Simulation " + myStageID + " stepped");
     }
 
     private void buttonEnable() {
-        buttonStart.setDisable(mySim.hasStarted());
-        buttonStep.setDisable(mySim.hasStarted() && !mySim.isPaused());
-        buttonPause.setDisable(!mySim.hasStarted());
+        buttonStart.setDisable(mySim.hasStarted(myStageID));
+        buttonStep.setDisable(mySim.hasStarted(myStageID) && !mySim.isPaused(myStageID));
+        buttonPause.setDisable(!mySim.hasStarted(myStageID));
     }
 
     void errorBox(String errorType, String message) {

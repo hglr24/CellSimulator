@@ -7,62 +7,69 @@ import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class CellSocietyMain extends Application {
+    private ArrayList<Stage> myStages = new ArrayList<>();
+    private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
+    private ArrayList<String> myShapes = new ArrayList<>();
+    private ArrayList<GUIManager> myGUIs = new ArrayList<>();
+    private ArrayList<Grid> myCurrentGrids = new ArrayList<>();
+    private ArrayList<AnimationTimer> myTimers = new ArrayList<>();
+    private ArrayList<Double> mySpeeds = new ArrayList<>();
+    private ArrayList<Boolean> hasStarted = new ArrayList<>();
+    private ArrayList<Boolean> isPaused = new ArrayList<>();
     private static final String TITLE = "CellSociety";
-    private Stage myStage;
-    private SimulationType mySimType;
-    private String myShape;
-    private GUIManager myGUI;
-    private Grid myCurrentGrid;
-    private AnimationTimer myTimer;
     private static final FileChooser myFileChooser = new FileChooser();
-    private double mySpeed;
-    private boolean hasStarted = false;
-    private boolean isPaused = false;
-    private boolean simChanged;
 
     @Override
     public void start (Stage stage) {
-        myStage = stage;
-        initializeTimer();
         initializeFileOpener();
 
-        //File dataFile = new File("data\\TestSegregation.xml");
-        //File dataFile = new File("data\\TestGameOfLife.xml");
-        //File dataFile = new File("data\\TestFire.xml");
-        //File dataFile = new File("data\\TestPredatorPrey.xml");
-        File dataFile = new File("data\\TestPercolation.xml");
-
-        openFile(dataFile);
+        File dataFile = new File("data\\TestSegregation.xml");
+        openFile(dataFile, stage, 0);
     }
 
-    private void openFile(File file) {
-        myCurrentGrid = parseXML(file);
-        if (simChanged) {
-            mySpeed = 1;
-            makeGUI(myStage);
+    private void openFile(File file, Stage stage, int oldStageIndex) {
+        myStages.add(stage);
+        int newStageIndex = myStages.indexOf(stage);
+        myCurrentGrids.add(newStageIndex, parseXML(file, oldStageIndex, newStageIndex));
+        if (myCurrentGrids.get(newStageIndex) != null) {
+            initializeNewStageProps(stage);
+            makeGUI(stage);
+        }
+        else {
+            myStages.remove(stage);
         }
     }
 
+    private void initializeNewStageProps(Stage stage) {
+        int stageIndex = myStages.indexOf(stage);
+        hasStarted.add(stageIndex, false);
+        isPaused.add(stageIndex, false);
+        mySpeeds.add(stageIndex, 1.0);
+        initializeTimer(stageIndex);
+    }
+
     private void makeGUI(Stage stage) {
-        myGUI = new GUIManager(myCurrentGrid, this, mySimType, myShape);
+        int cellsize = 40; //TODO import this from XML
+        int stageIndex = myStages.indexOf(stage);
+        myGUIs.add(stageIndex, new GUIManager(myCurrentGrids.get(stageIndex),
+                this, mySimTypes.get(stageIndex), myShapes.get(stageIndex), stageIndex, cellsize));
         stage.setResizable(false);
         stage.setTitle(TITLE);
-        stage.setScene(myGUI.getScene());
+        stage.setScene(myGUIs.get(stageIndex).getScene());
         stage.show();
     }
 
-    private Grid parseXML(File dataFile) {
+    private Grid parseXML(File dataFile, int oldStageIndex, int newStageIndex) {
         XMLReader testRead = new XMLReader();
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
-        simChanged = false;
 
         if(testSim.getType() != null) {
-            mySimType = testSim.getType();
-            myShape = testSim.getShape();
-            simChanged = true;
+            mySimTypes.add(newStageIndex, testSim.getType());
+            myShapes.add(newStageIndex, testSim.getShape());
 
             switch (testSim.getType()) {
                 case SEGREGATION:
@@ -93,23 +100,23 @@ public class CellSocietyMain extends Application {
             }
         }
         else {
-            myGUI.errorBox("Load Error", "Invalid XML file");
-            return myCurrentGrid;
+            myGUIs.get(oldStageIndex).errorBox("Load Error", "Invalid XML file");
+            return null;
         }
         return gridType;
     }
 
-    private void initializeTimer() {
-        myTimer = new AnimationTimer() {
+    private void initializeTimer(int stageIndex) {
+        myTimers.add(stageIndex, new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
             public void handle(long currTime) {
-                if (currTime - lastUpdate >= mySpeed * 1000000000) {
-                    stepSim();
+                if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * 1000000000) {
+                    stepSim(stageIndex);
                     lastUpdate = currTime;
                 }
             }
-        };
+        });
     }
 
     private void initializeFileOpener() {
@@ -118,53 +125,48 @@ public class CellSocietyMain extends Application {
         myFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
     }
 
-    void loadNewSim() {
-        hasStarted = false;
-        myTimer.stop();
+    void loadNewSim(int stageIndex) {
         File newFile = myFileChooser.showOpenDialog(new Stage());
         if (newFile != null) {
-            openFile(newFile);
+            Stage newStage = new Stage();
+            openFile(newFile, newStage, stageIndex);
         }
-        else myGUI.errorBox("Load Error", "Invalid file selection");
+        else myGUIs.get(stageIndex).errorBox("Load Error", "Invalid file selection");
     }
 
-    void startSim() {
-        hasStarted = true;
-        isPaused = false;
-        myTimer.start();
+    void startSim(int stageIndex) {
+        hasStarted.set(stageIndex, true);
+        isPaused.set(stageIndex, false);
+        myTimers.get(stageIndex).start();
     }
 
-    void stepSim() {
-        myCurrentGrid.update();
-        myGUI.updateGrid(myCurrentGrid);
+    void stepSim(int stageIndex) {
+        myCurrentGrids.get(stageIndex).update();
+        myGUIs.get(stageIndex).updateGrid(myCurrentGrids.get(stageIndex));
     }
 
-    void pauseSim() {
-        if (isPaused) startSim();
+    void pauseSim(int stageIndex) {
+        if (isPaused.get(stageIndex)) startSim(stageIndex);
         else {
-            isPaused = true;
-            myTimer.stop();
+            isPaused.set(stageIndex, true);
+            myTimers.get(stageIndex).stop();
         }
     }
 
-    public void changeSim(SimulationType newType) {
-
+    void setSpeed(int stageIndex, double newSpeed) {
+        mySpeeds.set(stageIndex, 1 / newSpeed);
     }
 
-    void setSpeed(double newSpeed) {
-        mySpeed = 1 / newSpeed;
+    double getSpeed(int stageIndex) {
+        return mySpeeds.get(stageIndex);
     }
 
-    double getSpeed() {
-        return mySpeed;
+    boolean hasStarted(int stageIndex) {
+        return hasStarted.get(stageIndex);
     }
 
-    boolean hasStarted() {
-        return hasStarted;
-    }
-
-    boolean isPaused() {
-        return isPaused;
+    boolean isPaused(int stageIndex) {
+        return isPaused.get(stageIndex);
     }
 
     /**
