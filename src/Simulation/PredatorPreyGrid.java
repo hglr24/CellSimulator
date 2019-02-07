@@ -31,25 +31,7 @@ public class PredatorPreyGrid extends BasicGrid {
 
     @Override
     public ArrayList findNeighbors(Location location) {
-        ArrayList<Cell> neighbors = new ArrayList<>();
-
-        SquareLocation sl = (SquareLocation) location;
-        int[] x = {-1, 1};
-        for (int i : x) {
-
-            int r = (sl.getX()+i) == -1 ? height-1 : sl.getX()+i;
-            int c = (sl.getY()+i) == -1 ? width-1 : sl.getX()+i;
-
-            SquareLocation temp = new SquareLocation(r, sl.getY());
-            if (validLocation(temp))
-                neighbors.add(getCell(temp));
-
-            SquareLocation temp2 = new SquareLocation(sl.getX(), c);
-            if (validLocation(temp2))
-                neighbors.add(getCell(temp2));
-        }
-
-        return neighbors;
+       return getWrappedNeighbors(location);
     }
 
 

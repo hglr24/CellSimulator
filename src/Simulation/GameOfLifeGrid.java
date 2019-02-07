@@ -31,7 +31,7 @@ public class GameOfLifeGrid extends BasicGrid {
 
     @Override
     public ArrayList<GameOfLifeCell> findNeighbors(Location location) {
-        return getAdjacentCells(location);
+        return getAdjacentNeighbors(location);
     }
 
 

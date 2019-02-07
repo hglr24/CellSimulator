@@ -3,7 +3,7 @@ package Simulation;
 import java.util.ArrayList;
 
 abstract class BasicGrid<E> implements Grid<E> {
-
+//TODO: optional flagging, then decide on method, or new inheritance. Affects subclasses.
     protected Cell[][] cells;
     protected int height;
     protected int width;
@@ -46,26 +46,37 @@ abstract class BasicGrid<E> implements Grid<E> {
         return cells[sl.getX()][sl.getY()];
     }
 
-    public ArrayList<Cell> getAdjacentCells(Location location) {
+    private ArrayList<Cell> getNeighbors(Location location, int[] relative) {
         ArrayList<Cell> adjacent = new ArrayList<>();
 
         SquareLocation sl = (SquareLocation) location;
         //all adjacent
-        int[] x = {-1, 0, 1};
-        for (int i : x) {
-            for (int j : x) {
+        for (int i : relative) {
+            for (int j : relative) {
                 if (i == 0 && j == 0)
                     continue;
                 SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY() + j);
-                if (validLocation(temp))
-                    adjacent.add(getCell(temp));
+                appendNeighbors(temp,adjacent);
             }
         }
 
         return adjacent;
     }
 
+    private void appendNeighbors(Location location, ArrayList<Cell> neighbors){
+        if (validLocation(location))
+            neighbors.add(getCell(location));
+
+    }
+    public ArrayList<Cell> getAdjacentNeighbors(Location location) {
+        int[] relative = {-1, 0, 1};
+        return getNeighbors(location, relative);
+    }
+
     public ArrayList<Cell> getCardinalNeighbors(Location location) {
+//        int[] relative = {-1, 1};
+//        return getNeighbors(location, relative);
+
         ArrayList<Cell> neighbors = new ArrayList<>();
 
         SquareLocation sl = (SquareLocation) location;
@@ -79,6 +90,40 @@ abstract class BasicGrid<E> implements Grid<E> {
             SquareLocation temp2 = new SquareLocation(sl.getX(), sl.getY() + i);
             if (validLocation(temp2))
                 neighbors.add(getCell(temp2));
+        }
+
+        return neighbors;
+
+    }
+
+
+    public ArrayList getWrappedNeighbors(Location location) {
+        ArrayList<Cell> neighbors = new ArrayList<>();
+
+        SquareLocation sl = (SquareLocation) location;
+        int[] x = {-1, 1};
+        for (int i : x) {
+
+            int r = sl.getX()+i;
+            int c = sl.getY()+i;
+
+            if(r == -1) {
+                r = height - 1;
+            } else if (r == height){
+                r = 0;
+            }
+
+            if(c == -1) {
+                c = width - 1;
+            } else if (r == width){
+                c = 0;
+            }
+
+            SquareLocation temp = new SquareLocation(r, sl.getY());
+            appendNeighbors(temp,neighbors);
+
+            SquareLocation temp2 = new SquareLocation(sl.getX(), c);
+            appendNeighbors(temp2,neighbors);
         }
 
         return neighbors;
