@@ -12,6 +12,8 @@ public class HexGrid extends ShapeGrid {
     private double myCellRadius;
     private boolean myGridBorder;
     private ArrayList<GridPane> rowList;
+    private static final double PAD_H_OFFSET = 1.5;
+    private static final double PAD_V_OFFSET = 8.0;
 
     HexGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
         super(hsize, vsize);
@@ -20,7 +22,7 @@ public class HexGrid extends ShapeGrid {
         myGridBorder = gridBorder;
         makeHorizGrids(vsize);
         this.setVgap(-myCellRadius / 2 - 1);
-        this.setPadding(new Insets(0, super.getHSize() / 1.5, super.getVSize() / 8.0, 0));
+        this.setPadding(new Insets(0, super.getHSize() / PAD_H_OFFSET, super.getVSize() / PAD_V_OFFSET, 0));
         System.out.println(super.getWidth());
     }
 

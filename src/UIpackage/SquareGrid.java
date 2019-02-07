@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class SquareGrid extends ShapeGrid {
     private double myCellSize;
     private boolean myGridBorder;
+    private static final double PAD_OFFSET = 10;
 
     SquareGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
         super(hsize, vsize);
@@ -18,7 +19,7 @@ public class SquareGrid extends ShapeGrid {
         myGridBorder = gridBorder;
         this.setHgap(-1);
         this.setVgap(-1);
-        this.setPadding(new Insets(0, 10, 10, 0));
+        this.setPadding(new Insets(0, PAD_OFFSET, PAD_OFFSET, 0));
     }
 
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
