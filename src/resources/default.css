@@ -72,6 +72,13 @@
 }
 
 .grid-container {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
     -fx-pref-height: 497;
     -fx-pref-width: 497;
+}
+
+.center-pane {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
 }
