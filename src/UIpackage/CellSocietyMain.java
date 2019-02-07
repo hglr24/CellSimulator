@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class CellSocietyMain extends Application {
     private ArrayList<Stage> myStages = new ArrayList<>();
     private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
-    private ArrayList<String> myShapes = new ArrayList<>();
+    private ArrayList<Shape> myShapes = new ArrayList<>();
     private ArrayList<GUIManager> myGUIs = new ArrayList<>();
     private ArrayList<Grid> myCurrentGrids = new ArrayList<>();
     private ArrayList<AnimationTimer> myTimers = new ArrayList<>();
