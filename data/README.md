@@ -1,12 +1,13 @@
 # Defining format of XML for each simulation
 
 ### Define parameter order for each simulation:
-1. Game of Life: No parameters
-2. Segregation: Satisfaction percentage (decimal)
+1. Game of Life: Probability dead, probability alive
+2. Segregation: Satisfaction percentage (decimal), probability empty, probability agent 1, probability agent 2
 3. Predator-Prey: fish reproduction chronons (integer), shark reproduction chronons(integer),
-starting shark energy
-4. Fire: Probability of tree catching fire w/ burning adjacent (decimal)
-5. Percolation: Probability of cell being open
+starting shark energy, probability empty, probability fish, probability shark
+4. Fire: Probability of tree catching fire w/ burning adjacent (decimal), probability empty, probability tree, 
+probability burning
+5. Percolation: Probability open, probability closed
 
 ### Define mapping of states for each simulation:
 1. Game of Life: 

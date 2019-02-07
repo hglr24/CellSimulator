@@ -3,19 +3,10 @@
     <Title> Game of Life </Title>
     <SimulationType>GAME_OF_LIFE</SimulationType>
     <GridConfiguration>
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 1 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 1 0 0 0 0 0 0 0 0 0 0
-        0 1 1 1 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
-        0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        True Random
     </GridConfiguration>
-    <GridWidth> 14 </GridWidth>
-    <GridHeight> 10 </GridHeight>
+    <GridWidth> 15 </GridWidth>
+    <GridHeight> 16 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters> None </SimParameters>
+    <SimParameters> 0, 1 </SimParameters>
 </data>

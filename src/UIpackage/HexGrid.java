@@ -1,29 +1,34 @@
 package UIpackage;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
+
 import java.util.ArrayList;
 
 public class HexGrid extends ShapeGrid {
     private double myCellRadius;
-    private static final double H_GAP = 1.3;
-    private static final double V_GAP = 1.3;
+    private boolean myGridBorder;
     private ArrayList<GridPane> rowList;
 
-    public HexGrid(int hsize, int vsize) {
+    HexGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
         super(hsize, vsize);
-        calcCellSize();
+        myCellRadius = cellsize / 2.0;
         rowList = new ArrayList<>();
+        myGridBorder = gridBorder;
         makeHorizGrids(vsize);
-        this.setVgap(V_GAP - myCellRadius / 2);
+        this.setVgap(-myCellRadius / 2 - 1);
+        this.setPadding(new Insets(0, super.getHSize() / 1.5, super.getVSize() / 8.0, 0));
+        System.out.println(super.getWidth());
     }
 
     private void makeHorizGrids(int vsize) {
         for (int i = 0; i < vsize; i++) {
             GridPane rowPane = new GridPane();
-            rowPane.setHgap(H_GAP);
             rowList.add(i, rowPane);
+            rowPane.setHgap(-2);
             this.add(rowPane, 0, i);
         }
     }
@@ -33,6 +38,10 @@ public class HexGrid extends ShapeGrid {
             for (int j = 0; j < hsize; j++) {
                 Hexagon newShape = new Hexagon(myCellRadius);
                 newShape.setFill(Color.GRAY);
+                if (myGridBorder) {
+                    newShape.setStroke(Color.BLACK);
+                    newShape.setStrokeType(StrokeType.INSIDE);
+                }
                 rowList.get(i).add(newShape, j, 0);
                 if (i % 2 == 1) {
                     rowList.get(i).setTranslateX(myCellRadius * Math.sqrt(3) / 2);
@@ -40,11 +49,5 @@ public class HexGrid extends ShapeGrid {
                 shapes.get(i).add(j, newShape);
             }
         }
-    }
-
-    public void calcCellSize() {
-        if (super.getHSize() > super.getVSize()) myCellRadius =  super.getHeightMax() / super.getHSize() - this.getHgap();
-        else myCellRadius = super.getHeightMax() / super.getVSize() - this.getVgap();
-        myCellRadius *= 0.5;
     }
 }

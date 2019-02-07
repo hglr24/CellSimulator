@@ -1,0 +1,10 @@
+Now:
+Create or change state at given location by clicking
+
+Reliant:
+Graphs of different kinds of cell per simulation
+Dynamic parameter controls
+Save state as XML
+Cell size from XML
+State colors from XML
+Image or shape overlay on grid from CSS
