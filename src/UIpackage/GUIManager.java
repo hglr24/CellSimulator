@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,18 +33,21 @@ public class GUIManager {
     private String myShape;
     private int myStageID;
     private int myCellSize;
+    private boolean myGridBorder;
     private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
     private static final int LEGEND_SQUARE_SIZE = 20;
     private static final int MAX_SIM_SPEED = 10;
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
-    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype, String shape, int stageID, int cellsize) {
+    public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype,
+                      String shape, int stageID, int cellsize, boolean gridBorder) {
         myGrid = initData;
         mySim = sim;
         mySimType = simtype;
         myShape = shape;
         myStageID = stageID;
         myCellSize = cellsize;
+        myGridBorder = gridBorder;
 
         myBorderPane = new BorderPane();
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
@@ -86,8 +90,8 @@ public class GUIManager {
 
         grid.draw(hsize, vsize, myShapeGrid);
         grid.getStyleClass().add("shape-grid");
-        gridBox.getStyleClass().addAll("shape-grid", "grid-container");
-        centerPane.getStyleClass().add("shape-grid");
+        gridBox.getStyleClass().addAll("grid-container");
+        centerPane.getStyleClass().add("center-pane");
         gridBox.getChildren().add(grid);
         centerBox.setContent(gridBox);
         centerPane.getChildren().add(centerBox);
@@ -99,16 +103,16 @@ public class GUIManager {
         ShapeGrid grid;
         switch(myShape) {
             case "Square":
-                grid = new SquareGrid(hsize, vsize, cellsize);
+                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
             case "Triangle":
-                grid = new TriGrid(hsize, vsize, cellsize);
+                grid = new TriGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
             case "Hexagon":
-                grid = new HexGrid(hsize, vsize, cellsize);
+                grid = new HexGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
             default:
-                grid = new SquareGrid(hsize, vsize, cellsize);
+                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
         }
         return grid;
@@ -206,7 +210,12 @@ public class GUIManager {
     }
 
     private void updateCellColor(int row, int col, State newState) {
-        if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        try {
+            myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        }
+        catch (IndexOutOfBoundsException e) {
+            errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+        }
     }
 
     private void start() {
@@ -216,7 +225,12 @@ public class GUIManager {
     }
 
     private void loadNewSim() {
-        mySim.loadNewSim(myStageID);
+        try {
+            mySim.loadNewSim(myStageID);
+        }
+        catch (FileNotFoundException e) {
+            errorBox("Load Error", "Invalid file selection");
+        }
     }
 
     private void pause() {
@@ -245,12 +259,6 @@ public class GUIManager {
         alert.setHeaderText(errorType);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private boolean inBounds(int row, int col) {
-        if (col < myGrid.getWidth() && row < myGrid.getHeight()) return true;
-        errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
-        return false;
     }
 
     private void keyboardHandler(KeyCode code) {

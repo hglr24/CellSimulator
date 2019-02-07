@@ -14,4 +14,12 @@ abstract class ShapeGrid extends GridPane {
     }
 
     abstract void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes);
+
+    int getHSize() {
+        return myHSize;
+    }
+
+    int getVSize() {
+        return myVSize;
+    }
 }
