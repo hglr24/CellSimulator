@@ -2,6 +2,7 @@ package Configuration;
 
 import Simulation.SimulationType;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class SimulationInfo {
     private String myError;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
+        myError = "";
         myTitle = title;
         mySimType = stringToType(simType);
         myConfiguration = configuration;
@@ -39,13 +41,108 @@ public class SimulationInfo {
         myShape = shape;
         myParameters = parameters;
         myValues = new HashMap<>();
-        myError = "No current errors";
+        this.checkConfiguration();
+        this.checkConfiguration();
+        System.out.println(myError);
     }
 
     public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)), values.get(dataFields.get(6)));
         myValues = values;
+    }
+
+
+    private void checkConfiguration(){
+        switch(this.getType()){
+            case FIRE:
+                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid initial configuration for Fire simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                if(this.getParameters().length != 4 || checkProbability(this.getParameters())){
+                    myError = myError + "Invalid parameters for Fire simulation. Default parameters enabled. ";
+                    myParameters = "0.5, 0.33, 0.33, 0.33";
+                }
+                break;
+            case GAME_OF_LIFE:
+                if(inCorrectRange(0, 1, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid initial configuration for Game of Life simulation. Random default enabled ";
+                    myConfiguration = "True Random";
+                }
+                if(this.getParameters().length != 2 || checkProbability(this.getParameters())){
+                    myError = myError + "Invalid parameters for Game of Life simulation. Default parameters enabled. ";
+                    myParameters = "0.5, 0.5";
+                }
+                break;
+            case PERCOLATION:
+                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid initial configuration for Percolation simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                if(this.getParameters().length != 2 || checkProbability(this.getParameters())){
+                    myError = myError + "Invalid parameters for Percolation simulation. Default parameters enabled. ";
+                    myParameters = "0.5, 0.5";
+                }
+                break;
+            case PREDATOR_PREY:
+                if(inCorrectRange(0, 2, this.getIntegerConfiguration()) || checkPredatorParams(this.getParameters())){
+                    myError = myError + "Invalid initial configuration for Predator Prey simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                if(this.getParameters().length != 6 || checkPredatorParams(this.getParameters())){
+                    myError = myError + "Invalid parameters fro Predator Rrey simulation. Default parameters enabled. ";
+                    myParameters = "5, 5, 5, 0.33, 0.33, 0.33";
+                }
+                break;
+            case SEGREGATION:
+                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid initial configuration for Segregation simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                break;
+        }
+    }
+
+    private boolean checkPredatorParams(double[] parameters){
+        double[] probabilityParams = Arrays.copyOfRange(parameters, 3, 5);
+        double[] intParams = Arrays.copyOfRange(parameters, 0, 2);
+        if(checkProbability(probabilityParams)){
+            return true;
+        }
+        if(checkInts(intParams)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkInts(double[] parameters){
+        for(double d:parameters){
+            if(d != Math.round(d) || d < 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkProbability(double[] parameters){
+        for(double d:parameters){
+            if(d > 1 || d < 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inCorrectRange(int low, int high, int[][] configuration){
+        for(int k = 0; k < configuration.length; k++){
+            for(int j = 0; j < configuration[0].length; j++){
+                if(configuration[k][j] > high || configuration[k][j] < low){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private SimulationType stringToType(String simulationName){
@@ -62,7 +159,21 @@ public class SimulationInfo {
             case "PERCOLATION":
                 return PERCOLATION;
         }
-        return null;
+        myError = myError + "Invalid simulation type, Game Of Life default enabled. ";
+        return GAME_OF_LIFE;
+    }
+
+    private Shape stringToShape(String shapeName){
+        switch(shapeName){
+            case "Triangle":
+                return Shape.TRIANGLE;
+            case "Square":
+                return Shape.SQUARE;
+            case "Hexagon":
+                return Shape.HEXAGON;
+        }
+        myError = myError + "Invalid grid shape, square default enabled. ";
+        return Shape.SQUARE;
     }
 
     public String getTitle(){
@@ -96,10 +207,14 @@ public class SimulationInfo {
                     return configuration;
             }
         }
-        if(myConfiguration.trim().equals("SemiRandom")){
 
-        }
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
+        if(splitString.length != this.getHeight()*this.getWidth()){
+            myError = myError + "Incorrect height and width for input initial configuration. True random configuration for " +
+                    "desired grid size enabled. ";
+            myConfiguration = "True Random";
+            return this.getIntegerConfiguration();
+        }
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
                 configuration[k][j] = Integer.parseInt(splitString[(this.getWidth()*k + j)].trim());
@@ -108,19 +223,13 @@ public class SimulationInfo {
         return configuration;
     }
 
-
-
-
-
     public int[][] getRandomPercolation(String randomness, SimulationType simtype){
         double probEmpty = this.getParameters()[0];
         if(simtype == GAME_OF_LIFE){
             probEmpty = this.getParameters()[1];
-            System.out.println("Game of life triggered");
         }
         if(randomness.equals("True Random")){
             probEmpty = 0.5;
-            System.out.println("True Random triggered");
         }
         int[][] configuration = new int[this.getHeight()][this.getWidth()];
         int startFill = 0;
@@ -226,4 +335,7 @@ public class SimulationInfo {
         return myShape;
     }
 
+    public String getError(){
+        return myError;
+    }
 }
