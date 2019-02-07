@@ -22,6 +22,7 @@ public class CellSocietyMain extends Application {
     private ArrayList<Boolean> isPaused = new ArrayList<>();
     private static final String TITLE = "CellSociety";
     private static final FileChooser myFileChooser = new FileChooser();
+    private static final double SECOND_IN_NANOS = 1000000000;
 
     @Override
     public void start (Stage stage) {
@@ -112,7 +113,7 @@ public class CellSocietyMain extends Application {
             private long lastUpdate = 0;
             @Override
             public void handle(long currTime) {
-                if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * 1000000000) {
+                if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * SECOND_IN_NANOS) {
                     stepSim(stageIndex);
                     lastUpdate = currTime;
                 }
@@ -132,7 +133,9 @@ public class CellSocietyMain extends Application {
             Stage newStage = new Stage();
             openFile(newFile, newStage, stageIndex);
         }
-        else throw new FileNotFoundException();
+        else {
+            throw new FileNotFoundException();
+        }
     }
 
     void startSim(int stageIndex) {
@@ -147,7 +150,9 @@ public class CellSocietyMain extends Application {
     }
 
     void pauseSim(int stageIndex) {
-        if (isPaused.get(stageIndex)) startSim(stageIndex);
+        if (isPaused.get(stageIndex)) {
+            startSim(stageIndex);
+        }
         else {
             isPaused.set(stageIndex, true);
             myTimers.get(stageIndex).stop();
