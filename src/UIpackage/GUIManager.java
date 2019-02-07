@@ -3,9 +3,15 @@ package UIpackage;
 import Simulation.Cell;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -155,7 +161,9 @@ public class GUIManager {
     private void populateLegend(VBox legend) {
         State[] states = mySimType.getState(); //get each kind of state for simulation mySimType
         List<State> stateList = new ArrayList<>();
-        if(states != null) stateList = Arrays.asList(states); //convert states to strings
+        if(states != null) {
+            stateList = Arrays.asList(states); //convert states to strings
+        }
         ArrayList<String> stateLabels = makeLegendStrings(stateList);
         for (String s : stateLabels) {
             HBox infoRow = new HBox();
@@ -235,8 +243,12 @@ public class GUIManager {
 
     private void pause() {
         mySim.pauseSim(myStageID);
-        if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
-        else buttonPause.setText("Pause");
+        if (buttonPause.getText().equals("Pause")) {
+            buttonPause.setText("Resume");
+        }
+        else {
+            buttonPause.setText("Pause");
+        }
         buttonEnable();
         System.out.println("Simulation " + myStageID + " paused");
     }
