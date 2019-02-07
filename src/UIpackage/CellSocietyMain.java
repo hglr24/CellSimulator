@@ -51,10 +51,11 @@ public class CellSocietyMain extends Application {
     }
 
     private void makeGUI(Stage stage) {
-        int cellsize = 40; //TODO import this from XML
+        int cellsize = 30; //TODO import this from XML
+        boolean gridBorder = false; //TODO import this from XML
         int stageIndex = myStages.indexOf(stage);
         myGUIs.add(stageIndex, new GUIManager(myCurrentGrids.get(stageIndex),
-                this, mySimTypes.get(stageIndex), myShapes.get(stageIndex), stageIndex, cellsize));
+                this, mySimTypes.get(stageIndex), myShapes.get(stageIndex), stageIndex, cellsize, gridBorder));
         stage.setResizable(false);
         stage.setTitle(TITLE);
         stage.setScene(myGUIs.get(stageIndex).getScene());
