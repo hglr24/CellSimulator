@@ -1,6 +1,8 @@
 package Simulation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 abstract class BasicGrid<E> implements Grid<E> {
 //TODO: optional flagging, then decide on method, or new inheritance. Affects subclasses.
@@ -8,7 +10,20 @@ abstract class BasicGrid<E> implements Grid<E> {
     protected int height;
     protected int width;
     protected RuleSet ruleSet;
+    protected Neighborhood neighborhood;
+    protected GridType gridType;
 
+    public BasicGrid(int height, int width, Neighborhood neighborhood, RuleSet ruleSet, GridType gridType){
+        this.height = height;
+        this.width = width;
+        this.neighborhood = neighborhood;
+        this.gridType = gridType;
+        this.ruleSet = ruleSet;
+
+    }
+//    public Map<State,Integer> getCounts(){
+//        Map<State,Integer> counts = new HashMap<>();
+//    }
     @Override
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
@@ -45,88 +60,44 @@ abstract class BasicGrid<E> implements Grid<E> {
         SquareLocation sl = (SquareLocation) location;
         return cells[sl.getX()][sl.getY()];
     }
-
-    private ArrayList<Cell> getNeighbors(Location location, int[] relative) {
+    @Override
+    public ArrayList<Cell> findNeighbors(Location location) {
         ArrayList<Cell> adjacent = new ArrayList<>();
 
         SquareLocation sl = (SquareLocation) location;
-        //all adjacent
-        for (int i : relative) {
-            for (int j : relative) {
-                if (i == 0 && j == 0)
-                    continue;
-                SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY() + j);
-                appendNeighbors(temp,adjacent);
+        int[][] deltas = neighborhood.getDeltas();
+        for(int i = 0; i < deltas.length;i++){
+            int r = sl.getX() + deltas[0][i];
+            int c = sl.getY() + deltas[1][i];
+
+            switch (gridType){
+                case BOUNDED:
+                    break;
+                case TOROIDAL:
+                    if(r == -1) {
+                        r = height - 1;
+                    } else if (r == height){
+                        r = 0;
+                    }
+
+                    if(c == -1) {
+                        c = width - 1;
+                    } else if (r == width){
+                        c = 0;
+                    }
+                    break;
             }
+            SquareLocation temp = new SquareLocation(r,c);
+            appendNeighbors(temp,adjacent);
         }
 
         return adjacent;
     }
 
     private void appendNeighbors(Location location, ArrayList<Cell> neighbors){
+
         if (validLocation(location))
             neighbors.add(getCell(location));
-
-    }
-    public ArrayList<Cell> getAdjacentNeighbors(Location location) {
-        int[] relative = {-1, 0, 1};
-        return getNeighbors(location, relative);
-    }
-
-    public ArrayList<Cell> getCardinalNeighbors(Location location) {
-//        int[] relative = {-1, 1};
-//        return getNeighbors(location, relative);
-
-        ArrayList<Cell> neighbors = new ArrayList<>();
-
-        SquareLocation sl = (SquareLocation) location;
-        int[] x = {-1, 1};
-        for (int i : x) {
-
-            SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY());
-            if (validLocation(temp))
-                neighbors.add(getCell(temp));
-
-            SquareLocation temp2 = new SquareLocation(sl.getX(), sl.getY() + i);
-            if (validLocation(temp2))
-                neighbors.add(getCell(temp2));
-        }
-
-        return neighbors;
-
-    }
-
-
-    public ArrayList getWrappedNeighbors(Location location) {
-        ArrayList<Cell> neighbors = new ArrayList<>();
-
-        SquareLocation sl = (SquareLocation) location;
-        int[] x = {-1, 1};
-        for (int i : x) {
-
-            int r = sl.getX()+i;
-            int c = sl.getY()+i;
-
-            if(r == -1) {
-                r = height - 1;
-            } else if (r == height){
-                r = 0;
-            }
-
-            if(c == -1) {
-                c = width - 1;
-            } else if (r == width){
-                c = 0;
-            }
-
-            SquareLocation temp = new SquareLocation(r, sl.getY());
-            appendNeighbors(temp,neighbors);
-
-            SquareLocation temp2 = new SquareLocation(sl.getX(), c);
-            appendNeighbors(temp2,neighbors);
-        }
-
-        return neighbors;
     }
 
     @Override
