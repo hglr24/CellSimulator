@@ -2,6 +2,7 @@ package Configuration;
 
 import Simulation.SimulationType;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import java.util.Map;
 import static Simulation.SimulationType.*;
 
 public class SimulationInfo {
-    public static final String type = "Simulation";
     public static final List<String> dataFields = List.of(
             "Title",
             "SimulationType",
@@ -25,27 +25,88 @@ public class SimulationInfo {
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
-    private String myShape;
+    private Shape myShape;
     private String myParameters;
     private Map<String, String> myValues;
-    private String myError;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
         myTitle = title;
-        mySimType = stringToType(simType);
+        try {
+            mySimType = stringToType(simType);
+        }
+        catch(XMLException e){
+            mySimType = GAME_OF_LIFE;
+        }
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
-        myShape = shape;
+        myShape = stringToShape(shape);
         myParameters = parameters;
         myValues = new HashMap<>();
-        myError = "No current errors";
+        this.checkConfiguration();
     }
 
     public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)), values.get(dataFields.get(6)));
         myValues = values;
+    }
+
+    private void checkConfiguration(){
+        switch(this.getType()){
+            case FIRE:
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
+                }
+                break;
+            case GAME_OF_LIFE:
+                try {
+                    inCorrectRange(0, 1, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
+                }
+                break;
+            case PERCOLATION:
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
+                }
+                break;
+            case PREDATOR_PREY:
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
+                }
+                break;
+            case SEGREGATION:
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
+                }
+                break;
+        }
+    }
+
+
+    private void inCorrectRange(int low, int high, int[][] configuration){
+        for(int k = 0; k < configuration.length; k++){
+            for(int j = 0; j < configuration[0].length; j++){
+                if(configuration[k][j] > high || configuration[k][j] < low){
+                    throw new XMLException("Desired configuration contains illegal values. Random starting configuration" +
+                            "enabled.");
+                }
+            }
+        }
     }
 
     private SimulationType stringToType(String simulationName){
@@ -62,7 +123,19 @@ public class SimulationInfo {
             case "PERCOLATION":
                 return PERCOLATION;
         }
-        return null;
+        throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
+    }
+
+    private Shape stringToShape(String shapeName){
+        switch(shapeName){
+            case "Triangle":
+                return Shape.TRIANGLE;
+            case "Square":
+                return Shape.SQUARE;
+            case "Hexagon":
+                return Shape.HEXAGON;
+        }
+        return Shape.SQUARE;
     }
 
     public String getTitle(){
@@ -96,10 +169,15 @@ public class SimulationInfo {
                     return configuration;
             }
         }
-        if(myConfiguration.trim().equals("SemiRandom")){
 
-        }
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
+        try{
+            checkValidSize(splitString);
+        }
+        catch(XMLException e){
+            myConfiguration = "True Random";
+            return this.getIntegerConfiguration();
+        }
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
                 configuration[k][j] = Integer.parseInt(splitString[(this.getWidth()*k + j)].trim());
@@ -108,19 +186,20 @@ public class SimulationInfo {
         return configuration;
     }
 
-
-
-
+    private void checkValidSize(String[] stringLocations){
+        if(this.getHeight() * this.getWidth() != stringLocations.length){
+            throw new XMLException("Incorrect height and width for initial input configuration. Random configuration of " +
+                    "input height and width chosen.");
+        }
+    }
 
     public int[][] getRandomPercolation(String randomness, SimulationType simtype){
         double probEmpty = this.getParameters()[0];
         if(simtype == GAME_OF_LIFE){
             probEmpty = this.getParameters()[1];
-            System.out.println("Game of life triggered");
         }
         if(randomness.equals("True Random")){
             probEmpty = 0.5;
-            System.out.println("True Random triggered");
         }
         int[][] configuration = new int[this.getHeight()][this.getWidth()];
         int startFill = 0;
@@ -222,8 +301,7 @@ public class SimulationInfo {
         return height;
     }
 
-    public String getShape(){
+    public Shape getShape(){
         return myShape;
     }
-
 }

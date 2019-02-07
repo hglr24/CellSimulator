@@ -3,10 +3,19 @@
     <Title> Predator Prey </Title>
     <SimulationType>PREDATOR_PREY</SimulationType>
     <GridConfiguration>
-        True Random
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 2 0 0 0
+        0 0 0 1 0 0 0 0 0 0
+        0 0 0 1 1 0 0 0 0 0
+        0 0 0 1 1 0 1 1 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 1 0 2 0 0 0 0 0
+        0 0 1 0 0 0 0 0 0 0
+        0 0 1 1 0 0 2 2 1 0
+        0 0 1 1 0 0 2 2 0 0
     </GridConfiguration>
-    <GridWidth> 16 </GridWidth>
+    <GridWidth> 10 </GridWidth>
     <GridHeight> 10 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>5, 12, 12, 0, 1, 0</SimParameters>
+    <SimParameters>5, 12, 12, 0.2, 0.8, 0.2</SimParameters>
 </data>

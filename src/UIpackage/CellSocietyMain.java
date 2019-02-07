@@ -7,12 +7,13 @@ import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class CellSocietyMain extends Application {
     private ArrayList<Stage> myStages = new ArrayList<>();
     private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
-    private ArrayList<String> myShapes = new ArrayList<>();
+    private ArrayList<Shape> myShapes = new ArrayList<>();
     private ArrayList<GUIManager> myGUIs = new ArrayList<>();
     private ArrayList<Grid> myCurrentGrids = new ArrayList<>();
     private ArrayList<AnimationTimer> myTimers = new ArrayList<>();
@@ -21,6 +22,7 @@ public class CellSocietyMain extends Application {
     private ArrayList<Boolean> isPaused = new ArrayList<>();
     private static final String TITLE = "CellSociety";
     private static final FileChooser myFileChooser = new FileChooser();
+    private static final double SECOND_IN_NANOS = 1000000000;
 
     @Override
     public void start (Stage stage) {
@@ -32,12 +34,13 @@ public class CellSocietyMain extends Application {
     private void openFile(File file, Stage stage, int oldStageIndex) {
         myStages.add(stage);
         int newStageIndex = myStages.indexOf(stage);
-        myCurrentGrids.add(newStageIndex, parseXML(file, oldStageIndex, newStageIndex));
-        if (myCurrentGrids.get(newStageIndex) != null) {
+        try {
+            myCurrentGrids.add(newStageIndex, parseXML(file, newStageIndex));
             initializeNewStageProps(stage);
             makeGUI(stage);
         }
-        else {
+        catch (IllegalStateException e) {
+            myGUIs.get(oldStageIndex).errorBox("Load Error", "Invalid XML file");
             myStages.remove(stage);
         }
     }
@@ -51,7 +54,7 @@ public class CellSocietyMain extends Application {
     }
 
     private void makeGUI(Stage stage) {
-        int cellsize = 30; //TODO import this from XML
+        int cellsize = 15; //TODO import this from XML
         boolean gridBorder = false; //TODO import this from XML
         int stageIndex = myStages.indexOf(stage);
         myGUIs.add(stageIndex, new GUIManager(myCurrentGrids.get(stageIndex),
@@ -62,7 +65,7 @@ public class CellSocietyMain extends Application {
         stage.show();
     }
 
-    private Grid parseXML(File dataFile, int oldStageIndex, int newStageIndex) {
+    private Grid parseXML(File dataFile, int newStageIndex) { //TODO shrink method
         XMLReader testRead = new XMLReader();
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         Grid gridType = null;
@@ -75,33 +78,32 @@ public class CellSocietyMain extends Application {
                 case SEGREGATION:
                     SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                     gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules);
+                            testSim.getIntegerConfiguration(), rules, Neighborhood.SQUARE);
                     break;
                 case GAME_OF_LIFE:
                     GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
                     gridType = new GameOfLifeGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules2);
+                            testSim.getIntegerConfiguration(), rules2, Neighborhood.SQUARE);
                     break;
                 case FIRE:
                     FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
                     gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules3);
+                            testSim.getIntegerConfiguration(), rules3, Neighborhood.SQUARE);
                     break;
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4);
+                            testSim.getIntegerConfiguration(), rules4, Neighborhood.SQUARE);
                     break;
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
                     gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(),rules5);
+                            testSim.getIntegerConfiguration(), rules5, Neighborhood.SQUARE);
                     break;
             }
         }
         else {
-            myGUIs.get(oldStageIndex).errorBox("Load Error", "Invalid XML file");
-            return null;
+            throw new IllegalStateException();
         }
         return gridType;
     }
@@ -111,7 +113,7 @@ public class CellSocietyMain extends Application {
             private long lastUpdate = 0;
             @Override
             public void handle(long currTime) {
-                if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * 1000000000) {
+                if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * SECOND_IN_NANOS) {
                     stepSim(stageIndex);
                     lastUpdate = currTime;
                 }
@@ -125,13 +127,15 @@ public class CellSocietyMain extends Application {
         myFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
     }
 
-    void loadNewSim(int stageIndex) {
+    void loadNewSim(int stageIndex) throws FileNotFoundException {
         File newFile = myFileChooser.showOpenDialog(new Stage());
         if (newFile != null) {
             Stage newStage = new Stage();
             openFile(newFile, newStage, stageIndex);
         }
-        else myGUIs.get(stageIndex).errorBox("Load Error", "Invalid file selection");
+        else {
+            throw new FileNotFoundException();
+        }
     }
 
     void startSim(int stageIndex) {
@@ -146,7 +150,9 @@ public class CellSocietyMain extends Application {
     }
 
     void pauseSim(int stageIndex) {
-        if (isPaused.get(stageIndex)) startSim(stageIndex);
+        if (isPaused.get(stageIndex)) {
+            startSim(stageIndex);
+        }
         else {
             isPaused.set(stageIndex, true);
             myTimers.get(stageIndex).stop();

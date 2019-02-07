@@ -3,15 +3,22 @@ package UIpackage;
 import Simulation.Cell;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +36,7 @@ public class GUIManager {
     private CellSocietyMain mySim;
     private SimulationType mySimType;
     private GridPane myLegendPane;
-    private String myShape;
+    private Configuration.Shape myShape;
     private int myStageID;
     private int myCellSize;
     private boolean myGridBorder;
@@ -39,7 +46,7 @@ public class GUIManager {
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
     public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype,
-                      String shape, int stageID, int cellsize, boolean gridBorder) {
+                      Configuration.Shape shape, int stageID, int cellsize, boolean gridBorder) {
         myGrid = initData;
         mySim = sim;
         mySimType = simtype;
@@ -101,13 +108,13 @@ public class GUIManager {
     private ShapeGrid makeShapeGrid(int hsize, int vsize, int cellsize) {
         ShapeGrid grid;
         switch(myShape) {
-            case "Square":
+            case SQUARE:
                 grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
-            case "Triangle":
+            case TRIANGLE:
                 grid = new TriGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
-            case "Hexagon":
+            case HEXAGON:
                 grid = new HexGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
             default:
@@ -154,7 +161,9 @@ public class GUIManager {
     private void populateLegend(VBox legend) {
         State[] states = mySimType.getState(); //get each kind of state for simulation mySimType
         List<State> stateList = new ArrayList<>();
-        if(states != null) stateList = Arrays.asList(states); //convert states to strings
+        if(states != null) {
+            stateList = Arrays.asList(states); //convert states to strings
+        }
         ArrayList<String> stateLabels = makeLegendStrings(stateList);
         for (String s : stateLabels) {
             HBox infoRow = new HBox();
@@ -209,7 +218,12 @@ public class GUIManager {
     }
 
     private void updateCellColor(int row, int col, State newState) {
-        if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        try {
+            myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        }
+        catch (IndexOutOfBoundsException e) {
+            errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+        }
     }
 
     private void start() {
@@ -219,13 +233,22 @@ public class GUIManager {
     }
 
     private void loadNewSim() {
-        mySim.loadNewSim(myStageID);
+        try {
+            mySim.loadNewSim(myStageID);
+        }
+        catch (FileNotFoundException e) {
+            errorBox("Load Error", "Invalid file selection");
+        }
     }
 
     private void pause() {
         mySim.pauseSim(myStageID);
-        if (buttonPause.getText().equals("Pause")) buttonPause.setText("Resume");
-        else buttonPause.setText("Pause");
+        if (buttonPause.getText().equals("Pause")) {
+            buttonPause.setText("Resume");
+        }
+        else {
+            buttonPause.setText("Pause");
+        }
         buttonEnable();
         System.out.println("Simulation " + myStageID + " paused");
     }
@@ -248,12 +271,6 @@ public class GUIManager {
         alert.setHeaderText(errorType);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private boolean inBounds(int row, int col) {
-        if (col < myGrid.getWidth() && row < myGrid.getHeight()) return true;
-        errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
-        return false;
     }
 
     private void keyboardHandler(KeyCode code) {

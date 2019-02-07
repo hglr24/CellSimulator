@@ -13,7 +13,7 @@ public interface Grid<E> {
 
     Cell getCell(Location location);
 
-    ArrayList<E> findNeighbors(Location location);
+    ArrayList<Cell> findNeighbors(Location location);
 
     Cell[][] getCells();
 
