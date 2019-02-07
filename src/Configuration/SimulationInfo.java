@@ -25,7 +25,7 @@ public class SimulationInfo {
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
-    private Shape myShape;
+    private String myShape;
     private String myParameters;
     private Map<String, String> myValues;
     private String myError;
@@ -38,15 +38,62 @@ public class SimulationInfo {
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
-        myShape = stringToShape(shape);
+        myShape = shape;
         myParameters = parameters;
         myValues = new HashMap<>();
+        this.checkConfiguration();
     }
 
     public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)), values.get(dataFields.get(6)));
         myValues = values;
+    }
+
+    private void checkConfiguration(){
+        switch(this.getType()){
+            case FIRE:
+                if(! inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid configuration for Fire simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                break;
+            case GAME_OF_LIFE:
+                if(! inCorrectRange(0, 1, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid configuration for Game of Life simulation. Random default enabled ";
+                    myConfiguration = "True Random";
+                }
+                break;
+            case PERCOLATION:
+                if(! inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid configuration for Percolation simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                break;
+            case PREDATOR_PREY:
+                if(! inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid configuration for Predator Prey simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                break;
+            case SEGREGATION:
+                if(! inCorrectRange(0, 2, this.getIntegerConfiguration())){
+                    myError = myError + "Invalid configuration for Segregation simulation. Random default enabled. ";
+                    myConfiguration = "True Random";
+                }
+                break;
+        }
+    }
+
+    private boolean inCorrectRange(int low, int high, int[][] configuration){
+        for(int k = 0; k < configuration.length; k++){
+            for(int j = 0; j < configuration[0].length; j++){
+                if(configuration[k][j] > high || configuration[k][j] < low){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private SimulationType stringToType(String simulationName){
@@ -111,6 +158,7 @@ public class SimulationInfo {
                     return configuration;
             }
         }
+
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
@@ -124,11 +172,9 @@ public class SimulationInfo {
         double probEmpty = this.getParameters()[0];
         if(simtype == GAME_OF_LIFE){
             probEmpty = this.getParameters()[1];
-            System.out.println("Game of life triggered");
         }
         if(randomness.equals("True Random")){
             probEmpty = 0.5;
-            System.out.println("True Random triggered");
         }
         int[][] configuration = new int[this.getHeight()][this.getWidth()];
         int startFill = 0;
@@ -230,7 +276,7 @@ public class SimulationInfo {
         return height;
     }
 
-    public Shape getShape(){
+    public String getShape(){
         return myShape;
     }
 
