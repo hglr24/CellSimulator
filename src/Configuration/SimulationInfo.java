@@ -25,21 +25,22 @@ public class SimulationInfo {
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
-    private String myShape;
+    private Shape myShape;
     private String myParameters;
     private Map<String, String> myValues;
     private String myError;
+    private String defaultXML = " Default simulation used.";
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
+        myError = "";
         myTitle = title;
         mySimType = stringToType(simType);
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
-        myShape = shape;
+        myShape = stringToShape(shape);
         myParameters = parameters;
         myValues = new HashMap<>();
-        myError = "No current errors";
     }
 
     public SimulationInfo(Map<String, String> values){
@@ -62,7 +63,21 @@ public class SimulationInfo {
             case "PERCOLATION":
                 return PERCOLATION;
         }
-        return null;
+        myError = myError + "Invalid simulation type, Game Of Life default enabled. ";
+        return GAME_OF_LIFE;
+    }
+
+    private Shape stringToShape(String shapeName){
+        switch(shapeName){
+            case "Triangle":
+                return Shape.TRIANGLE;
+            case "Square":
+                return Shape.SQUARE;
+            case "Hexagon":
+                return Shape.HEXAGON;
+        }
+        myError = myError + "Invalid grid shape, square default enabled. ";
+        return Shape.SQUARE;
     }
 
     public String getTitle(){
@@ -96,9 +111,6 @@ public class SimulationInfo {
                     return configuration;
             }
         }
-        if(myConfiguration.trim().equals("SemiRandom")){
-
-        }
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
@@ -107,10 +119,6 @@ public class SimulationInfo {
         }
         return configuration;
     }
-
-
-
-
 
     public int[][] getRandomPercolation(String randomness, SimulationType simtype){
         double probEmpty = this.getParameters()[0];
@@ -222,7 +230,7 @@ public class SimulationInfo {
         return height;
     }
 
-    public String getShape(){
+    public Shape getShape(){
         return myShape;
     }
 
