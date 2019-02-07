@@ -31,8 +31,8 @@ public class CellSocietyMain extends Application {
         //File dataFile = new File("data\\TestSegregation.xml");
         //File dataFile = new File("data\\TestGameOfLife.xml");
         //File dataFile = new File("data\\TestFire.xml");
-        File dataFile = new File("data\\TestPredatorPrey.xml");
-        //File dataFile = new File("data\\TestPercolation.xml");
+        //File dataFile = new File("data\\TestPredatorPrey.xml");
+        File dataFile = new File("data\\TestPercolation.xml");
 
         openFile(dataFile);
     }
