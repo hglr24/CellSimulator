@@ -36,7 +36,7 @@ public class GUIManager {
     private CellSocietyMain mySim;
     private SimulationType mySimType;
     private GridPane myLegendPane;
-    private String myShape;
+    private Configuration.Shape myShape;
     private int myStageID;
     private int myCellSize;
     private boolean myGridBorder;
@@ -46,7 +46,7 @@ public class GUIManager {
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
     public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype,
-                      String shape, int stageID, int cellsize, boolean gridBorder) {
+                      Configuration.Shape shape, int stageID, int cellsize, boolean gridBorder) {
         myGrid = initData;
         mySim = sim;
         mySimType = simtype;
@@ -108,13 +108,13 @@ public class GUIManager {
     private ShapeGrid makeShapeGrid(int hsize, int vsize, int cellsize) {
         ShapeGrid grid;
         switch(myShape) {
-            case "Square":
+            case SQUARE:
                 grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
-            case "Triangle":
+            case TRIANGLE:
                 grid = new TriGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
-            case "Hexagon":
+            case HEXAGON:
                 grid = new HexGrid(hsize, vsize, cellsize, myGridBorder);
                 break;
             default:

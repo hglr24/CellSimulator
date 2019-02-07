@@ -7,6 +7,6 @@
     </GridConfiguration>
     <GridWidth> 15 </GridWidth>
     <GridHeight> 16 </GridHeight>
-    <Shape>Square</Shape>
+    <Shape> Square </Shape>
     <SimParameters> 0, 1 </SimParameters>
 </data>

@@ -3,10 +3,14 @@
     <Title> Percolation </Title>
     <SimulationType>PERCOLATION</SimulationType>
     <GridConfiguration>
-        True Random
+        0 1 0 1
+        0 1 0 1
+        0 2 2 1
+        2 2 2 0
+        2 2 2 1
     </GridConfiguration>
-    <GridWidth> 15 </GridWidth>
-    <GridHeight> 16 </GridHeight>
+    <GridWidth> 4 </GridWidth>
+    <GridHeight> 5 </GridHeight>
     <Shape>Square</Shape>
     <SimParameters>0, 1</SimParameters>
 </data>
