@@ -7,14 +7,10 @@ import java.util.ArrayList;
 
 public class SquareGrid extends ShapeGrid {
     private double myCellSize;
-    private static final double H_GAP = 1.3;
-    private static final double V_GAP = 1.3;
 
-    public SquareGrid(int hsize, int vsize) {
+    SquareGrid(int hsize, int vsize, int cellsize) {
         super(hsize, vsize);
-        this.setHgap(H_GAP);
-        this.setVgap(V_GAP);
-        calcCellSize();
+        myCellSize = cellsize;
     }
 
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
@@ -28,10 +24,5 @@ public class SquareGrid extends ShapeGrid {
                 shapes.get(i).add(j, newShape);
             }
         }
-    }
-
-    public void calcCellSize() {
-        if (super.getHSize() > super.getVSize()) myCellSize =  super.getHeightMax() / super.getHSize() - this.getHgap();
-        else myCellSize = super.getHeightMax() / super.getVSize() - this.getVgap();
     }
 }

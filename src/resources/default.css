@@ -50,3 +50,28 @@
     -fx-pref-width: 100;
     -fx-pref-height: 20;
 }
+
+.scroll-pane {
+    -fx-max-height: 500;
+    -fx-max-width: 500;
+
+    -fx-pref-height: 500;
+    -fx-pref-width: 500;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.shape-grid {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.grid-container {
+    -fx-pref-height: 497;
+    -fx-pref-width: 497;
+}
