@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -209,7 +210,12 @@ public class GUIManager {
     }
 
     private void updateCellColor(int row, int col, State newState) {
-        if (inBounds(row, col)) myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        try {
+            myShapeGrid.get(row).get(col).setFill(newState.getColor());
+        }
+        catch (IndexOutOfBoundsException e) {
+            errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+        }
     }
 
     private void start() {
@@ -219,7 +225,12 @@ public class GUIManager {
     }
 
     private void loadNewSim() {
-        mySim.loadNewSim(myStageID);
+        try {
+            mySim.loadNewSim(myStageID);
+        }
+        catch (FileNotFoundException e) {
+            errorBox("Load Error", "Invalid file selection");
+        }
     }
 
     private void pause() {
@@ -248,12 +259,6 @@ public class GUIManager {
         alert.setHeaderText(errorType);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private boolean inBounds(int row, int col) {
-        if (col < myGrid.getWidth() && row < myGrid.getHeight()) return true;
-        errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
-        return false;
     }
 
     private void keyboardHandler(KeyCode code) {
