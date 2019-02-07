@@ -28,7 +28,7 @@ public class SimulationInfo {
     private String myShape;
     private String myParameters;
     private Map<String, String> myValues;
-    private String wrongParameters = "Incorrect parameters for stated simulation type";
+    private String myError;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
         myTitle = title;
@@ -39,6 +39,7 @@ public class SimulationInfo {
         myShape = shape;
         myParameters = parameters;
         myValues = new HashMap<>();
+        myError = "No current errors";
     }
 
     public SimulationInfo(Map<String, String> values){
@@ -74,56 +75,30 @@ public class SimulationInfo {
 
     public int[][] getIntegerConfiguration(){
         int[][] configuration = new int[this.getHeight()][this.getWidth()];
+        if(myConfiguration.trim().equals("Random") || myConfiguration.trim().equals("True Random")) {
+            switch (this.getType()) {
+                case FIRE:
+                    configuration = this.getRandomThreeStates(myConfiguration.trim(), this.getType());
+                    return configuration;
 
-        if(this.getTitle().trim().equals("Segregation")){
-            if(this.getParameters().length != 3){
-                throw new XMLException(wrongParameters);
+                case GAME_OF_LIFE:
+                    configuration = this.getRandomGOL(myConfiguration.trim(), this.getType());
+                    return configuration;
+
+                case PREDATOR_PREY:
+                    configuration = this.getRandomThreeStates(myConfiguration.trim(), this.getType());
+                    return configuration;
+                case PERCOLATION:
+                    configuration = getRandomPercolation(myConfiguration.trim(), this.getType());
+                    return configuration;
+                case SEGREGATION:
+                    configuration = getRandomThreeStates(myConfiguration.trim(), this.getType());
+                    return configuration;
             }
-            double probEmpty = this.getParameters()[1];
-            double probAgent1 = this.getParameters()[2];
-            for(int k = 0; k < this.getHeight(); k++){
-                for(int j = 0; j < this.getWidth(); j++){
-                    double singleProb = Math.random();
-                    if(singleProb < probEmpty){
-                        configuration[k][j] = 0;
-                    }
-                    else if(singleProb < probEmpty + probAgent1){
-                        configuration[k][j] = 1;
-                    }
-                    else{
-                        configuration[k][j] = 2;
-                    }
-                }
-            }
-            return configuration;
         }
+        if(myConfiguration.trim().equals("SemiRandom")){
 
-        if(this.getTitle().trim().equals("Percolation")){
-            int startFill = 0;
-            if(this.getParameters().length != 1){
-                throw new XMLException(wrongParameters);
-            }
-            double probEmpty = this.getParameters()[0];
-            for(int k = 0; k < this.getHeight(); k++){
-                for(int j = 0; j < this.getWidth(); j++){
-                    double singleProb = Math.random();
-                    if(singleProb < probEmpty){
-                        if(startFill == 0 && k == 0){
-                            configuration[k][j] = 1;
-                            startFill = 1;
-                        }
-                        else {
-                            configuration[k][j] = 0;
-                        }
-                    }
-                    else{
-                        configuration[k][j] = 2;
-                    }
-                }
-            }
-            return configuration;
         }
-
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
@@ -131,6 +106,110 @@ public class SimulationInfo {
             }
         }
         return configuration;
+    }
+
+
+
+
+
+    public int[][] getRandomPercolation(String randomness, SimulationType simtype){
+        double probEmpty = this.getParameters()[0];
+        if(simtype == GAME_OF_LIFE){
+            probEmpty = this.getParameters()[1];
+            System.out.println("Game of life triggered");
+        }
+        if(randomness.equals("True Random")){
+            probEmpty = 0.5;
+            System.out.println("True Random triggered");
+        }
+        int[][] configuration = new int[this.getHeight()][this.getWidth()];
+        int startFill = 0;
+        for(int k = 0; k < this.getHeight(); k++){
+            for(int j = 0; j < this.getWidth(); j++){
+                double singleProb = Math.random();
+                if(singleProb < probEmpty){
+                    if(startFill == 0 && k == 0){
+                        configuration[k][j] = 1;
+                        startFill = 1;
+                    }
+                    else {
+                        configuration[k][j] = 0;
+                    }
+                }
+                else{
+                    configuration[k][j] = 2;
+                }
+            }
+        }
+        return configuration;
+    }
+
+    public int[][] getRandomGOL(String randomness, SimulationType simtype){
+        double probEmpty = this.getParameters()[1];
+        if(randomness.equals("True Random")){
+            probEmpty = 0.5;
+        }
+        int[][] configuration = new int[this.getHeight()][this.getWidth()];
+        for(int k = 0; k < this.getHeight(); k++){
+            for(int j = 0; j < this.getWidth(); j++){
+                double singleProb = Math.random();
+                if(singleProb < probEmpty){
+                    configuration[k][j] = 0;
+                }
+                else{
+                    configuration[k][j] = 1;
+                }
+            }
+        }
+        return configuration;
+
+    }
+
+    public int[][] getRandomThreeStates(String randomness, SimulationType simtype){
+        //Defaults to segregation
+        int[][] configuration = new int[this.getHeight()][this.getWidth()];
+        double probEmpty = this.getParameters()[0];
+        double probAgent1 = this.getParameters()[1];
+        if(simtype == FIRE){
+            probEmpty = this.getParameters()[1];
+            probAgent1 = this.getParameters()[2];
+        }
+        if(simtype == PREDATOR_PREY){
+            probEmpty = this.getParameters()[3];
+            probAgent1 = this.getParameters()[4];
+        }
+        if(randomness.equals("True Random")){
+            probEmpty = 0.33;
+            probAgent1 = 0.33;
+        }
+        for(int k = 0; k < this.getHeight(); k++){
+            for(int j = 0; j < this.getWidth(); j++){
+                double singleProb = Math.random();
+                if(singleProb < probEmpty){
+                    configuration[k][j] = 0;
+                }
+                else if(singleProb < probEmpty + probAgent1){
+                    configuration[k][j] = 1;
+                }
+                else{
+                    configuration[k][j] = 2;
+                }
+            }
+        }
+        return configuration;
+    }
+
+    public double[] getParameters(){
+        String[] splitParams = myParameters.replaceAll("\\s","").split(",");
+        double[] paramsOut = new double[splitParams.length];
+        for(int k = 0; k < splitParams.length; k++){
+            paramsOut[k] = Double.parseDouble(splitParams[k]);
+        }
+        if(paramsOut.length == 0){
+            double[] emptyOut = new double[0];
+            return emptyOut;
+        }
+        return paramsOut;
     }
 
     public int getWidth(){
@@ -145,15 +224,6 @@ public class SimulationInfo {
 
     public String getShape(){
         return myShape;
-    }
-
-    public double[] getParameters(){
-        String[] splitParams = myParameters.replaceAll("\\s","").split(",");
-        double[] paramsOut = new double[splitParams.length];
-        for(int k = 0; k < splitParams.length; k++){
-            paramsOut[k] = Double.parseDouble(splitParams[k]);
-        }
-        return paramsOut;
     }
 
 }
