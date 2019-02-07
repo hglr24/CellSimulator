@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
     <Title> Game1</Title>
-    <GridConfiguration> 0 1 2 3
-                        2 3 5 3
-                        1 2 3 3
-                        2 3 1 7
+    <GridConfiguration>
+        Random
     </GridConfiguration>
     <GridWidth> 4 </GridWidth>
     <GridHeight> 4 </GridHeight>
     <Shape>Square</Shape>
-    <SimParmeters>[0.4, 12, 32] </SimParmeters>
+    <SimParmeters>0.4, 12, 32] </SimParmeters>
 </data>
 
 

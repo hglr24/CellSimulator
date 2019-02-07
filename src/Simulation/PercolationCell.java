@@ -6,7 +6,7 @@ public class PercolationCell extends Cell {
         location = new SquareLocation(xPosition, yPosition);
         currentState = initState;
         nextState = initState;
-        myYPosition = yPosition;
+        myYPosition = xPosition;
     }
 
     public int getYPosition(){
