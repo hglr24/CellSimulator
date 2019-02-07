@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 abstract class BasicGrid<E> implements Grid<E> {
 //TODO: optional flagging, then decide on method, or new inheritance. Affects subclasses.
+    //TODO: add accessibility to RuleSet
+    //TODO: make smart ENUM for all kinds of neighbor types, have interface. have row/col pairings
+//TODO: make get/set better
+
     protected Cell[][] cells;
     protected int height;
     protected int width;
@@ -84,22 +88,19 @@ abstract class BasicGrid<E> implements Grid<E> {
         for (int i : x) {
 
             SquareLocation temp = new SquareLocation(sl.getX() + i, sl.getY());
-            if (validLocation(temp))
-                neighbors.add(getCell(temp));
+            appendNeighbors(temp,neighbors);
 
             SquareLocation temp2 = new SquareLocation(sl.getX(), sl.getY() + i);
-            if (validLocation(temp2))
-                neighbors.add(getCell(temp2));
+            appendNeighbors(temp2,neighbors);
         }
 
         return neighbors;
 
     }
 
-
     public ArrayList getWrappedNeighbors(Location location) {
         ArrayList<Cell> neighbors = new ArrayList<>();
-
+//TODO: need to fix logic here, this is cardinal (make this a secondary call, optional)
         SquareLocation sl = (SquareLocation) location;
         int[] x = {-1, 1};
         for (int i : x) {
