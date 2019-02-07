@@ -42,6 +42,7 @@ public class SimulationInfo {
         myParameters = parameters;
         myValues = new HashMap<>();
         this.checkConfiguration();
+        System.out.println(myError);
     }
 
     public SimulationInfo(Map<String, String> values){
@@ -160,6 +161,12 @@ public class SimulationInfo {
         }
 
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
+        if(splitString.length != this.getHeight()*this.getWidth()){
+            myError = myError + "Incorrect height and width for input initial configuration. True random configuration for " +
+                    "desired grid size enabled. ";
+            myConfiguration = "True Random";
+            return this.getIntegerConfiguration();
+        }
         for(int k = 0; k < this.getHeight(); k++){
             for(int j = 0; j < this.getWidth(); j++){
                 configuration[k][j] = Integer.parseInt(splitString[(this.getWidth()*k + j)].trim());
