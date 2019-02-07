@@ -8,7 +8,7 @@ abstract class ShapeGrid extends GridPane {
     private int myHSize;
     private int myVSize;
 
-    public ShapeGrid(int hsize, int vsize) {
+    ShapeGrid(int hsize, int vsize) {
         this.myHSize = hsize;
         this.myVSize = vsize;
     }
