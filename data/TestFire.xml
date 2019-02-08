@@ -5,8 +5,8 @@
     <GridConfiguration>
         True Random
     </GridConfiguration>
-    <GridWidth> 16 </GridWidth>
-    <GridHeight> 15 </GridHeight>
-    <Shape>Square</Shape>
-    <SimParameters> 0.6, 0.1, 0.1, 0.8 </SimParameters>
+    <GridWidth> 30 </GridWidth>
+    <GridHeight> 30 </GridHeight>
+    <Shape>Hexagon</Shape>
+    <SimParameters> 1, 0.1, 0.1, 0.8 </SimParameters>
 </data>

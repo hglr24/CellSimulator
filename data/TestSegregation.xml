@@ -8,5 +8,5 @@
     <GridWidth> 15 </GridWidth>
     <GridHeight> 16 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>0.3, 0, 1, 0 </SimParameters>
+    <SimParameters>.4, .3, .2</SimParameters>
 </data>
