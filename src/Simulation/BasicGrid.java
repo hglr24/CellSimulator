@@ -15,6 +15,7 @@ abstract class BasicGrid<E> implements Grid<E> {
     protected RuleSet ruleSet;
     protected Neighborhood neighborhood;
     protected GridType gridType;
+    protected  Map<State,Integer> cellCounts = new HashMap<>();
 
     public BasicGrid(int height, int width, Neighborhood neighborhood, RuleSet ruleSet, GridType gridType){
         this.height = height;
@@ -24,9 +25,22 @@ abstract class BasicGrid<E> implements Grid<E> {
         this.ruleSet = ruleSet;
 
     }
-//    public Map<State,Integer> getCounts(){
-//        Map<State,Integer> counts = new HashMap<>();
-//    }
+    public Map<State,Integer> getCounts(){
+
+        for (State key : cellCounts.keySet()) {
+            cellCounts.put(key,0);
+        }
+
+        for(Cell[] r: cells){
+            for(Cell c: r){
+               cellCounts.put(c.getCurrentState(),cellCounts.get(c.getCurrentState())+1);
+            }
+        }
+
+        return cellCounts;
+    }
+
+
     @Override
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
@@ -36,14 +50,14 @@ abstract class BasicGrid<E> implements Grid<E> {
 
     @Override
     public void update(){
-        for(Cell[] r: getCells()){
+        for(Cell[] r: cells){
             for(Cell c: r){
                 c.setNeighbors(this);
                 c.determineState(this);
             }
         }
 
-        for(Cell[] r: getCells()){
+        for(Cell[] r: cells){
             for(Cell c: r){
                 c.goToNextState();
             }
