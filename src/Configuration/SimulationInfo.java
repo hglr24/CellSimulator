@@ -26,7 +26,7 @@ public class SimulationInfo {
     private String myWidth;
     private String myHeight;
     private Shape myShape;
-    private String myParameters;
+    private double[] myParameters;
     private Map<String, String> myValues;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
@@ -41,8 +41,10 @@ public class SimulationInfo {
         myWidth = width;
         myHeight = height;
         myShape = stringToShape(shape);
-        myParameters = parameters;
+        myParameters = parseParameters(parameters);
         myValues = new HashMap<>();
+        CheckParameters check = new CheckParameters();
+        myParameters = check.checkValid(mySimType, this.getParameters());
         this.checkConfiguration();
     }
 
@@ -278,8 +280,8 @@ public class SimulationInfo {
         return configuration;
     }
 
-    public double[] getParameters(){
-        String[] splitParams = myParameters.replaceAll("\\s","").split(",");
+    public double[] parseParameters(String parameters){
+        String[] splitParams = parameters.replaceAll("\\s","").split(",");
         double[] paramsOut = new double[splitParams.length];
         for(int k = 0; k < splitParams.length; k++){
             paramsOut[k] = Double.parseDouble(splitParams[k]);
@@ -289,6 +291,10 @@ public class SimulationInfo {
             return emptyOut;
         }
         return paramsOut;
+    }
+
+    public double[] getParameters(){
+        return myParameters;
     }
 
     public int getWidth(){
