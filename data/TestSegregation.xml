@@ -3,10 +3,10 @@
     <Title>Segregation</Title>
     <SimulationType>SEGREGATION</SimulationType>
     <GridConfiguration>
-        True Random
+        Random
     </GridConfiguration>
     <GridWidth> 15 </GridWidth>
     <GridHeight> 16 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>0, 1, 0</SimParameters>
+    <SimParameters>0.3, 0, 1, 0 </SimParameters>
 </data>
