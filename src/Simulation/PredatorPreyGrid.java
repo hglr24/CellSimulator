@@ -8,6 +8,9 @@ public class PredatorPreyGrid extends BasicGrid {
 
     public PredatorPreyGrid(int height, int width, int[][] initInts, PredatorPreyRuleSet ruleSet, Neighborhood neighborhood) {
         super(height,width,neighborhood, ruleSet, GridType.TOROIDAL);
+        for (State t: PredatorPreyState.values()) {
+            cellCounts.put(t,0);
+        }
         PredatorPreyCell[][] initCells = new PredatorPreyCell[height][width];
         for (int k = 0; k < height; k++) {
             for (int j = 0; j < width; j++) {

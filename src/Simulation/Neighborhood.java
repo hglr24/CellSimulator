@@ -11,7 +11,6 @@ public enum Neighborhood {
     CARDINAL(new int[][]{{0 ,0,-1,1},
                          {-1,1, 0,0}});
 
-
     private final int[][] deltas;
 
     Neighborhood(int[][] deltas) {

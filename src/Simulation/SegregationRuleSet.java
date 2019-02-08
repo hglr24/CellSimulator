@@ -36,8 +36,6 @@ public class SegregationRuleSet implements RuleSet{
                 SegregationCell checkCell = (SegregationCell) grid.getCell(new SquareLocation(k, j));
                 if(checkCell.getCurrentState() == EMPTY && checkCell.getNextState() == EMPTY){
                     openings.add(checkCell);
-                    //checkCell.setNextState((SegregationState) cell.getCurrentState());
-                    //return;
                 }
             }
         }
