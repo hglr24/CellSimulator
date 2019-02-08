@@ -7,6 +7,9 @@ import static Simulation.SegregationState.*;
 public class SegregationGrid extends BasicGrid {
     public SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet, Neighborhood neighborhood) {
         super(height, width, neighborhood, ruleSet, GridType.BOUNDED);
+        for (State t: SegregationState.values()) {
+            cellCounts.put(t,0);
+        }
         SegregationCell[][] initCells = new SegregationCell[height][width];
         for (int k = 0; k < height; k++) {
             for (int j = 0; j < width; j++) {

@@ -88,7 +88,7 @@ public class CellSocietyMain extends Application {
                 case FIRE:
                     FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
                     gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules3, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules3, Neighborhood.HEXAGON);
                     break;
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
@@ -98,7 +98,7 @@ public class CellSocietyMain extends Application {
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
                     gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules5, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules5, Neighborhood.CARDINAL);
                     break;
             }
         }
