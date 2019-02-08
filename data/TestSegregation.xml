@@ -3,7 +3,7 @@
     <Title>Segregation</Title>
     <SimulationType>SEGREGATION</SimulationType>
     <GridConfiguration>
-        True Random
+        Random
     </GridConfiguration>
     <GridWidth> 15 </GridWidth>
     <GridHeight> 16 </GridHeight>
