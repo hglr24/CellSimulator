@@ -1,16 +1,15 @@
 package Simulation;
 
-import java.util.ArrayList;
 
 
 import static Simulation.GameOfLifeState.DEAD;
 import static Simulation.GameOfLifeState.LIVE;
 
+
 public class GameOfLifeGrid extends BasicGrid {
 
-    public GameOfLifeGrid(int height, int width, int[][] initInts, GameOfLifeRuleSet ruleSet) {
-        this.height = height;
-        this.width = width;
+    public GameOfLifeGrid(int height, int width, int[][] initInts, GameOfLifeRuleSet ruleSet, Neighborhood neighborhood) {
+        super(height,width,neighborhood, ruleSet, GridType.BOUNDED);
         GameOfLifeCell[][] initCells = new GameOfLifeCell[height][width];
         for (int k = 0; k < height; k++) {
             for (int j = 0; j < width; j++) {
@@ -25,14 +24,7 @@ public class GameOfLifeGrid extends BasicGrid {
             }
         }
         this.cells = initCells;
-        this.ruleSet = ruleSet;
+
     }
-
-
-    @Override
-    public ArrayList<GameOfLifeCell> findNeighbors(Location location) {
-        return getAdjacentNeighbors(location);
-    }
-
 
 }
