@@ -2,7 +2,6 @@ package Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 abstract public class BasicGrid<E> implements Grid<E> {
     //TODO: add accessibility to RuleSet
