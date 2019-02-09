@@ -78,7 +78,7 @@ public class CellSocietyMain extends Application {
                 case SEGREGATION:
                     SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                     gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules, Neighborhood.TRIANGLE);
                     break;
                 case GAME_OF_LIFE:
                     GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
@@ -93,7 +93,7 @@ public class CellSocietyMain extends Application {
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules4, Neighborhood.TRIANGLE);
                     break;
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
