@@ -5,14 +5,14 @@
     <GridConfiguration>
         Random
     </GridConfiguration>
-    <GridWidth> 15 </GridWidth>
-    <GridHeight> 15 </GridHeight>
+    <GridWidth> 30 </GridWidth>
+    <GridHeight> 30 </GridHeight>
     <Shape>Triangle</Shape>
     <SimParameters> </SimParameters>
     <RandomProbabilities>0.5, 0.5</RandomProbabilities>
-    <Neighborhood> Triangle </Neighborhood>
+    <Neighborhood>Triangle</Neighborhood>
     <Edge> Finite </Edge>
-    <GridSize> 30 </GridSize>
+    <GridSize> 20 </GridSize>
     <OutlineFlag> 0 </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
