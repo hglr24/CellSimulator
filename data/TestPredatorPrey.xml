@@ -22,6 +22,6 @@
     <Neighborhood> Cardinal </Neighborhood>
     <Edge> Toroidal </Edge>
     <GridSize> 15 </GridSize>
-    <OutlineFlag> 0 </OutlineFlag>
+    <OutlineFlag> True </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
 </data>

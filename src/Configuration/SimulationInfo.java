@@ -64,6 +64,7 @@ public class SimulationInfo {
             myNeighborhood = stringToNeighborhood(neighborhood);
         } catch (XMLException e) {
             myNeighborhood = Neighborhood.CARDINAL;
+            System.out.println("Default neighborhood used.");
         }
         try {
             myEdge = stringToEdge(edge);
@@ -319,7 +320,7 @@ public class SimulationInfo {
     }
 
     private Neighborhood stringToNeighborhood(String neighborhoodString){
-        switch(neighborhoodString){
+        switch(neighborhoodString.trim()){
             case "Square":
                 return Neighborhood.SQUARE;
             case "Triangle":
