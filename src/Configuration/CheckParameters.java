@@ -1,7 +1,6 @@
 package Configuration;
 
 import Simulation.SimulationType;
-import java.util.Arrays;
 
 public class CheckParameters {
     double third = 0.33;
@@ -51,7 +50,6 @@ public class CheckParameters {
                 }
                 return parameters;
             case SEGREGATION:
-                System.out.println("Segregation recognized");
                 try{
                     if(parameters.length != 1){
                         throw new XMLException("Wrong number of parameters. Default enabled.");
@@ -60,6 +58,21 @@ public class CheckParameters {
                 }
                 catch(XMLException e) {
                     double[] defaultParameters = new double[]{0.33};
+                    return defaultParameters;
+                }
+                return parameters;
+            case RPS:
+                try{
+                    if(parameters.length != 1){
+                        throw new XMLException("Wrong number of parameters. Default enabled");
+                    }
+                    if(parameters[0] < 0 || parameters[0] > 6){
+                        throw new XMLException("Parameter must be between 0 and 6");
+                    }
+                    checkInts(parameters);
+                }
+                catch(XMLException e){
+                    double[] defaultParameters = new double[]{2};
                     return defaultParameters;
                 }
         }

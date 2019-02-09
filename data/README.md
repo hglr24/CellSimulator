@@ -1,30 +1,38 @@
 # Defining format of XML for each simulation
 
-### Define parameter order for each simulation:
+### Define probability order for each simulation:
 #### Game of Life: 
 1. Probability dead 
 2. Probability alive
 #### Segregation: 
-1. Satisfaction percentage (decimal)
-2. Probability empty
-3. Probability agent 1
-4. Probability agent 2
+1. Probability empty
+2. Probability agent 1
+3. Probability agent 2
 #### Predator-Prey: 
-1. Fish reproduction chronons (integer)
-2. Shark reproduction chronons(integer)
-3. Starting shark energy
-4. probability empty
-5. probability fish
-6. probability shark
+1. probability empty
+2. probability fish
+3. probability shark
 #### Fire: 
-1. Probability of tree catching fire w/ burning adjacent (decimal)
-2. Probability empty
-3. Probability tree, 
-4. Probability burning
+1. Probability empty
+2. Probability tree, 
+3. Probability burning
 #### Percolation: 
 1. Probability open
 2. Probability closed
 
+### Define parameter order for each simulation:
+### Game of Life: 
+None
+#### Segregation:
+1. Satisfaction percentage
+#### Predator-Prey:
+1. Fish reproduction chronons (integer)
+2. Shark reproduction chronons(integer)
+3. Starting shark energy
+#### Fire:
+1. Probability of tree catching fire w/ burning adjacent (decimal)
+#### Percolation
+None
 #### RPS: 
 1. Win Threshold
 

@@ -181,6 +181,22 @@ public class SimulationInfo {
                         System.out.println("Incorrect parameters or probabilities for Percolation. Default enabled");
                         configureSimSpecific(simulationName, trueRandom);                     }
                     return;
+                case "RPS":
+                    mySimType = RPS;
+                    if(random){
+                        myConfiguration = this.getRandom(configurationString.trim(), 3);
+                    } else{
+                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 3);
+                    }
+                    try{
+                        inCorrectRange(0, 2, this.getIntegerConfiguration());
+                    }
+                    catch(XMLException e){
+                        System.out.println("Incorrect parameters or probabilities for RPS. Default enabled");
+                        configureSimSpecific(simulationName, trueRandom);
+                    }
+                    return;
+
             }
             throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
         }
