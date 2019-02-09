@@ -8,7 +8,8 @@
     <GridWidth> 15 </GridWidth>
     <GridHeight> 16 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>.4, .3, .2</SimParameters>
+    <SimParameters> 0.3 </SimParameters>
+    <RandomProbabilities> 0.4, 0.3, 0.2</RandomProbabilities>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>

@@ -3,16 +3,13 @@
     <Title> Percolation </Title>
     <SimulationType>PERCOLATION</SimulationType>
     <GridConfiguration>
-        0 1 0 1
-        0 1 0 1
-        0 2 2 1
-        2 2 2 0
-        2 2 2 1
+        Random
     </GridConfiguration>
-    <GridWidth> 4 </GridWidth>
-    <GridHeight> 5 </GridHeight>
+    <GridWidth> 15 </GridWidth>
+    <GridHeight> 15 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>0, 1</SimParameters>
+    <SimParameters> </SimParameters>
+    <RandomProbabilities>0.5, 0.5</RandomProbabilities>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>
