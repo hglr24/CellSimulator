@@ -47,7 +47,7 @@ public class PredatorPreyRuleSet implements RuleSet {
             return EMPTY;
 
         for (Cell c : neighbors) {
-            if (c.currentState == EMPTY && c.nextState == EMPTY)
+            if (c.nextState == EMPTY)
                 open.add(c);
 
             if (c.currentState == FISH && c.nextState != SHARK)
