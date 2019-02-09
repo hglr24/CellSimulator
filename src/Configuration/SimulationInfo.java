@@ -76,11 +76,9 @@ public class SimulationInfo {
             myCellSize = 15;
         }
         try {
-            System.out.println(outline);
             myOutline = stringToBoolean(outline);
         } catch (XMLException e) {
             myOutline = false;
-            System.out.println("Outline boolean not working");
         }
         try {
             myColors = stringToPaintArray(stateColors);
