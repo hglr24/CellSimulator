@@ -25,6 +25,9 @@
 1. Probability open
 2. Probability closed
 
+#### RPS: 
+1. Win Threshold
+
 ### Define mapping of states for each simulation:
 1. Game of Life: 
     * 0 = Dead
@@ -45,8 +48,12 @@
     * 0 = Open
     * 1 = Full
     * 2 = Blocked
+6. RPS:
+    * 0 = Rock
+    * 1 = Paper
+    * 2 = Scissors
 
-### Define how intitialized
+### Define how initialized
 1. Put "Random" in GridConfiguration to generate states randomly based off of probabilities
 2. Put "True Random" in GridConfiguration to generate states completely randomly
 3. Put an integer array expressing the desired initial states of cells matching size of entered width and height

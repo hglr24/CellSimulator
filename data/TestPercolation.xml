@@ -13,4 +13,10 @@
     <GridHeight> 5 </GridHeight>
     <Shape>Square</Shape>
     <SimParameters>0, 1</SimParameters>
+    <Neighborhood> Knight </Neighborhood>
+    <Edge> Finite </Edge>
+    <GridSize> 1 </GridSize>
+    <OutlineFlag> 0 </OutlineFlag>
+    <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
+
