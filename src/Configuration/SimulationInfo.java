@@ -39,7 +39,7 @@ public class SimulationInfo {
     private double[] myParameters;
     private Neighborhood myNeighborhood;
     private Edge myEdge;
-    private int myGridSize;
+    private int myCellSize;
     private boolean myOutline;
     private Paint[] myColors;
 
@@ -73,10 +73,10 @@ public class SimulationInfo {
             myEdge = FINITE;
         }
         try{
-            myGridSize = stringToGridSize(gridSize);
+            myCellSize = stringToCellSize(gridSize);
         }
         catch(XMLException e){
-            myGridSize = 1;
+            myCellSize = 1;
         }
         try{
             myOutline = stringToBoolean(outline);
@@ -86,11 +86,9 @@ public class SimulationInfo {
         }
         try{
             myColors = stringToPaintArray(stateColors);
-            System.out.println("this worked");
         }
         catch(Exception e){
             myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
-            System.out.println("default backup worked");
         }
     }
 
@@ -121,7 +119,7 @@ public class SimulationInfo {
         throw new XMLException("Must state True or False");
     }
 
-    private int stringToGridSize(String sizeString){
+    private int stringToCellSize(String sizeString){
         if(Integer.parseInt(sizeString.trim()) > 0 && Integer.parseInt(sizeString.trim()) < 1000){
             return Integer.parseInt(sizeString.trim());
         }
@@ -391,6 +389,26 @@ public class SimulationInfo {
             return emptyOut;
         }
         return paramsOut;
+    }
+
+    public Neighborhood getNeighborhood(){
+        return myNeighborhood;
+    }
+
+    public Edge getEdge(){
+        return myEdge;
+    }
+
+    public int getCellSize(){
+        return myCellSize;
+    }
+
+    public Paint[] getStateColors(){
+        return myColors;
+    }
+
+    public boolean getOutline(){
+        return myOutline;
     }
 
     public double[] getParameters(){
