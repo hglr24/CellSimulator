@@ -5,10 +5,10 @@
     <GridConfiguration>
         Random
     </GridConfiguration>
-    <GridWidth> 15 </GridWidth>
-    <GridHeight> 16 </GridHeight>
+    <GridWidth> 30 </GridWidth>
+    <GridHeight> 30 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>.4, .3, .2</SimParameters>
+    <SimParameters>.4, .3, .3, .8</SimParameters>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>
