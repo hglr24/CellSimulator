@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import static Simulation.SegregationState.*;
 
-public class SegregationGrid extends BasicGrid{
-     public SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet) {
-        this.height = height;
-        this.width = width;
+public class SegregationGrid extends BasicGrid {
+    public SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet, Neighborhood neighborhood) {
+        super(height, width, neighborhood, ruleSet, GridType.BOUNDED);
+        for (State t: SegregationState.values()) {
+            cellCounts.put(t,0);
+        }
         SegregationCell[][] initCells = new SegregationCell[height][width];
-        for(int k = 0; k < height; k++){
-            for(int j = 0; j < width; j++){
-                switch(initInts[k][j]){
+        for (int k = 0; k < height; k++) {
+            for (int j = 0; j < width; j++) {
+                switch (initInts[k][j]) {
                     case 0:
                         initCells[k][j] = new SegregationCell(k, j, EMPTY);
                         break;
@@ -25,13 +27,6 @@ public class SegregationGrid extends BasicGrid{
             }
         }
         this.cells = initCells;
-        this.ruleSet = ruleSet;
-    }
-
-
-    @Override
-    public ArrayList<SegregationCell> findNeighbors(Location location) {
-         return getAdjacentNeighbors(location);
     }
 
 }

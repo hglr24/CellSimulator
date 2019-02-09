@@ -1,16 +1,20 @@
 package Configuration;
 
+import Simulation.Edge;
+import Simulation.Neighborhood;
 import Simulation.SimulationType;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static Simulation.Edge.*;
 import static Simulation.SimulationType.*;
 
 public class SimulationInfo {
-    public static final String type = "Simulation";
     public static final List<String> dataFields = List.of(
             "Title",
             "SimulationType",
@@ -18,7 +22,12 @@ public class SimulationInfo {
             "GridWidth",
             "GridHeight",
             "Shape",
-            "SimParameters"
+            "SimParameters",
+            "Neighborhood",
+            "Edge",
+            "GridSize",
+            "OutlineFlag",
+            "StateColors"
     );
 
     private String myTitle;
@@ -26,123 +35,180 @@ public class SimulationInfo {
     private String myConfiguration;
     private String myWidth;
     private String myHeight;
-    private String myShape;
-    private String myParameters;
-    private Map<String, String> myValues;
-    private String myError;
+    private Shape myShape;
+    private double[] myParameters;
+    private Neighborhood myNeighborhood;
+    private Edge myEdge;
+    private int myGridSize;
+    private boolean myOutline;
+    private Paint[] myColors;
 
-    public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape, String parameters){
-        myError = "";
+    public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape,
+                          String parameters, String neighborhood, String edge, String gridSize, String outline, String stateColors){
         myTitle = title;
-        mySimType = stringToType(simType);
+        try {
+            mySimType = stringToType(simType);
+        }
+        catch(XMLException e){
+            mySimType = GAME_OF_LIFE;
+        }
         myConfiguration = configuration;
         myWidth = width;
         myHeight = height;
-        myShape = shape;
-        myParameters = parameters;
-        myValues = new HashMap<>();
+        myShape = stringToShape(shape);
+        myParameters = parseParameters(parameters);
+        CheckParameters check = new CheckParameters();
+        myParameters = check.checkValid(mySimType, this.getParameters());
         this.checkConfiguration();
-        this.checkConfiguration();
-        System.out.println(myError);
+        try{
+            myNeighborhood = stringToNeighborhood(neighborhood);
+        }
+        catch(XMLException e){
+            myNeighborhood = Neighborhood.CARDINAL;
+        }
+        try{
+            myEdge = stringToEdge(edge);
+        }
+        catch(XMLException e){
+            myEdge = FINITE;
+        }
+        try{
+            myGridSize = stringToGridSize(gridSize);
+        }
+        catch(XMLException e){
+            myGridSize = 1;
+        }
+        try{
+            myOutline = stringToBoolean(outline);
+        }
+        catch(XMLException e){
+            myOutline = false;
+        }
+        try{
+            myColors = stringToPaintArray(stateColors);
+            System.out.println("this worked");
+        }
+        catch(Exception e){
+            myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
+            System.out.println("default backup worked");
+        }
     }
 
     public SimulationInfo(Map<String, String> values){
         this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
-                values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)), values.get(dataFields.get(6)));
-        myValues = values;
+                values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
+                values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
+                values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)));
     }
 
+    private Paint[] stringToPaintArray(String stateColors){
+        String[] stringColors = stateColors.split(",");
+        Paint[] colorPaints = new Paint[stringColors.length];
+        for(int k = 0; k < stringColors.length; k++){
+            stringColors[k] = stringColors[k].trim();
+            colorPaints[k] = Paint.valueOf(stringColors[k]);
+        }
+        return colorPaints;
+    }
+
+    private boolean stringToBoolean(String booleanString){
+        if(booleanString.equals("True")){
+            return true;
+        }
+        else if(booleanString.equals("False")){
+            return false;
+        }
+        throw new XMLException("Must state True or False");
+    }
+
+    private int stringToGridSize(String sizeString){
+        if(Integer.parseInt(sizeString.trim()) > 0 && Integer.parseInt(sizeString.trim()) < 1000){
+            return Integer.parseInt(sizeString.trim());
+        }
+        throw new XMLException("Not a valid grid size");
+    }
+
+    private Edge stringToEdge(String edgeString){
+        switch(edgeString){
+            case "Finite":
+                return FINITE;
+            case "Infinite":
+                return INFINITE;
+            case "Toroidal":
+                return TOROIDAL;
+        }
+        throw new XMLException("Not a valid edge type");
+    }
+
+    private Neighborhood stringToNeighborhood(String neighborhoodString){
+        switch(neighborhoodString){
+            case "Square":
+                return Neighborhood.SQUARE;
+            case "Triangle":
+                return Neighborhood.TRIANGLE;
+            case "Hexagon":
+                return Neighborhood.HEXAGON;
+            case "Cardinal":
+                return Neighborhood.CARDINAL;
+        }
+        throw new XMLException("Not a valid neighborhood.");
+    }
 
     private void checkConfiguration(){
         switch(this.getType()){
             case FIRE:
-                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
-                    myError = myError + "Invalid initial configuration for Fire simulation. Random default enabled. ";
-                    myConfiguration = "True Random";
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
                 }
-                if(this.getParameters().length != 4 || checkProbability(this.getParameters())){
-                    myError = myError + "Invalid parameters for Fire simulation. Default parameters enabled. ";
-                    myParameters = "0.5, 0.33, 0.33, 0.33";
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
                 }
                 break;
             case GAME_OF_LIFE:
-                if(inCorrectRange(0, 1, this.getIntegerConfiguration())){
-                    myError = myError + "Invalid initial configuration for Game of Life simulation. Random default enabled ";
-                    myConfiguration = "True Random";
+                try {
+                    inCorrectRange(0, 1, this.getIntegerConfiguration());
                 }
-                if(this.getParameters().length != 2 || checkProbability(this.getParameters())){
-                    myError = myError + "Invalid parameters for Game of Life simulation. Default parameters enabled. ";
-                    myParameters = "0.5, 0.5";
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
                 }
                 break;
             case PERCOLATION:
-                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
-                    myError = myError + "Invalid initial configuration for Percolation simulation. Random default enabled. ";
-                    myConfiguration = "True Random";
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
                 }
-                if(this.getParameters().length != 2 || checkProbability(this.getParameters())){
-                    myError = myError + "Invalid parameters for Percolation simulation. Default parameters enabled. ";
-                    myParameters = "0.5, 0.5";
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
                 }
                 break;
             case PREDATOR_PREY:
-                if(inCorrectRange(0, 2, this.getIntegerConfiguration()) || checkPredatorParams(this.getParameters())){
-                    myError = myError + "Invalid initial configuration for Predator Prey simulation. Random default enabled. ";
-                    myConfiguration = "True Random";
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
                 }
-                if(this.getParameters().length != 6 || checkPredatorParams(this.getParameters())){
-                    myError = myError + "Invalid parameters fro Predator Rrey simulation. Default parameters enabled. ";
-                    myParameters = "5, 5, 5, 0.33, 0.33, 0.33";
+                catch(XMLException e) {
+                    myConfiguration = "True Random";
                 }
                 break;
             case SEGREGATION:
-                if(inCorrectRange(0, 2, this.getIntegerConfiguration())){
-                    myError = myError + "Invalid initial configuration for Segregation simulation. Random default enabled. ";
+                try {
+                    inCorrectRange(0, 2, this.getIntegerConfiguration());
+                }
+                catch(XMLException e) {
                     myConfiguration = "True Random";
                 }
                 break;
         }
     }
 
-    private boolean checkPredatorParams(double[] parameters){
-        double[] probabilityParams = Arrays.copyOfRange(parameters, 3, 5);
-        double[] intParams = Arrays.copyOfRange(parameters, 0, 2);
-        if(checkProbability(probabilityParams)){
-            return true;
-        }
-        if(checkInts(intParams)){
-            return true;
-        }
-        return false;
-    }
 
-    private boolean checkInts(double[] parameters){
-        for(double d:parameters){
-            if(d != Math.round(d) || d < 0){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkProbability(double[] parameters){
-        for(double d:parameters){
-            if(d > 1 || d < 0){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean inCorrectRange(int low, int high, int[][] configuration){
+    private void inCorrectRange(int low, int high, int[][] configuration){
         for(int k = 0; k < configuration.length; k++){
             for(int j = 0; j < configuration[0].length; j++){
                 if(configuration[k][j] > high || configuration[k][j] < low){
-                    return true;
+                    throw new XMLException("Desired configuration contains illegal values. Random starting configuration" +
+                            "enabled.");
                 }
             }
         }
-        return false;
     }
 
     private SimulationType stringToType(String simulationName){
@@ -159,8 +225,7 @@ public class SimulationInfo {
             case "PERCOLATION":
                 return PERCOLATION;
         }
-        myError = myError + "Invalid simulation type, Game Of Life default enabled. ";
-        return GAME_OF_LIFE;
+        throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
     }
 
     private Shape stringToShape(String shapeName){
@@ -172,7 +237,6 @@ public class SimulationInfo {
             case "Hexagon":
                 return Shape.HEXAGON;
         }
-        myError = myError + "Invalid grid shape, square default enabled. ";
         return Shape.SQUARE;
     }
 
@@ -209,9 +273,10 @@ public class SimulationInfo {
         }
 
         String[] splitString = myConfiguration.replaceAll("[\\t\\n\\r]+"," ").replaceAll("\\s","").split("");
-        if(splitString.length != this.getHeight()*this.getWidth()){
-            myError = myError + "Incorrect height and width for input initial configuration. True random configuration for " +
-                    "desired grid size enabled. ";
+        try{
+            checkValidSize(splitString);
+        }
+        catch(XMLException e){
             myConfiguration = "True Random";
             return this.getIntegerConfiguration();
         }
@@ -221,6 +286,13 @@ public class SimulationInfo {
             }
         }
         return configuration;
+    }
+
+    private void checkValidSize(String[] stringLocations){
+        if(this.getHeight() * this.getWidth() != stringLocations.length){
+            throw new XMLException("Incorrect height and width for initial input configuration. Random configuration of " +
+                    "input height and width chosen.");
+        }
     }
 
     public int[][] getRandomPercolation(String randomness, SimulationType simtype){
@@ -308,8 +380,8 @@ public class SimulationInfo {
         return configuration;
     }
 
-    public double[] getParameters(){
-        String[] splitParams = myParameters.replaceAll("\\s","").split(",");
+    public double[] parseParameters(String parameters){
+        String[] splitParams = parameters.replaceAll("\\s","").split(",");
         double[] paramsOut = new double[splitParams.length];
         for(int k = 0; k < splitParams.length; k++){
             paramsOut[k] = Double.parseDouble(splitParams[k]);
@@ -319,6 +391,10 @@ public class SimulationInfo {
             return emptyOut;
         }
         return paramsOut;
+    }
+
+    public double[] getParameters(){
+        return myParameters;
     }
 
     public int getWidth(){
@@ -331,11 +407,7 @@ public class SimulationInfo {
         return height;
     }
 
-    public String getShape(){
+    public Shape getShape(){
         return myShape;
-    }
-
-    public String getError(){
-        return myError;
     }
 }

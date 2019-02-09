@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class CellSocietyMain extends Application {
     private ArrayList<Stage> myStages = new ArrayList<>();
     private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
-    private ArrayList<String> myShapes = new ArrayList<>();
+    private ArrayList<Shape> myShapes = new ArrayList<>();
     private ArrayList<GUIManager> myGUIs = new ArrayList<>();
     private ArrayList<Grid> myCurrentGrids = new ArrayList<>();
     private ArrayList<AnimationTimer> myTimers = new ArrayList<>();
@@ -78,27 +78,27 @@ public class CellSocietyMain extends Application {
                 case SEGREGATION:
                     SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                     gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules);
+                            testSim.getIntegerConfiguration(), rules, Neighborhood.SQUARE);
                     break;
                 case GAME_OF_LIFE:
                     GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
                     gridType = new GameOfLifeGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules2);
+                            testSim.getIntegerConfiguration(), rules2, Neighborhood.SQUARE);
                     break;
                 case FIRE:
                     FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
                     gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules3);
+                            testSim.getIntegerConfiguration(), rules3, Neighborhood.HEXAGON);
                     break;
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4);
+                            testSim.getIntegerConfiguration(), rules4, Neighborhood.SQUARE);
                     break;
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
                     gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(),rules5);
+                            testSim.getIntegerConfiguration(), rules5, Neighborhood.CARDINAL);
                     break;
             }
         }

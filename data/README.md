@@ -1,13 +1,29 @@
 # Defining format of XML for each simulation
 
 ### Define parameter order for each simulation:
-1. Game of Life: Probability dead, probability alive
-2. Segregation: Satisfaction percentage (decimal), probability empty, probability agent 1, probability agent 2
-3. Predator-Prey: fish reproduction chronons (integer), shark reproduction chronons(integer),
-starting shark energy, probability empty, probability fish, probability shark
-4. Fire: Probability of tree catching fire w/ burning adjacent (decimal), probability empty, probability tree, 
-probability burning
-5. Percolation: Probability open, probability closed
+#### Game of Life: 
+1. Probability dead 
+2. Probability alive
+#### Segregation: 
+1. Satisfaction percentage (decimal)
+2. Probability empty
+3. Probability agent 1
+4. Probability agent 2
+#### Predator-Prey: 
+1. Fish reproduction chronons (integer)
+2. Shark reproduction chronons(integer)
+3. Starting shark energy
+4. probability empty
+5. probability fish
+6. probability shark
+#### Fire: 
+1. Probability of tree catching fire w/ burning adjacent (decimal)
+2. Probability empty
+3. Probability tree, 
+4. Probability burning
+#### Percolation: 
+1. Probability open
+2. Probability closed
 
 ### Define mapping of states for each simulation:
 1. Game of Life: 
@@ -30,4 +46,7 @@ probability burning
     * 1 = Full
     * 2 = Blocked
 
-
+### Define how intitialized
+1. Put "Random" in GridConfiguration to generate states randomly based off of probabilities
+2. Put "True Random" in GridConfiguration to generate states completely randomly
+3. Put an integer array expressing the desired initial states of cells matching size of entered width and height
