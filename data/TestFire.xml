@@ -2,11 +2,14 @@
 <data media="Simulation">
     <Title> Fire </Title>
     <SimulationType>FIRE</SimulationType>
-    <GridConfiguration>
-        True Random
-    </GridConfiguration>
+    <GridConfiguration> True Random </GridConfiguration>
     <GridWidth> 30 </GridWidth>
     <GridHeight> 30 </GridHeight>
     <Shape>Hexagon</Shape>
     <SimParameters> 1, 0.1, 0.1, 0.8 </SimParameters>
+    <Neighborhood> Knight </Neighborhood>
+    <Edge> Finite </Edge>
+    <GridSize> 1 </GridSize>
+    <OutlineFlag> 0 </OutlineFlag>
+    <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
