@@ -80,32 +80,32 @@ public class CellSocietyMain extends Application {
                 case SEGREGATION:
                     SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
                     gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules, Neighborhood.TRIANGLE);
+                            testSim.getIntegerConfiguration(), rules, testSim.getNeighborhood());
                     break;
                 case GAME_OF_LIFE:
                     GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
                     gridType = new GameOfLifeGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules2, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules2, testSim.getNeighborhood());
                     break;
                 case FIRE:
                     FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
                     gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules3, Neighborhood.HEXAGON);
+                            testSim.getIntegerConfiguration(), rules3, testSim.getNeighborhood());
                     break;
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4, Neighborhood.TRIANGLE);
+                            testSim.getIntegerConfiguration(), rules4, testSim.getNeighborhood());
                     break;
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
                     gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules5, Neighborhood.CARDINAL);
+                            testSim.getIntegerConfiguration(), rules5, testSim.getNeighborhood());
                     break;
                 case RPS:
                     RPSRuleSet rules6 = new RPSRuleSet(testSim.getParameters());
                     gridType = new RPSGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules6, Neighborhood.SQUARE);
+                            testSim.getIntegerConfiguration(), rules6, testSim.getNeighborhood());
                     break;
             }
         }

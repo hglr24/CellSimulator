@@ -10,7 +10,7 @@
     <RandomProbabilities> 0.1, 0.8, 0.1 </RandomProbabilities>
     <Neighborhood> Hexagon </Neighborhood>
     <Edge> Finite </Edge>
-    <GridSize> 2 </GridSize>
+    <GridSize> 20 </GridSize>
     <OutlineFlag> True </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
