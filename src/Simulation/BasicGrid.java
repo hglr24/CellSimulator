@@ -91,17 +91,7 @@ abstract class BasicGrid<E> implements Grid<E> {
                 case BOUNDED:
                     break;
                 case TOROIDAL:
-                    if(r == -1) {
-                        r = height - 1;
-                    } else if (r == height){
-                        r = 0;
-                    }
-
-                    if(c == -1) {
-                        c = width - 1;
-                    } else if (r == width){
-                        c = 0;
-                    }
+                    wrapLocation(r,c);
                     break;
             }
             SquareLocation temp = new SquareLocation(r,c);
@@ -111,6 +101,19 @@ abstract class BasicGrid<E> implements Grid<E> {
         return adjacent;
     }
 
+    private void wrapLocation(int r, int c){
+
+        while(r<0)
+            r = r+height;
+        while(c<0)
+            c = c+width;
+        while(r>0)
+            r = r-height;
+        while(c>0)
+            c = c-width;
+
+
+    }
     private void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
 
         if (validLocation(location))
