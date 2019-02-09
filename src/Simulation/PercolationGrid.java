@@ -17,10 +17,10 @@ public class PercolationGrid extends BasicGrid{
                     case 0:
                         initCells[k][j] = new PercolationCell(k, j, OPEN);
                         break;
-                    case 1:
+                    case 2:
                         initCells[k][j] = new PercolationCell(k, j, PERCOLATED);
                         break;
-                    case 2:
+                    case 1:
                         initCells[k][j] = new PercolationCell(k, j, BLOCKED);
                         break;
                 }
