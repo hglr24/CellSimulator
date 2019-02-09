@@ -11,7 +11,7 @@
     <Neighborhood> Hexagon </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 20 </GridSize>
-    <OutlineFlag> True </OutlineFlag>
+    <OutlineFlag> False </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
 
