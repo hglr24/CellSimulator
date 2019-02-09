@@ -2,11 +2,11 @@ package UIpackage;
 
 import javafx.scene.shape.Polygon;
 
-public class Hexagon extends Polygon {
+class Hexagon extends Polygon {
     private double myRadius;
     private Double[] myCoords;
 
-    public Hexagon(double radius) {
+    Hexagon(double radius) {
         myRadius = radius;
         setCoords();
         this.getPoints().addAll(myCoords);

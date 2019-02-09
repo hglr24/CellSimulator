@@ -8,4 +8,5 @@ module UI_module {
 
     exports UIpackage;
     exports Simulation;
+    exports Configuration;
 }
