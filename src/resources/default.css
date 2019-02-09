@@ -17,7 +17,7 @@
 
 .legend-item {
     -fx-background-color: rgb(96,153,183);
-    -fx-padding: 15;
+    -fx-padding: 5;
     -fx-spacing: 15;
     -fx-font-family: Verdana;
     -fx-font-size: 14;
@@ -26,7 +26,7 @@
 
 .right-pane-item {
     -fx-background-color: rgb(96,153,183);
-    -fx-spacing: 8;
+    -fx-spacing: 5;
     -fx-padding: 10;
     -fx-border-radius: 2;
     -fx-border-color: black;
@@ -81,4 +81,23 @@
 .center-pane {
     -fx-background-color: transparent;
     -fx-alignment: center;
+}
+
+.chart {
+    -fx-max-height: 90;
+    -fx-max-width: 110;
+}
+
+.chart-title {
+    -fx-text-fill: black;
+    -fx-text-alignment: left;
+    -fx-font-family: Verdana;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.axis {
+    -fx-tick-labels-visible: false;
+    -fx-tick-mark-visible: false;
+    -fx-minor-tick-visible: false;
 }

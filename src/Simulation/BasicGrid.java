@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class BasicGrid<E> implements Grid<E> {
+abstract public class BasicGrid<E> implements Grid<E> {
     //TODO: add accessibility to RuleSet
     //TODO: make smart ENUM for all kinds of neighbor types, have interface. have row/col pairings
 //TODO: make get/set better
@@ -15,7 +15,7 @@ abstract class BasicGrid<E> implements Grid<E> {
     protected RuleSet ruleSet;
     protected Neighborhood neighborhood;
     protected GridType gridType;
-    protected  Map<State,Integer> cellCounts = new HashMap<>();
+    protected HashMap<State,Integer> cellCounts = new HashMap<>();
 
     public BasicGrid(int height, int width, Neighborhood neighborhood, RuleSet ruleSet, GridType gridType){
         this.height = height;
@@ -25,7 +25,8 @@ abstract class BasicGrid<E> implements Grid<E> {
         this.ruleSet = ruleSet;
 
     }
-    public Map<State,Integer> getCounts(){
+
+    public HashMap<Simulation.State,Integer> getCounts(){
 
         for (State key : cellCounts.keySet()) {
             cellCounts.put(key,0);
@@ -39,7 +40,6 @@ abstract class BasicGrid<E> implements Grid<E> {
 
         return cellCounts;
     }
-
 
     @Override
     public boolean validLocation(Location location) {
@@ -114,7 +114,7 @@ abstract class BasicGrid<E> implements Grid<E> {
 
 
     }
-    private void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
+    protected void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
 
         if (validLocation(location))
             neighbors.add(getCell(location));
