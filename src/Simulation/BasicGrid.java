@@ -114,7 +114,7 @@ abstract class BasicGrid<E> implements Grid<E> {
 
 
     }
-    private void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
+    protected void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
 
         if (validLocation(location))
             neighbors.add(getCell(location));
