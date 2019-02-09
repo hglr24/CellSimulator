@@ -8,7 +8,7 @@
     <Shape>Hexagon</Shape>
     <SimParameters> 0.3 </SimParameters>
     <RandomProbabilities> 0.1, 0.8, 0.1 </RandomProbabilities>
-    <Neighborhood> Knight </Neighborhood>
+    <Neighborhood> Hexagon </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>
     <OutlineFlag> 0 </OutlineFlag>
