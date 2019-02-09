@@ -65,7 +65,6 @@ public class GUIManager {
     }
 
     private void resetGUI() {
-        System.out.println("GUI Reset");
         initializeShapeArrays();
         myStatePlot = new StatePlot((BasicGrid) myGrid);
         myBorderPane.setCenter(drawInitialGrid());

@@ -23,7 +23,6 @@ public class HexGrid extends ShapeGrid {
         makeHorizGrids(vsize);
         this.setVgap(-myCellRadius / 2 - 1);
         this.setPadding(new Insets(0, super.getHSize() / PAD_H_OFFSET, super.getVSize() / PAD_V_OFFSET, 0));
-        System.out.println(super.getWidth());
     }
 
     private void makeHorizGrids(int vsize) {

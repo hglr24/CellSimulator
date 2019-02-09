@@ -9,11 +9,11 @@
     <GridHeight> 30 </GridHeight>
     <Shape>Triangle</Shape>
     <SimParameters> </SimParameters>
-    <RandomProbabilities>0.5, 0.5</RandomProbabilities>
+    <RandomProbabilities>0.4, 0.6</RandomProbabilities>
     <Neighborhood>Triangle</Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 20 </GridSize>
-    <OutlineFlag> 0 </OutlineFlag>
+    <OutlineFlag> False </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
 </data>
 
