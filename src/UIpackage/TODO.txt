@@ -1,12 +1,12 @@
 Now:
 Create or change state at given location by clicking
+Dynamic parameter controls (separate window?)
 
 Reliant:
-Dynamic parameter controls (separate window?)
 Save state as XML
-State colors from XML
 Image or shape overlay on grid from CSS
+State colors from XML
 
 Optional:
-log exceptions
+Log exceptions
 Reduce dependencies in GUIManager
