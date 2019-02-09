@@ -73,12 +73,14 @@ public class SimulationInfo {
         try {
             myCellSize = stringToCellSize(gridSize);
         } catch (XMLException e) {
-            myCellSize = 1;
+            myCellSize = 15;
         }
         try {
+            System.out.println(outline);
             myOutline = stringToBoolean(outline);
         } catch (XMLException e) {
             myOutline = false;
+            System.out.println("Outline boolean not working");
         }
         try {
             myColors = stringToPaintArray(stateColors);
@@ -290,10 +292,10 @@ public class SimulationInfo {
     }
 
     private boolean stringToBoolean(String booleanString){
-        if(booleanString.equals("True")){
+        if(booleanString.trim().equals("True")){
             return true;
         }
-        else if(booleanString.equals("False")){
+        else if(booleanString.trim().equals("False")){
             return false;
         }
         throw new XMLException("Must state True or False");
