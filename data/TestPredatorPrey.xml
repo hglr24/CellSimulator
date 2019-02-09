@@ -17,10 +17,10 @@
     <GridWidth> 10 </GridWidth>
     <GridHeight> 10 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>5, 2, 2</SimParameters>
-    <RandomProbabilities> 0.33, 0.33, 0.33 </RandomProbabilities>
-    <Neighborhood> Knight </Neighborhood>
-    <Edge> Finite </Edge>
+    <SimParameters>4, 16, 10</SimParameters>
+    <RandomProbabilities> 0.3, 0.5, 0.2 </RandomProbabilities>
+    <Neighborhood> Cardinal </Neighborhood>
+    <Edge> Toroidal </Edge>
     <GridSize> 1 </GridSize>
     <OutlineFlag> 0 </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>

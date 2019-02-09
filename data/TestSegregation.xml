@@ -9,7 +9,7 @@
     <GridHeight> 30 </GridHeight>
     <Shape>Square</Shape>
     <SimParameters> 0.3 </SimParameters>
-    <RandomProbabilities> 0.4, 0.3, 0.2</RandomProbabilities>
+    <RandomProbabilities> 0.3, 0.3, 0.4</RandomProbabilities>
     <Neighborhood> Square </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>
