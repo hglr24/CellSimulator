@@ -15,6 +15,7 @@ public class CellSocietyMain extends Application {
     private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
     private ArrayList<Shape> myShapes = new ArrayList<>();
     private ArrayList<GUIManager> myGUIs = new ArrayList<>();
+    private ArrayList<SimulationInfo> mySimInfos = new ArrayList<>();
     private ArrayList<Grid> myCurrentGrids = new ArrayList<>();
     private ArrayList<AnimationTimer> myTimers = new ArrayList<>();
     private ArrayList<Double> mySpeeds = new ArrayList<>();
@@ -54,9 +55,9 @@ public class CellSocietyMain extends Application {
     }
 
     private void makeGUI(Stage stage) {
-        int cellsize = 15; //TODO import this from XML
-        boolean gridBorder = false; //TODO import this from XML
         int stageIndex = myStages.indexOf(stage);
+        int cellsize = mySimInfos.get(stageIndex).getCellSize();
+        boolean gridBorder = mySimInfos.get(stageIndex).getOutline();
         myGUIs.add(stageIndex, new GUIManager(myCurrentGrids.get(stageIndex),
                 this, mySimTypes.get(stageIndex), myShapes.get(stageIndex), stageIndex, cellsize, gridBorder));
         stage.setResizable(false);
@@ -68,6 +69,7 @@ public class CellSocietyMain extends Application {
     private Grid parseXML(File dataFile, int newStageIndex) { //TODO shrink method
         XMLReader testRead = new XMLReader();
         SimulationInfo testSim = testRead.getSimulation(dataFile);
+        mySimInfos.add(newStageIndex, testSim);
         Grid gridType = null;
 
         if(testSim.getType() != null) {

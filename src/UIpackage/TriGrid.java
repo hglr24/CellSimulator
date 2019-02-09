@@ -12,14 +12,14 @@ public class TriGrid extends ShapeGrid {
     private boolean myGridBorder;
     private static final double PAD_H_OFFSET = 1.5;
     private static final double PAD_V_OFFSET = 4.0;
-    private static final double HGAP_OFFSET = Math.sqrt(3) / 2 - 1;
+    private static final double HGAP_OFFSET = Math.sqrt(3) / 2;
     private static final int ROTATE_DEGREES = 180;
 
     TriGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
         super(hsize, vsize);
         myCellRadius = cellsize / 2.0;
         myGridBorder = gridBorder;
-        this.setHgap(-myCellRadius * HGAP_OFFSET);
+        this.setHgap(-myCellRadius * HGAP_OFFSET - 1);
         this.setVgap(-1);
         this.setPadding(new Insets(0, super.getHSize() / PAD_H_OFFSET, super.getVSize() / PAD_V_OFFSET, 0));
     }
