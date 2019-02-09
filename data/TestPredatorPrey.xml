@@ -17,7 +17,7 @@
     <GridWidth> 10 </GridWidth>
     <GridHeight> 10 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>5, 2, 2, 0.2, 0.8, 0.2</SimParameters>
+    <SimParameters>4, 7, 8, 0.2, 0.8, 0.2</SimParameters>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>

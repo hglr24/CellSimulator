@@ -224,6 +224,8 @@ public class SimulationInfo {
                 return FIRE;
             case "PERCOLATION":
                 return PERCOLATION;
+            case "RPS":
+                return RPS;
         }
         throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
     }
@@ -267,6 +269,9 @@ public class SimulationInfo {
                     configuration = getRandomPercolation(myConfiguration.trim(), this.getType());
                     return configuration;
                 case SEGREGATION:
+                    configuration = getRandomThreeStates(myConfiguration.trim(), this.getType());
+                    return configuration;
+                case RPS:
                     configuration = getRandomThreeStates(myConfiguration.trim(), this.getType());
                     return configuration;
             }

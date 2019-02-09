@@ -1,7 +1,7 @@
 package Simulation;
 
 public enum SimulationType {
-    GAME_OF_LIFE, SEGREGATION, PREDATOR_PREY, FIRE, PERCOLATION;
+    GAME_OF_LIFE, SEGREGATION, PREDATOR_PREY, FIRE, PERCOLATION, RPS;
 
     @Override
     public String toString() {
@@ -17,6 +17,8 @@ public enum SimulationType {
                 return "Fire";
             case PERCOLATION:
                 return "Percolation";
+            case RPS:
+                return "Rock Paper Scissors";
         }
         return "NULL";
     }
@@ -34,6 +36,8 @@ public enum SimulationType {
                 return FireState.values();
             case PERCOLATION:
                 return PercolationState.values();
+            case RPS:
+                return RPSState.values();
         }
         return null;
     }

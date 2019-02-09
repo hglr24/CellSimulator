@@ -100,6 +100,11 @@ public class CellSocietyMain extends Application {
                     gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
                             testSim.getIntegerConfiguration(), rules5, Neighborhood.CARDINAL);
                     break;
+                case RPS:
+                    RPSRuleSet rules6 = new RPSRuleSet(testSim.getParameters());
+                    gridType = new RPSGrid(testSim.getHeight(),testSim.getWidth(),
+                            testSim.getIntegerConfiguration(), rules6, Neighborhood.SQUARE);
+                    break;
             }
         }
         else {
