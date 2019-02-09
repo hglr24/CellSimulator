@@ -2,11 +2,11 @@ package UIpackage;
 
 import javafx.scene.shape.Polygon;
 
-public class Triangle extends Polygon {
+class Triangle extends Polygon {
     private double myRadius;
     private Double[] myCoords;
 
-    public Triangle(double radius) {
+    Triangle(double radius) {
         myRadius = radius;
         setCoords();
         this.getPoints().addAll(myCoords);

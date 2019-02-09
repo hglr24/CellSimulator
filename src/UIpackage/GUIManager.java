@@ -40,6 +40,7 @@ public class GUIManager {
     private int myStageID;
     private int myCellSize;
     private boolean myGridBorder;
+    private StatePlot myStatePlot;
     private static final Dimension DEFAULT_SIZE = new Dimension(800, 650);
     private static final int LEGEND_SQUARE_SIZE = 20;
     private static final int MAX_SIM_SPEED = 10;
@@ -66,6 +67,7 @@ public class GUIManager {
     private void resetGUI() {
         System.out.println("GUI Reset");
         initializeShapeArrays();
+        myStatePlot = new StatePlot((BasicGrid) myGrid);
         myBorderPane.setCenter(drawInitialGrid());
         myTitlePane = new HBox();
         myLegendPane = new GridPane();
@@ -73,6 +75,7 @@ public class GUIManager {
         myBorderPane.setTop(myTitlePane);
         drawLegend();
         drawSlider();
+        drawStatePlot();
         drawTitle();
         buttonEnable();
     }
@@ -207,6 +210,14 @@ public class GUIManager {
         myLegendPane.add(sliderBox, 0, 1);
     }
 
+    private void drawStatePlot() {
+        myLegendPane.add(myStatePlot, 0, 2);
+    }
+
+    private void updateStatePlot() {
+        myStatePlot.update((BasicGrid) myGrid);
+    }
+
     void updateGrid(Grid newGrid) {
         myGrid = newGrid;
         for (int i = 0; i < myGrid.getHeight(); i++) {
@@ -215,6 +226,7 @@ public class GUIManager {
                 updateCellColor(i, j, curr.getNextState());
             }
         }
+        updateStatePlot();
     }
 
     private void updateCellColor(int row, int col, State newState) {
