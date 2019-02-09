@@ -27,7 +27,7 @@ public class CellSocietyMain extends Application {
     @Override
     public void start (Stage stage) {
         initializeFileOpener();
-        File dataFile = new File("data\\TestSegregation.xml");
+        File dataFile = new File("data\\TestFire.xml");
         openFile(dataFile, stage, 0);
     }
 
@@ -93,7 +93,7 @@ public class CellSocietyMain extends Application {
                 case PERCOLATION:
                     PercolationRuleSet rules4 = new PercolationRuleSet();
                     gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4, Neighborhood.TRIANGLE);
+                            testSim.getIntegerConfiguration(), rules4, Neighborhood.SQUARE);
                     break;
                 case PREDATOR_PREY:
                     PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());

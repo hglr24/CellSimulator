@@ -6,7 +6,8 @@
     <GridWidth> 30 </GridWidth>
     <GridHeight> 30 </GridHeight>
     <Shape>Hexagon</Shape>
-    <SimParameters> 0.7, 0.1, 0.8, 0.1 </SimParameters>
+    <SimParameters> 0.2 </SimParameters>
+    <RandomProbabilities> 0.1, 0.1, 0.8 </RandomProbabilities>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 1 </GridSize>

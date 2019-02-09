@@ -12,78 +12,99 @@ public class CheckParameters {
     public CheckParameters(){
     }
 
-    public double[] checkValid(SimulationType simtype, double[] parameters){
+    public double[] checkValidParameters(SimulationType simtype, double[] parameters){
         switch(simtype){
             case FIRE:
                 try{
-                    if(parameters.length != 4){
-                        throw new XMLException("Wrong number of parameters. Default enabled.");
+                    if(parameters.length != 1){
+                        throw new XMLException("Wrong number of parameters or probabilities. Default enabled.");
                     }
                     checkProbability(parameters);
                 }
                 catch(XMLException e){
-                    double[] defaultParameters = new double[]{half, third, third, third};
+                    double[] defaultParameters = new double[]{half};
                     return defaultParameters;
                 }
                 return parameters;
             case GAME_OF_LIFE:
-                try{
-                    if(parameters.length != 2){
-                        throw new XMLException("Wrong number of parameters. Default enabled.");
-                    }
-                    checkProbability(parameters);
-                }
-                catch(XMLException e) {
-                    double[] defaultParameters = new double[]{half, half};
-                    return defaultParameters;
-                }
-                return parameters;
             case PERCOLATION:
                 try{
-                    checkProbability(parameters);
-                    if(parameters.length != 2){
+                    if(parameters.length != 0){
                         throw new XMLException("Wrong number of parameters. Default enabled.");
                     }
                 }
                 catch(XMLException e) {
-                    double[] defaultParameters = new double[]{half, half};
+                    double[] defaultParameters = new double[0];
                     return defaultParameters;
                 }
                 return parameters;
             case PREDATOR_PREY:
                 try{
-                    if(parameters.length != 6){
+                    if(parameters.length != 3){
                         throw new XMLException("Wrong number of parameters. Default enabled.");
                     }
-                    checkPredatorParams(parameters);
+                    checkInts(parameters);
                 }
                 catch(XMLException e) {
-                    double[] defaultParameters = new double[]{defaultChronons, defaultChronons, defaultLives, third, third, third};
+                    double[] defaultParameters = new double[]{defaultChronons, defaultChronons, defaultLives};
                     return defaultParameters;
                 }
                 return parameters;
             case SEGREGATION:
                 System.out.println("Segregation recognized");
                 try{
-                    if(parameters.length != 4){
+                    if(parameters.length != 1){
                         throw new XMLException("Wrong number of parameters. Default enabled.");
                     }
                     checkProbability(parameters);
                 }
                 catch(XMLException e) {
-                    double[] defaultParameters = new double[]{third, third, third};
+                    double[] defaultParameters = new double[]{0.33};
                     return defaultParameters;
                 }
         }
         return parameters;
     }
 
-
-    private void checkPredatorParams(double[] parameters){
-        double[] probabilityParams = Arrays.copyOfRange(parameters, 3, 5);
-        double[] intParams = Arrays.copyOfRange(parameters, 0, 2);
-        checkProbability(probabilityParams);
-        checkInts(intParams);
+    public double[] checkValidProbabilities(SimulationType simtype, double[] probabilities){
+        switch(simtype){
+            case FIRE:
+            case SEGREGATION:
+            case PREDATOR_PREY:
+                try {
+                    if (probabilities.length != 3) {
+                        System.out.println("Wrong number of probabilites. Default probabilities used");
+                        return new double[]{third, third, third};
+                    }
+                    if (Math.abs(probabilities[0] + probabilities[1] + probabilities[2] - 1) > 0.05) {
+                        System.out.println("Probabilities did not add up to one");
+                        return new double[]{third, third, third};
+                    }
+                }
+                catch(XMLException e){
+                    System.out.println("Numbers given were not probabilities. Default probabilities used.");
+                    return new double[]{third, third, third};
+                }
+                return probabilities;
+            case PERCOLATION:
+            case GAME_OF_LIFE:
+                try {
+                    if (probabilities.length != 2) {
+                        System.out.println("Wrong number of probabilities. Default probabilities used");
+                        return new double[]{half, half};
+                    }
+                    if (Math.abs(probabilities[0] + probabilities[1] - 1) > 0.05) {
+                        System.out.println("Probabilities did not add up to one");
+                        return new double[]{half, half};
+                    }
+                }
+                catch(XMLException e){
+                    System.out.println("Numbers given were not probabilities. Default probabilities used.");
+                    return new double[]{half, half};
+                }
+                return probabilities;
+        }
+        return probabilities;
     }
 
     private void checkInts(double[] parameters){
