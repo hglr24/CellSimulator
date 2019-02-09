@@ -95,10 +95,10 @@ public class SimulationInfo {
     }
 
     public SimulationInfo(Map<String, String> values){
-        this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
-                values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
-                values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
-                values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)));
+            this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
+                    values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
+                    values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
+                    values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)));
     }
 
     private Paint[] stringToPaintArray(String stateColors){
