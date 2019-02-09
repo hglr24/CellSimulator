@@ -350,9 +350,6 @@ public class SimulationInfo {
         return mySimType;
     }
 
-
-
-
     public double[] parseDoubles(String parameters){
         String[] splitParams = parameters.replaceAll("\\s","").split(",");
         double[] paramsOut = new double[splitParams.length];

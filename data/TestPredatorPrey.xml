@@ -17,7 +17,7 @@
     <GridWidth> 10 </GridWidth>
     <GridHeight> 10 </GridHeight>
     <Shape>Square</Shape>
-    <SimParameters>5, 2, 2, 0.2, 0.8, 0.2</SimParameters>
+    <SimParameters>5, 2, 2</SimParameters>
     <RandomProbabilities> 0.33, 0.33, 0.33 </RandomProbabilities>
     <Neighborhood> Knight </Neighborhood>
     <Edge> Finite </Edge>
