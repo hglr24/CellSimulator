@@ -2,7 +2,6 @@ package Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 abstract public class BasicGrid<E> implements Grid<E> {
     //TODO: add accessibility to RuleSet
@@ -45,7 +44,7 @@ abstract public class BasicGrid<E> implements Grid<E> {
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
         SquareLocation sl = (SquareLocation) location;
-        return sl.getX() >= 0 && sl.getY() >= 0 && sl.getX()< getHeight() && sl.getY() < getWidth();
+        return sl.getX() >= 0 && sl.getY() >= 0 && sl.getX()< height && sl.getY() < width;
     }
 
     @Override
@@ -107,9 +106,9 @@ abstract public class BasicGrid<E> implements Grid<E> {
             r = r+height;
         while(c<0)
             c = c+width;
-        while(r>0)
+        while(r>=height)
             r = r-height;
-        while(c>0)
+        while(c>=width)
             c = c-width;
 
 
