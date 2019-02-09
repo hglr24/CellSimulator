@@ -27,7 +27,7 @@ public class CellSocietyMain extends Application {
     @Override
     public void start (Stage stage) {
         initializeFileOpener();
-        File dataFile = new File("data\\TestSegregation.xml");
+        File dataFile = new File("data\\TestFire.xml");
         openFile(dataFile, stage, 0);
     }
 
