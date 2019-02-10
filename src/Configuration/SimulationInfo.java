@@ -42,7 +42,7 @@ public class SimulationInfo {
     private String myConfigurationType;
     private String trueRandom = "True Random";
     private Grid myGridType;
-    private ArrayList<String> myStringParams = new ArrayList<>();
+    private List<String> myValues;
 
     private void init(String title, String simType, String configuration, String width, String height, String shape,
                           String parameters, String probabilities, String neighborhood, String edge, String gridSize, String outline, String stateColors) {
@@ -94,6 +94,10 @@ public class SimulationInfo {
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
                 values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
                 values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)), values.get(12));
+        myValues = new ArrayList<String>();
+        for(int k = 0; k < 13; k++){
+            myValues.add(values.get(dataFields.get(k)));
+        }
     }
 
     private void setGridandRules() {
@@ -389,7 +393,7 @@ public class SimulationInfo {
         return myConfiguration;
     }
 
-    public ArrayList<String> getStringParams() {
-        return myStringParams;
+    public List<String> getSimStrings(){
+        return myValues;
     }
 }
