@@ -31,4 +31,22 @@ public class PredatorPreyGrid extends BasicGrid {
         this.ruleSet = ruleSet;
     }
 
+    public int[][] getIntArray(int height, int width){
+        int[][] intArray = new int[height][width];
+        for(int k = 0; k < height; k++){
+            for(int j = 0; j < height; j++){
+                if(this.cells[k][j].getCurrentState() == PredatorPreyState.EMPTY){
+                    intArray[k][j] = 0;
+                }
+                else if(this.cells[k][j].getCurrentState() == PredatorPreyState.FISH){
+                    intArray[k][j] = 1;
+                }
+                else{
+                    intArray[k][j] = 2;
+                }
+            }
+        }
+        return intArray;
+    }
+
 }
