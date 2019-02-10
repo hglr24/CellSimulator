@@ -16,6 +16,12 @@ public class RPSRuleSet implements RuleSet {
         threshold = (int) parameters[0];
     }
 
+    public RPSRuleSet() {}
+
+    public void setParameters(double[] parameters) {
+        threshold = (int) parameters[0];
+    }
+
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         int tempThreshold = threshold + ThreadLocalRandom.current().nextInt(0, 3);

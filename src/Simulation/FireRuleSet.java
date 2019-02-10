@@ -12,6 +12,12 @@ public class FireRuleSet implements RuleSet {
         probCatch = parameters[0];
     }
 
+    public FireRuleSet() {}
+
+    public void setParameters(double[] parameters) {
+        probCatch = parameters[0];
+    }
+
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
         switch ((FireState) cell.getCurrentState()) {

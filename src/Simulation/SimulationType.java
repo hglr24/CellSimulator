@@ -1,44 +1,52 @@
 package Simulation;
 
 public enum SimulationType {
-    GAME_OF_LIFE, SEGREGATION, PREDATOR_PREY, FIRE, PERCOLATION, RPS;
+    GAME_OF_LIFE("Game of Life", GameOfLifeState.values(), new GameOfLifeRuleSet()),
+    SEGREGATION("Segregation", SegregationState.values(), new SegregationRuleSet()),
+    PREDATOR_PREY("Predator/Prey", PredatorPreyState.values(), new PredatorPreyRuleSet()),
+    FIRE("Fire", FireState.values(), new FireRuleSet()),
+    PERCOLATION("Percolation", PercolationState.values(), new PercolationRuleSet()),
+    RPS("Rock Paper Scissors", RPSState.values(), new RPSRuleSet());
+
+    private String myLabel;
+    private State[] myStates;
+    private RuleSet myRules;
+
+    SimulationType(String label, State[] states, RuleSet rules) {
+        myLabel = label;
+        myStates = states;
+        myRules = rules;
+    }
+
+    public RuleSet setRules(double[] parameters) {
+        myRules.setParameters(parameters);
+        return myRules;
+    }
+
+    public Grid setGrid(int height, int width, int[][] initInts, RuleSet ruleSet, Neighborhood neighborhood) {
+        switch(this) {
+            case GAME_OF_LIFE:
+                return new GameOfLifeGrid(height, width, initInts, (GameOfLifeRuleSet) ruleSet, neighborhood);
+            case SEGREGATION:
+                return new SegregationGrid(height, width, initInts, (SegregationRuleSet) ruleSet, neighborhood);
+            case PREDATOR_PREY:
+                return new PredatorPreyGrid(height, width, initInts, (PredatorPreyRuleSet) ruleSet, neighborhood);
+            case FIRE:
+                return new FireGrid(height, width, initInts, (FireRuleSet) ruleSet, neighborhood);
+            case PERCOLATION:
+                return new PercolationGrid(height, width, initInts, (PercolationRuleSet) ruleSet, neighborhood);
+            case RPS:
+                return new RPSGrid(height, width, initInts, (RPSRuleSet) ruleSet, neighborhood);
+        }
+        return new GameOfLifeGrid(height, width, initInts, (GameOfLifeRuleSet) ruleSet, neighborhood);
+    }
 
     @Override
     public String toString() {
-        switch(this)
-        {
-            case GAME_OF_LIFE:
-                return "Game of Life";
-            case SEGREGATION:
-                return "Segregation";
-            case PREDATOR_PREY:
-                return "Predator/Prey";
-            case FIRE:
-                return "Fire";
-            case PERCOLATION:
-                return "Percolation";
-            case RPS:
-                return "Rock Paper Scissors";
-        }
-        return "NULL";
+        return myLabel;
     }
 
     public State[] getState() {
-        switch(this)
-        {
-            case GAME_OF_LIFE:
-                return GameOfLifeState.values();
-            case SEGREGATION:
-                return SegregationState.values();
-            case PREDATOR_PREY:
-                return PredatorPreyState.values();
-            case FIRE:
-                return FireState.values();
-            case PERCOLATION:
-                return PercolationState.values();
-            case RPS:
-                return RPSState.values();
-        }
-        return null;
+        return myStates;
     }
 }

@@ -7,6 +7,5 @@ Image or shape overlay on grid from CSS
 State colors from XML
 
 Optional:
-Log exceptions
 Reduce dependencies in GUIManager
 Toggle grid borders on/off from GUI

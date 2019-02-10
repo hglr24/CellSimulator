@@ -1,13 +1,8 @@
 package Configuration;
 
-import Simulation.Edge;
-import Simulation.Neighborhood;
-import Simulation.SimulationType;
+import Simulation.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +10,7 @@ import static Simulation.Edge.*;
 import static Simulation.SimulationType.*;
 
 public class SimulationInfo {
-    public static final List<String> dataFields = List.of(
+    static final List<String> dataFields = List.of(
             "Title",
             "SimulationType",
             "GridConfiguration",
@@ -46,6 +41,7 @@ public class SimulationInfo {
     private Paint[] myColors;
     private String myConfigurationType;
     private String trueRandom = "True Random";
+    private Grid myGridType;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape,
                           String parameters, String probabilities, String neighborhood, String edge, String gridSize, String outline, String stateColors) {
@@ -56,7 +52,8 @@ public class SimulationInfo {
         myParameters = parseDoubles(parameters);
         myProbabilities = parseDoubles(probabilities);
         myConfigurationType = configuration;
-        configureSimSpecific(simType, configuration);
+        setSimType(simType);
+        configureSimSpecific(configuration);
         CheckParameters checker = new CheckParameters();
         myParameters = checker.checkValidParameters(mySimType, myParameters);
         myProbabilities = checker.checkValidProbabilities(mySimType, myProbabilities);
@@ -86,6 +83,7 @@ public class SimulationInfo {
         } catch (Exception e) {
             myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
         }
+        setGridandRules(); //Sets grid type and ruleset through the SimulationType enum
     }
 
     public SimulationInfo(Map<String, String> values) {
@@ -95,120 +93,62 @@ public class SimulationInfo {
                 values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)), values.get(12));
     }
 
+    private void setGridandRules() {
+        RuleSet rules = mySimType.setRules(getParameters());
+        myGridType = mySimType.setGrid(getHeight(), getWidth(), getIntegerConfiguration(), rules, getNeighborhood());
+    }
 
-    private void configureSimSpecific(String simulationName, String configurationString) {
-        boolean random = configurationString.trim().equals("Random") || configurationString.trim().equals(trueRandom);
+    private void setSimType(String type) {
         try {
-            switch (simulationName) {
-                case "FIRE":
-                    mySimType = FIRE;
-                    if (random) {
-                        myConfiguration = this.getRandom(configurationString.trim(), 3);
-                    } else {
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 3);
-                    }
-                    try {
-                    inCorrectRange(0, 2, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e) {
-                        System.out.println("Incorrect parameters or probabilities for fire. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);
-                    }
-                    return;
-                case "GAME_OF_LIFE":
-                    mySimType = GAME_OF_LIFE;
-                    if (random) {
-                        myConfiguration = this.getRandom(configurationString, 2);
-                    } else {
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 2);
-                    }
-                    try {
-                        inCorrectRange(0, 1, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e) {
-                        System.out.println("Incorrect parameters or probabilities for game of life. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);                    }
-                    return;
-                case "PREDATOR_PREY":
-                    mySimType = PREDATOR_PREY;
-                    if (random) {
-                        myConfiguration = this.getRandom(configurationString, 3);
-                    } else {
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 3);
-                    }
-                    try {
-                        inCorrectRange(0, 2, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e) {
-                        System.out.println("Incorrect parameters or probabilities for Predator Prey. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);
-                    }
-                    return;
-                case "PERCOLATION":
-                    mySimType = PERCOLATION;
-                    if (random) {
-                        myConfiguration = this.getRandom(configurationString, 2);
-                    } else {
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 2);
-                    }
-                    int startFill = 0;
-                    for (int k = 0; k < this.getHeight(); k++) {
-                        for (int j = 0; j < this.getWidth(); j++) {
-                            if (startFill == 0 && k == 0) {
-                                myConfiguration[k][j] = 2;
-                                startFill =1 ;
-                            }
-                        }
-                    }
-                    try {
-                        inCorrectRange(0, 2, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e) {
-                        System.out.println("Incorrect parameters or probabilities for Percolation. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);
-                    }
-                    return;
-                case "SEGREGATION":
-                    mySimType = SEGREGATION;
-                    if (random) {
-                        myConfiguration = this.getRandom(configurationString.trim(), 3);
-                    } else {
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 3);
-                    }
-                    try {
-                        inCorrectRange(0, 2, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e) {
-                        System.out.println("Incorrect parameters or probabilities for Percolation. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);                     }
-                    return;
-                case "RPS":
-                    mySimType = RPS;
-                    if(random){
-                        myConfiguration = this.getRandom(configurationString.trim(), 3);
-                    } else{
-                        myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], 3);
-                    }
-                    try{
-                        inCorrectRange(0, 2, this.getIntegerConfiguration());
-                    }
-                    catch(XMLException e){
-                        System.out.println("Incorrect parameters or probabilities for RPS. Default enabled");
-                        configureSimSpecific(simulationName, trueRandom);
-                    }
-                    return;
-
-            }
-            throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
+            mySimType = SimulationType.valueOf(type);
         }
-        catch(XMLException e){
-            System.out.print("Not a valid simulation type. Default enabled");
-            configureSimSpecific("GAME_OF_LIFE", trueRandom);
+        catch (IllegalArgumentException e) {
+            mySimType = GAME_OF_LIFE;
+            throw new XMLException("Not a valid simulation type. Game of Life default simulation enabled.");
         }
     }
 
+    private void configureSimSpecific(String configurationString) {
+        boolean random = configurationString.trim().equals("Random") || configurationString.trim().equals(trueRandom);
+        try {
+            int numStates = mySimType.getState().length;
+            int stateRange = numStates - 1;
+            if (random) {
+                myConfiguration = this.getRandom(configurationString.trim(), numStates);
+            } else {
+                myConfiguration = stringToArray(configurationString.trim(), new int[this.getHeight()][this.getWidth()], numStates);
+            }
+            if (mySimType.equals(PERCOLATION)) {
+                stateRange++;
+                percolationInit();
+            }
+            try {
+                inCorrectRange(0, stateRange, this.getIntegerConfiguration());
+            }
+            catch(XMLException e) {
+                System.out.println("Incorrect parameters or probabilities for fire. Default enabled");
+                configureSimSpecific(trueRandom);
+            }
+        }
+        catch(XMLException e){
+            System.out.print("Not a valid simulation type. Default enabled");
+            configureSimSpecific(trueRandom);
+        }
+    }
 
-    public int[][] getRandom(String randomness, int numStates) {
+    private void percolationInit() {
+        int startFill = 0;
+        for (int k = 0; k < this.getHeight(); k++) {
+            for (int j = 0; j < this.getWidth(); j++) {
+                if (startFill == 0 && k == 0) {
+                    myConfiguration[k][j] = 2;
+                    startFill =1 ;
+                }
+            }
+        }
+    }
+
+    private int[][] getRandom(String randomness, int numStates) {
         try {
             int[][] configuration = new int[this.getHeight()][this.getWidth()];
             double probEmpty;
@@ -367,7 +307,7 @@ public class SimulationInfo {
         return mySimType;
     }
 
-    public double[] parseDoubles(String parameters){
+    private double[] parseDoubles(String parameters){
         String[] splitParams = parameters.replaceAll("\\s","").split(",");
         double[] paramsOut = new double[splitParams.length];
         try {
@@ -379,6 +319,10 @@ public class SimulationInfo {
         catch(NumberFormatException e){
             return new double[0];
         }
+    }
+
+    public Grid getGridType() {
+        return myGridType;
     }
 
     public Neighborhood getNeighborhood(){
@@ -406,20 +350,18 @@ public class SimulationInfo {
     }
 
     public int getWidth(){
-        int width = Integer.parseInt(myWidth.trim());
-        return width;
+        return Integer.parseInt(myWidth.trim());
     }
 
     public int getHeight(){
-        int height = Integer.parseInt(myHeight.trim());
-        return height;
+        return Integer.parseInt(myHeight.trim());
     }
 
     public Shape getShape(){
         return myShape;
     }
 
-    public double[] getProbability(){
+    private double[] getProbability(){
         return myProbabilities;
     }
 
