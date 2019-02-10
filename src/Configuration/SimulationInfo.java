@@ -4,6 +4,7 @@ import Simulation.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import static Simulation.Edge.*;
@@ -85,6 +86,10 @@ public class SimulationInfo {
             myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
         }
         setGridandRules(); //Sets grid type and ruleset through the SimulationType enum
+        String[] arrayValues = new String[]{title, simType, configuration, width, height, shape, parameters,
+                probabilities, neighborhood, edge, gridSize, outline, stateColors};
+        myValues = new ArrayList<String>();
+        myValues.addAll(Arrays.asList(arrayValues));
     }
 
     public SimulationInfo(Map<String, String> values) {
@@ -92,10 +97,6 @@ public class SimulationInfo {
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
                 values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
                 values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)), values.get(12));
-        myValues = new ArrayList<String>();
-        for(int k = 0; k < 13; k++){
-            myValues.add(values.get(dataFields.get(k)));
-        }
     }
 
     private void setGridandRules() {

@@ -110,7 +110,6 @@ public class XMLWriter {
             edge.appendChild(document.createTextNode(myEdge));
             root.appendChild(edge);
 
-
             Element gridSize = document.createElement("GridSize");
             gridSize.appendChild(document.createTextNode(myCellSize));
             root.appendChild(gridSize);
