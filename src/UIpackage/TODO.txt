@@ -2,7 +2,6 @@ Now:
 Dynamic parameter controls (separate window)
 
 Reliant:
-Save state as XML
 Image or shape overlay on grid from CSS
 State colors from XML
 
