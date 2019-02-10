@@ -9,6 +9,8 @@ public interface Grid<E> {
 
     int getWidth();
 
+    int[][] getIntArray(int height, int width);
+
     boolean validLocation(Location location);
 
     Cell getCell(Location location);
