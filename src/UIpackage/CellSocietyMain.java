@@ -127,7 +127,7 @@ public class CellSocietyMain extends Application {
         myFileSaver.setInitialFileName("SavedXML" + simInfo.getTitle().trim() + ".xml");
         File saveFile = myFileSaver.showSaveDialog(new Stage());
         if (saveFile != null) {
-            XMLWriter xmlWrite = new XMLWriter(simInfo.getStringParams());
+            XMLWriter xmlWrite = new XMLWriter(simInfo.getSimStrings());
             xmlWrite.writeXML(grid, saveFile);
         }
     }
