@@ -131,8 +131,9 @@ public class GUIManager {
         Button buttonStop = drawButton("Load", event -> loadNewSim());
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
+        Button buttonSave = drawButton("Save", event -> save());
 
-        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep);
+        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, buttonSave);
         return controls;
     }
 
@@ -264,6 +265,10 @@ public class GUIManager {
         mySim.stepSim(myStageID);
         buttonEnable();
         System.out.println("Simulation " + myStageID + " stepped");
+    }
+
+    private void save() {
+        mySim.saveXML(myGrid, myStageID);
     }
 
     private void buttonEnable() {

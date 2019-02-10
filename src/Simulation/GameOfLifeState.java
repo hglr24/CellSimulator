@@ -4,14 +4,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum GameOfLifeState implements State {
-    LIVE("Live", Color.GOLDENROD), DEAD("Dead", Color.GRAY);
+    LIVE("Live", Color.GOLDENROD, 1), DEAD("Dead", Color.GRAY, 0);
 
     private String myLabel;
     private Paint myColor;
+    private int myValue;
 
-    GameOfLifeState(String label, Paint color) {
+    GameOfLifeState(String label, Paint color, int value) {
         myLabel = label;
         myColor = color;
+        myValue = value;
+    }
+
+    @Override
+    public int getValue() {
+        return myValue;
     }
 
     @Override

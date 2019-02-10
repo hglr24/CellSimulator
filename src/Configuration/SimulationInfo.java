@@ -3,9 +3,9 @@ package Configuration;
 import Simulation.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import static Simulation.Edge.*;
 import static Simulation.SimulationType.*;
 
@@ -42,8 +42,9 @@ public class SimulationInfo {
     private String myConfigurationType;
     private String trueRandom = "True Random";
     private Grid myGridType;
+    private ArrayList<String> myStringParams = new ArrayList<>();
 
-    public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape,
+    private void init(String title, String simType, String configuration, String width, String height, String shape,
                           String parameters, String probabilities, String neighborhood, String edge, String gridSize, String outline, String stateColors) {
         myTitle = title;
         myWidth = width;
@@ -84,10 +85,12 @@ public class SimulationInfo {
             myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
         }
         setGridandRules(); //Sets grid type and ruleset through the SimulationType enum
+        storeStringParams(title, simType, configuration, width, height, shape,
+                parameters, probabilities, neighborhood, edge, gridSize, outline, stateColors);
     }
 
     public SimulationInfo(Map<String, String> values) {
-        this(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
+        init(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
                 values.get(dataFields.get(6)), values.get(dataFields.get(7)), values.get(dataFields.get(8)),
                 values.get(dataFields.get(9)), values.get(dataFields.get(10)), values.get(dataFields.get(11)), values.get(12));
@@ -96,6 +99,24 @@ public class SimulationInfo {
     private void setGridandRules() {
         RuleSet rules = mySimType.setRules(getParameters());
         myGridType = mySimType.setGrid(getHeight(), getWidth(), getIntegerConfiguration(), rules, getNeighborhood());
+    }
+
+    private void storeStringParams(String title, String simType, String configuration, String width, String height,
+                                   String shape, String parameters, String probabilities, String neighborhood,
+                                   String edge, String gridSize, String outline, String stateColors) {
+        myStringParams.add(title);
+        myStringParams.add(simType);
+        myStringParams.add(configuration);
+        myStringParams.add(width);
+        myStringParams.add(height);
+        myStringParams.add(shape);
+        myStringParams.add(parameters);
+        myStringParams.add(probabilities);
+        myStringParams.add(neighborhood);
+        myStringParams.add(edge);
+        myStringParams.add(gridSize);
+        myStringParams.add(outline);
+        myStringParams.add(stateColors);
     }
 
     private void setSimType(String type) {
@@ -348,7 +369,6 @@ public class SimulationInfo {
     public double[] getParameters(){
         return myParameters;
     }
-
     public int getWidth(){
         return Integer.parseInt(myWidth.trim());
     }
@@ -367,5 +387,9 @@ public class SimulationInfo {
 
     public int[][] getIntegerConfiguration(){
         return myConfiguration;
+    }
+
+    public ArrayList<String> getStringParams() {
+        return myStringParams;
     }
 }
