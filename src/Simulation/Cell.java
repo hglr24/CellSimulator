@@ -1,6 +1,5 @@
 package Simulation;
 
-
 import java.util.ArrayList;
 
 public abstract class Cell {
@@ -46,4 +45,8 @@ public abstract class Cell {
 
     }
 
+    public void setClickState(State newState) {
+        nextState = newState;
+        goToNextState();
+    }
 }
