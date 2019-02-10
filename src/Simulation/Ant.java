@@ -21,8 +21,11 @@ public class Ant {
     }
 
     public void act(AntGrid grid){
+        //forward neighbors, check if valid
+        //if not, check among all neighbors
         ArrayList<AntCell> forwardNeighbors = grid.findForwardNeighbors(location, heading);
 
+        updatePheromones();
         if(hasFood)
             findHome();
         else
@@ -41,6 +44,14 @@ public class Ant {
     private int dropPheromones(){
         return 1;
         //drop the correct pheromones to parent, decrement the pheromones
+
+    }
+
+    public boolean hasFood(){
+        return hasFood;
+    }
+
+    private void updatePheromones(){
 
     }
 

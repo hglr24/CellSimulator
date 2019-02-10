@@ -43,14 +43,28 @@ public class AntCell extends Cell {
 
     public void addFood(int food){
         foodPheromone += food;
+        if(foodPheromone>MAX_FOOD)
+            foodPheromone = MAX_FOOD;
     }
 
     public void addHome(int home){
         homePheromone += home;
+        if(homePheromone>MAX_HOME)
+            homePheromone = MAX_HOME;
     }
 
     public boolean available(){
         return ants.size()<MAX_ANTS;
+    }
+
+    public boolean hasAnts(){return !ants.isEmpty();}
+
+    public boolean hasFoodAnts(){
+        for(Ant a: ants){
+            if(a.hasFood())
+                return true;
+        }
+        return false;
     }
 
 
