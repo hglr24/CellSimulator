@@ -41,7 +41,6 @@ public class SimulationInfo {
     private Paint[] myColors;
     private String myConfigurationType;
     private String trueRandom = "True Random";
-    private RuleSet myRules;
     private Grid myGridType;
 
     public SimulationInfo(String title, String simType, String configuration, String width, String height, String shape,
@@ -84,7 +83,7 @@ public class SimulationInfo {
         } catch (Exception e) {
             myColors = new Paint[]{Color.WHITE, Color.BLACK, Color.RED};
         }
-        setGridandRules();
+        setGridandRules(); //Sets grid type and ruleset through the SimulationType enum
     }
 
     public SimulationInfo(Map<String, String> values) {
@@ -95,8 +94,8 @@ public class SimulationInfo {
     }
 
     private void setGridandRules() {
-        myRules = mySimType.setRules(getParameters());
-        myGridType = mySimType.setGrid(getHeight(), getWidth(), getIntegerConfiguration(), myRules, getNeighborhood());
+        RuleSet rules = mySimType.setRules(getParameters());
+        myGridType = mySimType.setGrid(getHeight(), getWidth(), getIntegerConfiguration(), rules, getNeighborhood());
     }
 
     private void setSimType(String type) {
