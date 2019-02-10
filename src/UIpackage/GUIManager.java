@@ -3,10 +3,7 @@ package UIpackage;
 import Simulation.Cell;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -188,8 +185,7 @@ public class GUIManager {
     private VBox newLegendBox(String title) {
         VBox newBox = new VBox();
         newBox.getStyleClass().add("right-pane-item");
-
-        Text label = new Text(title);
+        Label label = new Label(title);
         newBox.getChildren().add(label);
         return newBox;
     }

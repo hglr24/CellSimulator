@@ -29,12 +29,9 @@
     -fx-spacing: 5;
     -fx-padding: 10;
     -fx-border-radius: 2;
-    -fx-border-color: black;
+    -fx-border-color: rgb(38, 71, 97);
     -fx-border-style: solid;
-    -fx-border-width: 2;
-    -fx-font-family: Verdana;
-    -fx-font-size: 20;
-    -fx-font-weight: bold;
+    -fx-border-width: 3;
 }
 
 .title {
@@ -86,18 +83,32 @@
 .chart {
     -fx-max-height: 90;
     -fx-max-width: 110;
+    -fx-horizontal-zero-line-visible: false;
+    -fx-vertical-zero-line-visible: false;
 }
 
-.chart-title {
-    -fx-text-fill: black;
-    -fx-text-alignment: left;
-    -fx-font-family: Verdana;
-    -fx-font-size: 18;
-    -fx-font-weight: bold;
+.chart-plot-background {
+    -fx-background-color: rgb(170,189,206);
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
 }
 
 .axis {
     -fx-tick-labels-visible: false;
     -fx-tick-mark-visible: false;
     -fx-minor-tick-visible: false;
+    -fx-opacity: 0;
+}
+
+.label {
+    -fx-alignment: center-left;
+    -fx-text-fill: black;
+    -fx-font-family: Verdana;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
 }

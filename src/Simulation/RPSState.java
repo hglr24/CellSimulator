@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum RPSState implements State {
-    ROCK("Rock", Color.RED), PAPER("Paper", Color.BLUE), SCISSORS("Scissors", Color.GREEN);
+    ROCK("Rock", Color.SALMON), PAPER("Paper", Color.CORNFLOWERBLUE), SCISSORS("Scissors", Color.PALEGREEN);
 
     private String myLabel;
     private Paint myColor;

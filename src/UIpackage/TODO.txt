@@ -1,6 +1,6 @@
 Now:
 Create or change state at given location by clicking
-Dynamic parameter controls (separate window?)
+Dynamic parameter controls (separate window)
 
 Reliant:
 Save state as XML
@@ -10,3 +10,4 @@ State colors from XML
 Optional:
 Log exceptions
 Reduce dependencies in GUIManager
+Toggle grid borders on/off from GUI
