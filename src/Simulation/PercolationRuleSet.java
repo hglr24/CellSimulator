@@ -12,6 +12,10 @@ public class PercolationRuleSet implements RuleSet{
         hasPercolated = false;
     }
 
+    public void setParameters(double[] parameters) {
+        //do nothing
+    }
+
     @Override
     public State applyRules(List<Cell> neighbors, Cell baseCell, Grid grid){
         PercolationCell cell = (PercolationCell) baseCell;
@@ -20,7 +24,7 @@ public class PercolationRuleSet implements RuleSet{
                 for(Cell c:neighbors){
                     if(c.getCurrentState() == PERCOLATED){
                         if(cell.getYPosition() == grid.getHeight()-1){
-                            System.out.println(cell.getYPosition());
+                            //System.out.println(cell.getYPosition());
                             hasPercolated = true;
                         }
                         return PERCOLATED;

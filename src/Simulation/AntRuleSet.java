@@ -12,6 +12,12 @@ public class AntRuleSet implements RuleSet {
         probCatch = parameters[0];
     }
 
+    public AntRuleSet() {}
+
+    public void setParameters(double[] parameters) {
+        probCatch = parameters[0];
+    }
+
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
         ((AntCell) cell).evaluate((AntGrid) grid);

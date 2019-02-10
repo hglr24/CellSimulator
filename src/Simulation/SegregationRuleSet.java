@@ -14,6 +14,12 @@ public class SegregationRuleSet implements RuleSet{
         mySatPercent = parameters[0];
     }
 
+    public SegregationRuleSet() {}
+
+    public void setParameters(double[] parameters) {
+        mySatPercent = parameters[0];
+    }
+
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         double sameNeighbors = 0;
         for(Cell c:neighbors){

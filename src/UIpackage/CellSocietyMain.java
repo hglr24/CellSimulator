@@ -40,7 +40,7 @@ public class CellSocietyMain extends Application {
             initializeNewStageProps(stage);
             makeGUI(stage);
         }
-        catch (IllegalStateException e) {
+        catch (IllegalStateException | IllegalArgumentException | XMLException e) {
             myGUIs.get(oldStageIndex).errorBox("Load Error", "Invalid XML file");
             myStages.remove(stage);
         }
@@ -66,48 +66,15 @@ public class CellSocietyMain extends Application {
         stage.show();
     }
 
-    private Grid parseXML(File dataFile, int newStageIndex) { //TODO shrink method
+    private Grid parseXML(File dataFile, int newStageIndex) {
         XMLReader testRead = new XMLReader();
         SimulationInfo testSim = testRead.getSimulation(dataFile);
         mySimInfos.add(newStageIndex, testSim);
-        Grid gridType = null;
-
+        Grid gridType;
         if(testSim.getType() != null) {
             mySimTypes.add(newStageIndex, testSim.getType());
             myShapes.add(newStageIndex, testSim.getShape());
-
-            switch (testSim.getType()) {
-                case SEGREGATION:
-                    SegregationRuleSet rules = new SegregationRuleSet(testSim.getParameters());
-                    gridType = new SegregationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules, testSim.getNeighborhood());
-                    break;
-                case GAME_OF_LIFE:
-                    GameOfLifeRuleSet rules2 = new GameOfLifeRuleSet();
-                    gridType = new GameOfLifeGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules2, testSim.getNeighborhood());
-                    break;
-                case FIRE:
-                    FireRuleSet rules3 = new FireRuleSet(testSim.getParameters());
-                    gridType = new FireGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules3, testSim.getNeighborhood());
-                    break;
-                case PERCOLATION:
-                    PercolationRuleSet rules4 = new PercolationRuleSet();
-                    gridType = new PercolationGrid(testSim.getHeight(), testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules4, testSim.getNeighborhood());
-                    break;
-                case PREDATOR_PREY:
-                    PredatorPreyRuleSet rules5 = new PredatorPreyRuleSet(testSim.getParameters());
-                    gridType = new PredatorPreyGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules5, testSim.getNeighborhood());
-                    break;
-                case RPS:
-                    RPSRuleSet rules6 = new RPSRuleSet(testSim.getParameters());
-                    gridType = new RPSGrid(testSim.getHeight(),testSim.getWidth(),
-                            testSim.getIntegerConfiguration(), rules6, testSim.getNeighborhood());
-                    break;
-            }
+            gridType = testSim.getGridType();
         }
         else {
             throw new IllegalStateException();
