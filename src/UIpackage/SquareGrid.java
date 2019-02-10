@@ -1,11 +1,11 @@
 package UIpackage;
 
+import Simulation.Grid;
+import Simulation.SimulationType;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
-
 import java.util.ArrayList;
 
 public class SquareGrid extends ShapeGrid {
@@ -13,8 +13,8 @@ public class SquareGrid extends ShapeGrid {
     private boolean myGridBorder;
     private static final double PAD_OFFSET = 10;
 
-    SquareGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
-        super(hsize, vsize);
+    SquareGrid(int hsize, int vsize, int cellsize, boolean gridBorder, Grid grid, SimulationType type) {
+        super(hsize, vsize, type, grid);
         myCellSize = cellsize;
         myGridBorder = gridBorder;
         this.setHgap(-1);
@@ -25,10 +25,8 @@ public class SquareGrid extends ShapeGrid {
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {
-                Rectangle newShape = new Rectangle();
-                newShape.setFill(Color.GRAY);
-                newShape.setHeight(myCellSize);
-                newShape.setWidth(myCellSize);
+                GridRectangle newShape = new GridRectangle(i, j, myCellSize);
+                newShape.setOnMouseClicked(event -> changeState(newShape));
                 if (myGridBorder) {
                     newShape.setStroke(Color.BLACK);
                     newShape.setStrokeType(StrokeType.INSIDE);

@@ -1,5 +1,7 @@
 package UIpackage;
 
+import Simulation.Grid;
+import Simulation.SimulationType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -15,8 +17,8 @@ public class HexGrid extends ShapeGrid {
     private static final double PAD_H_OFFSET = 1.5;
     private static final double PAD_V_OFFSET = 8.0;
 
-    HexGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
-        super(hsize, vsize);
+    HexGrid(int hsize, int vsize, int cellsize, boolean gridBorder, Grid grid, SimulationType type) {
+        super(hsize, vsize, type, grid);
         myCellRadius = cellsize / 2.0;
         rowList = new ArrayList<>();
         myGridBorder = gridBorder;
@@ -29,7 +31,7 @@ public class HexGrid extends ShapeGrid {
         for (int i = 0; i < vsize; i++) {
             GridPane rowPane = new GridPane();
             rowList.add(i, rowPane);
-            rowPane.setHgap(-2);
+            rowPane.setHgap(-1);
             this.add(rowPane, 0, i);
         }
     }
@@ -37,8 +39,8 @@ public class HexGrid extends ShapeGrid {
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {
-                Hexagon newShape = new Hexagon(myCellRadius);
-                newShape.setFill(Color.GRAY);
+                GridHexagon newShape = new GridHexagon(i, j, myCellRadius);
+                newShape.setOnMouseClicked(event -> changeState(newShape));
                 if (myGridBorder) {
                     newShape.setStroke(Color.BLACK);
                     newShape.setStrokeType(StrokeType.INSIDE);

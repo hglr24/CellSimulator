@@ -1,10 +1,11 @@
 package UIpackage;
 
+import Simulation.Grid;
+import Simulation.SimulationType;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
-
 import java.util.ArrayList;
 
 public class TriGrid extends ShapeGrid {
@@ -15,8 +16,8 @@ public class TriGrid extends ShapeGrid {
     private static final double HGAP_OFFSET = Math.sqrt(3) / 2;
     private static final int ROTATE_DEGREES = 180;
 
-    TriGrid(int hsize, int vsize, int cellsize, boolean gridBorder) {
-        super(hsize, vsize);
+    TriGrid(int hsize, int vsize, int cellsize, boolean gridBorder, Grid grid, SimulationType type) {
+        super(hsize, vsize, type, grid);
         myCellRadius = cellsize / 2.0;
         myGridBorder = gridBorder;
         this.setHgap(-myCellRadius * HGAP_OFFSET - 1);
@@ -27,12 +28,12 @@ public class TriGrid extends ShapeGrid {
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {
-                Triangle newShape = new Triangle(myCellRadius);
+                GridTriangle newShape = new GridTriangle(i, j, myCellRadius);
+                newShape.setOnMouseClicked(event -> changeState(newShape));
                 if (myGridBorder) {
                     newShape.setStroke(Color.BLACK);
                     newShape.setStrokeType(StrokeType.INSIDE);
                 }
-                newShape.setFill(Color.GRAY);
                 if (j % 2 == 1) {
                     newShape.setRotate(ROTATE_DEGREES);
                 }

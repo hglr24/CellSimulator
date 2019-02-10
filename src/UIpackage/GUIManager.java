@@ -108,16 +108,16 @@ public class GUIManager {
         ShapeGrid grid;
         switch(myShape) {
             case SQUARE:
-                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
+                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder, myGrid, mySimType);
                 break;
             case TRIANGLE:
-                grid = new TriGrid(hsize, vsize, cellsize, myGridBorder);
+                grid = new TriGrid(hsize, vsize, cellsize, myGridBorder, myGrid, mySimType);
                 break;
             case HEXAGON:
-                grid = new HexGrid(hsize, vsize, cellsize, myGridBorder);
+                grid = new HexGrid(hsize, vsize, cellsize, myGridBorder, myGrid, mySimType);
                 break;
             default:
-                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder);
+                grid = new SquareGrid(hsize, vsize, cellsize, myGridBorder, myGrid, mySimType);
                 break;
         }
         return grid;

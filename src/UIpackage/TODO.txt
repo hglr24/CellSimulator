@@ -1,5 +1,4 @@
 Now:
-Create or change state at given location by clicking
 Dynamic parameter controls (separate window)
 
 Reliant:
