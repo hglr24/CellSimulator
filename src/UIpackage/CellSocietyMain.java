@@ -1,13 +1,15 @@
 package UIpackage;
 
 import Configuration.*;
-import Simulation.*;
+import Simulation.Grid;
+import Simulation.SimulationType;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CellSocietyMain extends Application {
@@ -23,11 +25,13 @@ public class CellSocietyMain extends Application {
     private ArrayList<Boolean> isPaused = new ArrayList<>();
     private static final String TITLE = "CellSociety";
     private static final FileChooser myFileChooser = new FileChooser();
+    private static final FileChooser myFileSaver = new FileChooser();
     private static final double SECOND_IN_NANOS = 1000000000;
 
     @Override
     public void start (Stage stage) {
         initializeFileOpener();
+        initializeFileSaver();
         File dataFile = new File("data\\TestFire.xml");
         openFile(dataFile, stage, 0);
     }
@@ -101,6 +105,12 @@ public class CellSocietyMain extends Application {
         myFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
     }
 
+    private void initializeFileSaver() {
+        myFileSaver.setTitle("Save simulation state as XML File");
+        myFileSaver.setInitialDirectory(new File(System.getProperty("user.dir") + "/data"));
+        myFileSaver.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
+    }
+
     void loadNewSim(int stageIndex) throws FileNotFoundException {
         File newFile = myFileChooser.showOpenDialog(new Stage());
         if (newFile != null) {
@@ -109,6 +119,16 @@ public class CellSocietyMain extends Application {
         }
         else {
             throw new FileNotFoundException();
+        }
+    }
+
+    void saveXML(Grid grid, int stageIndex) {
+        SimulationInfo simInfo = mySimInfos.get(stageIndex);
+        myFileSaver.setInitialFileName("SavedXML" + simInfo.getTitle().trim() + ".xml");
+        File saveFile = myFileSaver.showSaveDialog(new Stage());
+        if (saveFile != null) {
+            XMLWriter xmlWrite = new XMLWriter(simInfo.getSimStrings());
+            xmlWrite.writeXML(grid, saveFile);
         }
     }
 

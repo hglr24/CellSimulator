@@ -1,10 +1,7 @@
 package Simulation;
 
-
-
 import static Simulation.GameOfLifeState.DEAD;
 import static Simulation.GameOfLifeState.LIVE;
-
 
 public class GameOfLifeGrid extends BasicGrid {
 
@@ -28,20 +25,4 @@ public class GameOfLifeGrid extends BasicGrid {
         }
         this.cells = initCells;
     }
-
-    public int[][] getIntArray(int height, int width){
-        int[][] intArray = new int[height][width];
-        for(int k = 0; k < height; k++){
-            for(int j = 0; j < height; j++){
-                if(this.cells[k][j].getCurrentState() == DEAD){
-                    intArray[k][j] = 0;
-                }
-                else{
-                    intArray[k][j] = 1;
-                }
-            }
-        }
-        return intArray;
-    }
-
 }
