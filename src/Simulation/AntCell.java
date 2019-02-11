@@ -10,12 +10,13 @@ public class AntCell extends Cell {
     private ArrayList<Ant> antsNext = new ArrayList<>();
     private int foodPheromone = 0;
     private int homePheromone = 0;
-    private static final int START_HOME_ANTS = 100;
-    private static final int MAX_ANTS = 10;
+    private static final int START_HOME_ANTS = 8;
+    private static final int MAX_ANTS = 2;
     private static final int DIFFUSE_HOME = 10;
     private static final int DIFFUSE_FOOD = 10;
     private static final int MAX_FOOD = 1000;
     private static final int MAX_HOME = 1000;
+    private static final int REDUCTION = 10;
 
 
     public AntCell(int xPosition, int yPosition, AntState initState) {
@@ -28,6 +29,7 @@ public class AntCell extends Cell {
 
             for (int i = 0; i < START_HOME_ANTS; i++)
                 ants.add(new Ant(false, Heading.values()[random.nextInt(Heading.values().length)], location));
+
         }
 
         if (initState == AntState.FOOD) {
@@ -35,13 +37,20 @@ public class AntCell extends Cell {
         }
     }
 
-    public void evaluate(AntGrid grid) {
-        if(currentState == AntState.FOOD){
-            foodPheromone = MAX_FOOD;
+    public void stateCheck(){
+        switch((AntState)currentState){
+            case FOOD:
+                foodPheromone = MAX_FOOD;
+                break;
+            case HOME:
+                homePheromone = MAX_HOME;
+                break;
 
-            if(this.hasAnts())
-                System.out.println("ANTS IN FOOD");
         }
+
+    }
+    public void evaluate(AntGrid grid) {
+        stateCheck();
 
         Iterator<Ant> iter = ants.iterator();
 
@@ -49,17 +58,7 @@ public class AntCell extends Cell {
             Ant a = iter.next();
             a.act(grid, this);
 
-//            if (a.isMoved())
-//                removal.add(a);
-//                //iter.remove();
         }
-
-//        for (Ant a : ants) {
-//            a.act(grid, this);
-//            if (a.isMoved())
-//                removal.add(a);
-//        }
-//        ants.removeAll(removal);
     }
 
     public boolean available() {
@@ -79,9 +78,9 @@ public class AntCell extends Cell {
     }
 
     public void diffuse() {
-        if (foodPheromone > 0)
+        //if (foodPheromone > 0)
             foodPheromone -= DIFFUSE_FOOD;
-        if (homePheromone > 0)
+        //if (homePheromone > 0)
             homePheromone -= DIFFUSE_HOME;
     }
 
@@ -89,12 +88,27 @@ public class AntCell extends Cell {
         foodPheromone += food;
         if (foodPheromone > MAX_FOOD)
             foodPheromone = MAX_FOOD;
+        int temp = 0;
+        for(Cell a: neighbors){
+            if(((AntCell) a).getFoodPheromone() > temp)
+                temp = ((AntCell) a).getFoodPheromone();
+        }
+        if(foodPheromone > (temp-REDUCTION))
+            foodPheromone = temp-REDUCTION;
     }
 
     public void addHome(int home) {
         homePheromone += home;
         if (homePheromone > MAX_HOME)
             homePheromone = MAX_HOME;
+
+        int temp = 0;
+        for(Cell a: neighbors){
+            if(((AntCell) a).getHomePheromone() > temp)
+                temp = ((AntCell) a).getHomePheromone();
+        }
+        if(homePheromone > (temp-REDUCTION))
+            homePheromone = temp-REDUCTION;
     }
 
     public int getFoodPheromone() {
@@ -116,6 +130,13 @@ public class AntCell extends Cell {
         ants.clear();
         ants.addAll(antsNext);
         antsNext.clear();
+    }
+
+    @Override
+    public void determineState(Grid grid) {
+
+        nextState = grid.getRuleSet().applyRules(neighbors, this, grid);
+        changed = (nextState != currentState);
     }
 }
 

@@ -14,9 +14,8 @@ public class Ant {
     private ArrayList<AntCell> antNeighbors;
     private static final int ANT_MAX_FOOD = 100;
     private static final int ANT_MAX_HOME = 100;
-    private static final int ANT_DIFFUSE_HOME = 10;
-    private static final int ANT_DIFFUSE_FOOD = 10;
-
+    private static final int ANT_DIFFUSE_HOME = 2;
+    private static final int ANT_DIFFUSE_FOOD = 2;
 
     public Ant(boolean hasFood, Heading heading, Location location) {
         this.hasFood = hasFood;
@@ -53,12 +52,18 @@ public class Ant {
 
     private void findFood() {
         int food = 0;
+        Collections.shuffle(antNeighbors);
         AntCell optimal = antNeighbors.get(0);
         for (AntCell a : antNeighbors) {
             if (a.getFoodPheromone() > food) {
                 food = a.getHomePheromone();
                 optimal = a;
             }
+        }
+
+        if(Math.random() <.5){
+            Collections.shuffle(antNeighbors);
+            optimal = antNeighbors.get(0);
         }
         move(optimal);
     }
@@ -73,17 +78,25 @@ public class Ant {
                 optimal = a;
             }
         }
+        if(Math.random() <.5){
+            Collections.shuffle(antNeighbors);
+            optimal = antNeighbors.get(0);
+        }
+
         move(optimal);
     }
 
     private void move(AntCell optimal) {
-        int diffX = ((SquareLocation) optimal.getLocation()).getX() - location.getX();
-        int diffY = ((SquareLocation) optimal.getLocation()).getY() - location.getY();
+        int diffX =  ((SquareLocation) optimal.getLocation()).getX() - location.getX();
+        int diffY =  ((SquareLocation) optimal.getLocation()).getY() - location.getX();
 
         for (Heading h : Heading.values()) {
-            if (h.relativeY == diffY && h.relativeX == diffX)
+            if (h.relativeY == diffY && h.relativeX == diffX){
                 heading = h;
+            }
+
         }
+        location = (SquareLocation) optimal.getLocation();
         optimal.addAnt(this);
     }
 
@@ -99,9 +112,14 @@ public class Ant {
         switch (state) {
             case FOOD:
                 foodPheromones = ANT_MAX_FOOD;
+                hasFood = true;
                 break;
+
             case HOME:
                 homePheromones = ANT_MAX_HOME;
+                if(hasFood)
+                    System.out.println("MISSION ACCOMPLISHED");
+                hasFood = false;
                 break;
         }
     }
