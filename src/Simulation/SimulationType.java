@@ -6,7 +6,8 @@ public enum SimulationType {
     PREDATOR_PREY("Predator/Prey", PredatorPreyState.values(), new PredatorPreyRuleSet()),
     FIRE("Fire", FireState.values(), new FireRuleSet()),
     PERCOLATION("Percolation", PercolationState.values(), new PercolationRuleSet()),
-    RPS("Rock Paper Scissors", RPSState.values(), new RPSRuleSet());
+    RPS("Rock Paper Scissors", RPSState.values(), new RPSRuleSet()),
+    ANT("Ant", AntState.values(),new AntRuleSet());
 
     private String myLabel;
     private State[] myStates;
@@ -37,6 +38,8 @@ public enum SimulationType {
                 return new PercolationGrid(height, width, initInts, (PercolationRuleSet) ruleSet, neighborhood);
             case RPS:
                 return new RPSGrid(height, width, initInts, (RPSRuleSet) ruleSet, neighborhood);
+            case ANT:
+                return new AntGrid(height,width,initInts, (AntRuleSet) ruleSet, neighborhood);
         }
         return new GameOfLifeGrid(height, width, initInts, (GameOfLifeRuleSet) ruleSet, neighborhood);
     }

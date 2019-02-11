@@ -19,7 +19,7 @@ public class AntRuleSet implements RuleSet {
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
         AntCell antCell = (AntCell) cell;
-        antCell.diffuse();
+        //antCell.diffuse();
         antCell.evaluate((AntGrid) grid);
 
         if(antCell.hasAnts()){
