@@ -4,15 +4,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum AntState implements State {
-    EMPTY("Empty", Color.BROWN), FOOD("Food", Color.PALEGREEN), HOME("Home", Color.LIGHTCORAL), ANT_NO_FOOD("Ant", Color.BLACK), ANT_WITH_FOOD(
-            "Ant with Food", Color.ORANGE);
+    EMPTY("Empty", Color.BROWN,0), FOOD("Food", Color.PALEGREEN,1), HOME("Home", Color.LIGHTCORAL,2), ANT_NO_FOOD("Ant", Color.BLACK,3),
+    ANT_WITH_FOOD("Ant with Food", Color.ORANGE,4);
+
 
     private String myLabel;
     private Paint myColor;
+    private int myValue;
 
-    AntState(String label, Paint color) {
+    AntState(String label, Paint color, int value) {
         myLabel = label;
         myColor = color;
+    }
+
+    @Override
+    public int getValue() {
+        return myValue;
     }
 
     @Override

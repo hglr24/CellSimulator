@@ -100,6 +100,17 @@ abstract public class BasicGrid<E> implements Grid<E> {
         return adjacent;
     }
 
+    @Override
+    public int[][] getIntArray(int height, int width) {
+        int[][] intArray = new int[height][width];
+        for(int k = 0; k < height; k++){
+            for(int j = 0; j < width; j++){
+                intArray[k][j] = this.cells[k][j].getCurrentState().getValue();
+            }
+        }
+        return intArray;
+    }
+
     private void wrapLocation(int r, int c){
 
         while(r<0)

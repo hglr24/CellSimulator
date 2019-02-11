@@ -38,10 +38,7 @@ public class AntGrid extends BasicGrid {
             int c = sl.getY() + deltas[1][i];
 
             SquareLocation temp = new SquareLocation(r,c);
-
             validNeighbors(temp, adjacent);
-
-
         }
 
         return adjacent;
@@ -50,23 +47,5 @@ public class AntGrid extends BasicGrid {
 
         if (validLocation(location) && ((AntCell) getCell(location)).available())
             neighbors.add((AntCell)getCell(location));
-    }
-
-    public int[][] getIntArray(int height, int width){
-        int[][] intArray = new int[height][width];
-        for(int k = 0; k < height; k++){
-            for(int j = 0; j < height; j++){
-                if(this.cells[k][j].getCurrentState() == AntState.EMPTY){
-                    intArray[k][j] = 0;
-                }
-                else if(this.cells[k][j].getCurrentState() == AntState.FOOD){
-                    intArray[k][j] = 1;
-                }
-                else{
-                    intArray[k][j] = 2;
-                }
-            }
-        }
-        return intArray;
     }
 }

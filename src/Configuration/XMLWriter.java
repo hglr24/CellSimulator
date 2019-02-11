@@ -54,9 +54,9 @@ public class XMLWriter {
                 values.get(7), values.get(8), values.get(9), values.get(10), values.get(11), values.get(12));
     }
 
-    public void writeXML(Grid grid){
+    public void writeXML(Grid grid, File saveLocation){
         try{
-            String XMLPath = "data/SavedXML" + myTitle.trim() + ".xml";
+            String XMLPath = saveLocation.getPath();
             int[][] gridInt = grid.getIntArray(grid.getHeight(), grid.getWidth());
             myConfiguration = arrayToString(gridInt);
 
@@ -109,7 +109,6 @@ public class XMLWriter {
             Element edge = document.createElement("Edge");
             edge.appendChild(document.createTextNode(myEdge));
             root.appendChild(edge);
-
 
             Element gridSize = document.createElement("GridSize");
             gridSize.appendChild(document.createTextNode(myCellSize));
