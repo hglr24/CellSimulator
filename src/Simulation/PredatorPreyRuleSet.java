@@ -11,19 +11,23 @@ public class PredatorPreyRuleSet implements RuleSet {
     private int sharkHealth;
     private int fishReproduce;
     private int sharkReproduce;
+    private double[] myParams;
 
     public PredatorPreyRuleSet(double[] parameters) {
-        sharkHealth = (int) parameters[2];
-        fishReproduce = (int) parameters[0];
-        sharkReproduce = (int) parameters[1];
+        setParameters(parameters);
     }
 
     public PredatorPreyRuleSet() {}
 
     public void setParameters(double[] parameters) {
+        myParams = parameters;
         sharkHealth = (int) parameters[2];
         fishReproduce = (int) parameters[0];
         sharkReproduce = (int) parameters[1];
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override

@@ -52,4 +52,8 @@ public enum SimulationType {
     public State[] getState() {
         return myStates;
     }
+
+    public RuleSet getRules() {
+        return myRules;
+    }
 }

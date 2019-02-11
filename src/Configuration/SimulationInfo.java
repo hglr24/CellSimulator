@@ -327,6 +327,10 @@ public class SimulationInfo {
         }
     }
 
+    public SimulationType getSimType() {
+        return mySimType;
+    }
+
     public Grid getGridType() {
         return myGridType;
     }

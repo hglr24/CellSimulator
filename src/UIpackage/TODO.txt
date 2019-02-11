@@ -1,5 +1,8 @@
 Now:
-Dynamic parameter controls (separate window)
+Labels for params
+does GoL have parameters?
+Does ant have parameters?
+Address null params that display as 0 from XML
 
 Reliant:
 Image or shape overlay on grid from CSS

@@ -6,16 +6,22 @@ import static Simulation.FireState.*;
 
 public class FireRuleSet implements RuleSet {
 
+    private double[] myParams;
     private double probCatch;
 
     public FireRuleSet(double[] parameters) {
-        probCatch = parameters[0];
+        setParameters(parameters);
     }
 
     public FireRuleSet() {}
 
     public void setParameters(double[] parameters) {
+        myParams = parameters;
         probCatch = parameters[0];
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override
