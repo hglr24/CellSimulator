@@ -4,7 +4,7 @@ public class SugarScapeAgent {
     private Location myLocation;
     private int mySugar;
 
-    public SugarScapeAgent(Location location, int sugarCount){
+    public SugarScapeAgent(Location location, int sugarCount, int metabolism){
         myLocation = location;
         mySugar = sugarCount;
     }

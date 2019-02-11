@@ -65,3 +65,19 @@ None
 1. Put "Random" in GridConfiguration to generate states randomly based off of probabilities
 2. Put "True Random" in GridConfiguration to generate states completely randomly
 3. Put an integer array expressing the desired initial states of cells matching size of entered width and height
+
+### Standardized Parameter Names
+### Game of Life: 
+None
+#### Segregation:
+1. "satPercent"
+#### Predator-Prey:
+1. "fishRepTime"
+2. "sharkRepTime"
+3. "sharkEnergy"
+#### Fire:
+1. "probBurn"
+#### Percolation
+None
+#### RPS: 
+1. "winThresh"
