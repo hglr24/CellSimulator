@@ -61,7 +61,7 @@ public class Ant {
             }
         }
 
-        if(Math.random() <.5){
+        if(Math.random() <.1){
             Collections.shuffle(antNeighbors);
             optimal = antNeighbors.get(0);
         }
@@ -78,7 +78,7 @@ public class Ant {
                 optimal = a;
             }
         }
-        if(Math.random() <.5){
+        if(Math.random() <.1){
             Collections.shuffle(antNeighbors);
             optimal = antNeighbors.get(0);
         }
@@ -117,8 +117,6 @@ public class Ant {
 
             case HOME:
                 homePheromones = ANT_MAX_HOME;
-                if(hasFood)
-                    System.out.println("MISSION ACCOMPLISHED");
                 hasFood = false;
                 break;
         }
