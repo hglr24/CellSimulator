@@ -74,7 +74,7 @@ None
 #### Predator-Prey:
 1. "fishRepTime"
 2. "sharkRepTime"
-3. "sharkEnergy"
+3. "startingEnergy"
 #### Fire:
 1. "probBurn"
 #### Percolation
