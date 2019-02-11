@@ -11,12 +11,12 @@ public class AntCell extends Cell {
     private int foodPheromone = 0;
     private int homePheromone = 0;
     private static final int START_HOME_ANTS = 8;
-    private static final int MAX_ANTS = 2;
+    private static final int MAX_ANTS = 1;
     private static final int DIFFUSE_HOME = 10;
     private static final int DIFFUSE_FOOD = 10;
-    private static final int MAX_FOOD = 1000;
+    private static final int MAX_FOOD = 2000;
     private static final int MAX_HOME = 1000;
-    private static final int REDUCTION = 10;
+    private static final int REDUCTION = 5;
 
 
     public AntCell(int xPosition, int yPosition, AntState initState) {
@@ -78,9 +78,9 @@ public class AntCell extends Cell {
     }
 
     public void diffuse() {
-        //if (foodPheromone > 0)
+        if (foodPheromone > 0)
             foodPheromone -= DIFFUSE_FOOD;
-        //if (homePheromone > 0)
+        if (homePheromone > 0)
             homePheromone -= DIFFUSE_HOME;
     }
 
