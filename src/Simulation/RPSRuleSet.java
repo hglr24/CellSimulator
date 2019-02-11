@@ -11,15 +11,21 @@ import static Simulation.RPSState.*;
 public class RPSRuleSet implements RuleSet {
 
     private int threshold;
+    private double[] myParams;
 
     public RPSRuleSet(double[] parameters) {
-        threshold = (int) parameters[0];
+        setParameters(parameters);
     }
 
     public RPSRuleSet() {}
 
     public void setParameters(double[] parameters) {
+        myParams = parameters;
         threshold = (int) parameters[0];
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override

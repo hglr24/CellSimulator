@@ -4,10 +4,16 @@ import java.util.List;
 
 public class GameOfLifeRuleSet implements RuleSet {
 
+    private double[] myParams;
+
     public GameOfLifeRuleSet() {}
 
     public void setParameters(double[] parameters) {
-        //do nothing
+        myParams = parameters;
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override

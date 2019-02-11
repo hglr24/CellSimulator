@@ -6,14 +6,20 @@ import static Simulation.FireState.*;
 
 public class AntRuleSet implements RuleSet {
 
+    private double[] myParams;
+
     public AntRuleSet(double[] parameters) {
-        //probCatch = parameters[0];
+        setParameters(parameters);
     }
 
     public AntRuleSet() {}
 
     public void setParameters(double[] parameters) {
+        myParams = parameters;
+    }
 
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override
