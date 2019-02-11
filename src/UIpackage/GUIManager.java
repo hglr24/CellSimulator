@@ -132,8 +132,9 @@ public class GUIManager {
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
         Button buttonSave = drawButton("Save", event -> save());
+        Button buttonParam = drawButton("Edit Parameters", event -> paramEdit());
 
-        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, buttonSave);
+        controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, buttonSave, buttonParam);
         return controls;
     }
 
@@ -269,6 +270,10 @@ public class GUIManager {
 
     private void save() {
         mySim.saveXML(myGrid, myStageID);
+    }
+
+    private void paramEdit() {
+        mySim.editParam(myStageID);
     }
 
     private void buttonEnable() {
