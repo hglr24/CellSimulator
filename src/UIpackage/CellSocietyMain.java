@@ -152,6 +152,10 @@ public class CellSocietyMain extends Application {
         }
     }
 
+    void editParam(int stageIndex) {
+        ParamWindow pw = new ParamWindow(mySimInfos.get(stageIndex));
+    }
+
     void setSpeed(int stageIndex, double newSpeed) {
         mySpeeds.set(stageIndex, 1 / newSpeed);
     }

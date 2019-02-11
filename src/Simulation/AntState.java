@@ -15,6 +15,7 @@ public enum AntState implements State {
     AntState(String label, Paint color, int value) {
         myLabel = label;
         myColor = color;
+        myValue = value;
     }
 
     @Override

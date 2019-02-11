@@ -6,6 +6,8 @@ import static Simulation.PercolationState.OPEN;
 import static Simulation.PercolationState.PERCOLATED;
 
 public class PercolationRuleSet implements RuleSet{
+
+    private double[] myParams;
     private boolean hasPercolated;
 
     public PercolationRuleSet(){
@@ -13,7 +15,11 @@ public class PercolationRuleSet implements RuleSet{
     }
 
     public void setParameters(double[] parameters) {
-        //do nothing
+        myParams = parameters;
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     @Override

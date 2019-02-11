@@ -9,15 +9,21 @@ import static Simulation.SegregationState.EMPTY;
 
 public class SegregationRuleSet implements RuleSet{
     private double mySatPercent;
+    private double[] myParams;
 
     public SegregationRuleSet(double[] parameters){
-        mySatPercent = parameters[0];
+        setParameters(parameters);
     }
 
     public SegregationRuleSet() {}
 
     public void setParameters(double[] parameters) {
+        myParams = parameters;
         mySatPercent = parameters[0];
+    }
+
+    public double[] getParameters() {
+        return myParams;
     }
 
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
