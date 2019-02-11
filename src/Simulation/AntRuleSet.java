@@ -6,23 +6,33 @@ import static Simulation.FireState.*;
 
 public class AntRuleSet implements RuleSet {
 
-    private double probCatch;
-
     public AntRuleSet(double[] parameters) {
-        probCatch = parameters[0];
+        //probCatch = parameters[0];
     }
 
     public AntRuleSet() {}
 
     public void setParameters(double[] parameters) {
-        probCatch = parameters[0];
+
     }
 
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
-        ((AntCell) cell).evaluate((AntGrid) grid);
+        AntCell antCell = (AntCell) cell;
+        //antCell.diffuse();
+        antCell.evaluate((AntGrid) grid);
 
+        if(antCell.hasAnts()){
+            if(antCell.hasFoodAnts())
+                return AntState.ANT_WITH_FOOD;
+            else
+                return AntState.ANT_NO_FOOD;
+        }
     return cell.getCurrentState();
 
     }
+
+
+
+
 }
