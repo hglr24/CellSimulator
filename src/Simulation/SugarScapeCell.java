@@ -43,4 +43,8 @@ public class SugarScapeCell extends Cell {
     public int getMaxRegenDays(){
         return myRegenDaysMax;
     }
+
+    public void setAgent(boolean agent){
+        myAgent = agent;
+    }
 }
