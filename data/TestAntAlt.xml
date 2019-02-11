@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data media="Simulation">
+    <Title> Ant </Title>
+    <SimulationType>ANT</SimulationType>
+    <GridConfiguration>
+        1 1 0 0 0 0 0 0 0 0
+        1 1 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        2 2 0 0 0 0 0 0 0 0
+        2 2 0 0 0 0 0 0 0 0
+    </GridConfiguration>
+    <GridWidth> 10 </GridWidth>
+    <GridHeight> 20 </GridHeight>
+    <Shape>Square</Shape>
+    <SimParameters> 0 </SimParameters>
+    <RandomProbabilities> 0.1, 0.8, 0.1 </RandomProbabilities>
+    <Neighborhood> Square </Neighborhood>
+    <Edge> Finite </Edge>
+    <GridSize> 20 </GridSize>
+    <OutlineFlag> True </OutlineFlag>
+    <StateColors> WHITE, GREEN, RED </StateColors>
+</data>
+

@@ -5,10 +5,10 @@
     <GridConfiguration> Random </GridConfiguration>
     <GridWidth> 100 </GridWidth>
     <GridHeight> 100 </GridHeight>
-    <Shape>Hexagon</Shape>
-    <SimParameters> 0.3 </SimParameters>
+    <Shape>Triangle</Shape>
+    <SimParameters> 0.6 </SimParameters>
     <RandomProbabilities> 0.1, 0.8, 0.1 </RandomProbabilities>
-    <Neighborhood> Hexagon </Neighborhood>
+    <Neighborhood> Triangle </Neighborhood>
     <Edge> Finite </Edge>
     <GridSize> 10 </GridSize>
     <OutlineFlag> False </OutlineFlag>

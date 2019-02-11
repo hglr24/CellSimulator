@@ -38,10 +38,7 @@ public class AntGrid extends BasicGrid {
             int c = sl.getY() + deltas[1][i];
 
             SquareLocation temp = new SquareLocation(r,c);
-
             validNeighbors(temp, adjacent);
-
-
         }
 
         return adjacent;

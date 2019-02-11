@@ -9,7 +9,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CellSocietyMain extends Application {
@@ -32,7 +31,7 @@ public class CellSocietyMain extends Application {
     public void start (Stage stage) {
         initializeFileOpener();
         initializeFileSaver();
-        File dataFile = new File("data\\TestFire.xml");
+        File dataFile = new File("data\\TestAnt.xml");
         openFile(dataFile, stage, 0);
     }
 

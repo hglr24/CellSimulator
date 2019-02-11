@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 abstract public class BasicGrid<E> implements Grid<E> {
-    //TODO: add accessibility to RuleSet
-    //TODO: make smart ENUM for all kinds of neighbor types, have interface. have row/col pairings
-//TODO: make get/set better
 
     protected Cell[][] cells;
     protected int height;

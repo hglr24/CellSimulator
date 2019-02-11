@@ -24,7 +24,6 @@ public class PercolationRuleSet implements RuleSet{
                 for(Cell c:neighbors){
                     if(c.getCurrentState() == PERCOLATED){
                         if(cell.getYPosition() == grid.getHeight()-1){
-                            //System.out.println(cell.getYPosition());
                             hasPercolated = true;
                         }
                         return PERCOLATED;
