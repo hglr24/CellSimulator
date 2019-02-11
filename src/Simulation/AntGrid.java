@@ -22,6 +22,12 @@ public class AntGrid extends BasicGrid {
                     case 2:
                         initCells[k][j] = new AntCell(k, j, AntState.HOME);
                         break;
+                    case 3:
+                        initCells[k][j] = new AntCell(k, j, AntState.ANT_NO_FOOD);
+                        break;
+                    case 4:
+                        initCells[k][j] = new AntCell(k, j, AntState.ANT_WITH_FOOD);
+                        break;
                 }
             }
         }
