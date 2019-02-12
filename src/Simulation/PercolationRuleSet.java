@@ -5,35 +5,24 @@ import java.util.List;
 import static Simulation.PercolationState.OPEN;
 import static Simulation.PercolationState.PERCOLATED;
 
-public class PercolationRuleSet implements RuleSet{
-
-    private double[] myParams;
+public class PercolationRuleSet extends RuleSet {
     private boolean hasPercolated;
 
-    public PercolationRuleSet(){
-        hasPercolated = false;
-    }
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-    }
-
-    public double[] getParameters() {
-        return myParams;
+        super.setParameters(parameters);
     }
 
     @Override
-    public State applyRules(List<Cell> neighbors, Cell baseCell, Grid grid){
+    public State applyRules(List<Cell> neighbors, Cell baseCell, Grid grid) {
         PercolationCell cell = (PercolationCell) baseCell;
-        if(cell.currentState == OPEN){
-            if(!hasPercolated){
-                for(Cell c:neighbors){
-                    if(c.getCurrentState() == PERCOLATED){
-                        if(cell.getYPosition() == grid.getHeight()-1){
-                            hasPercolated = true;
-                        }
-                        return PERCOLATED;
+        if (cell.currentState == OPEN && !hasPercolated) {
+            for (Cell c : neighbors) {
+                if (c.getCurrentState() == PERCOLATED) {
+                    if (cell.getYPosition() == grid.getHeight() - 1) {
+                        hasPercolated = true;
                     }
+                    return PERCOLATED;
                 }
             }
         }

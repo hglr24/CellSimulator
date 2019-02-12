@@ -10,19 +10,27 @@ public class PredatorPreyGrid extends BasicGrid {
             cellCounts.put(t,0);
         }
         PredatorPreyCell[][] initCells = new PredatorPreyCell[height][width];
+
         for (int k = 0; k < height; k++) {
             for (int j = 0; j < width; j++) {
+                PredatorPreyState newState;
                 switch (initInts[k][j]) {
                     case 0:
-                        initCells[k][j] = new PredatorPreyCell(k, j, EMPTY,ruleSet.getSharkHealth(),ruleSet.getFishReproduce(),ruleSet.getSharkReproduce());
+                        newState = EMPTY;
                         break;
                     case 1:
-                        initCells[k][j] = new PredatorPreyCell(k, j, FISH,ruleSet.getSharkHealth(),ruleSet.getFishReproduce(),ruleSet.getSharkReproduce());
+                       newState = FISH;
                         break;
                     case 2:
-                        initCells[k][j] = new PredatorPreyCell(k, j, SHARK,ruleSet.getSharkHealth(),ruleSet.getFishReproduce(),ruleSet.getSharkReproduce());
+                        newState = SHARK;
                         break;
+                    default:
+                        newState = EMPTY;
                 }
+
+                initCells[k][j] = new PredatorPreyCell(k, j, newState,ruleSet.getParameters().get("sharkEnergy"),ruleSet.getParameters().get(
+                        "fishReproductionTime"),
+                        ruleSet.getParameters().get("sharkReproductionTime"));
             }
         }
         this.cells = initCells;
