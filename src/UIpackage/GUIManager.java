@@ -27,6 +27,7 @@ public class GUIManager {
     private Button buttonStart;
     private Button buttonStep;
     private Button buttonPause;
+    private Button buttonParam;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
@@ -132,7 +133,7 @@ public class GUIManager {
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
         Button buttonSave = drawButton("Save", event -> save());
-        Button buttonParam = drawButton("Edit Parameters", event -> paramEdit());
+        buttonParam = drawButton("Edit Parameters", event -> paramEdit());
 
         controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, buttonSave, buttonParam);
         return controls;
@@ -280,6 +281,7 @@ public class GUIManager {
         buttonStart.setDisable(mySim.hasStarted(myStageID));
         buttonStep.setDisable(mySim.hasStarted(myStageID) && !mySim.isPaused(myStageID));
         buttonPause.setDisable(!mySim.hasStarted(myStageID));
+        buttonParam.setDisable(mySimType.getRules().getParameters().isEmpty());
     }
 
     void errorBox(String errorType, String message) {
