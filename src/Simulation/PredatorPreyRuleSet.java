@@ -6,33 +6,21 @@ import java.util.Random;
 
 import static Simulation.PredatorPreyState.*;
 
-public class PredatorPreyRuleSet implements RuleSet {
+public class PredatorPreyRuleSet extends RuleSet {
+    private final double DEFAULT_FISH_REPRODUCTION_TIME = .5;
+    private final double DEFAULT_SHARK_REPRODUCTION_TIME = .5;
+    private final double DEFAULT_SHARK_ENERGY = .5;
 
-    private int sharkHealth;
-    private int fishReproduce;
-    private int sharkReproduce;
-    private double[] myParams;
-
-    public PredatorPreyRuleSet(double[] parameters) {
-        setParameters(parameters);
-    }
-
-    public PredatorPreyRuleSet() {}
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-        sharkHealth = (int) parameters[2];
-        fishReproduce = (int) parameters[0];
-        sharkReproduce = (int) parameters[1];
-    }
-
-    public double[] getParameters() {
-        return myParams;
+        this.parameters.put("fishReproductionTime", DEFAULT_FISH_REPRODUCTION_TIME);
+        this.parameters.put("sharkEnergy", DEFAULT_SHARK_ENERGY);
+        this.parameters.put("sharkReproductionTime", DEFAULT_SHARK_REPRODUCTION_TIME);
+        super.setParameters(parameters);
     }
 
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
-        //a lot here
         switch ((PredatorPreyState) cell.getCurrentState()) {
             case FISH:
                 return Fish(neighbors, (PredatorPreyCell) cell);
@@ -40,7 +28,6 @@ public class PredatorPreyRuleSet implements RuleSet {
                 return Shark(neighbors, (PredatorPreyCell) cell);
             default:
                 return EMPTY;
-
         }
 
     }
@@ -51,10 +38,10 @@ public class PredatorPreyRuleSet implements RuleSet {
 
         cell.setSharkEnergyDays(cell.getSharkEnergyDays() - 1);
 
-        if(cell.getSharkReproduceDays()>=1)
-            cell.setSharkReproduceDays(cell.getSharkReproduceDays()-1);
+        if (cell.getSharkReproduceDays() >= 1)
+            cell.setSharkReproduceDays(cell.getSharkReproduceDays() - 1);
 
-        if(cell.getSharkEnergyDays()<=0)
+        if (cell.getSharkEnergyDays() <= 0)
             return EMPTY;
 
         for (Cell c : neighbors) {
@@ -64,37 +51,36 @@ public class PredatorPreyRuleSet implements RuleSet {
             if (c.currentState == FISH && c.nextState != SHARK)
                 fish.add(c);
         }
-            if(!fish.isEmpty()){
+        if (!fish.isEmpty()) {
 
-                PredatorPreyCell mover = (PredatorPreyCell) fish.get(new Random().nextInt(fish.size()));
-                mover.setSharkReproduceDays(cell.getSharkReproduceDays());
-                mover.setSharkEnergyDays(sharkHealth);
-                mover.setNextState(SHARK);
+            PredatorPreyCell mover = (PredatorPreyCell) fish.get(new Random().nextInt(fish.size()));
+            mover.setSharkReproduceDays(cell.getSharkReproduceDays());
+            mover.setSharkEnergyDays(parameters.get("sharkEnergy"));
+            mover.setNextState(SHARK);
 
-                if(cell.getSharkReproduceDays()==0){
-                    mover.setSharkReproduceDays(sharkReproduce);
-                    cell.setSharkReproduceDays(sharkReproduce);
-                    cell.setSharkEnergyDays(sharkHealth);
-                    return SHARK;
-                } else{
-                    return  EMPTY;
-                }
-            } else if(!open.isEmpty()) {
-                PredatorPreyCell mover = (PredatorPreyCell) open.get(new Random().nextInt(open.size()));
-                mover.setSharkReproduceDays(cell.getSharkReproduceDays());
-                mover.setSharkEnergyDays(cell.getSharkEnergyDays());
-                mover.setNextState(SHARK);
+            if (cell.getSharkReproduceDays() == 0) {
+                mover.setSharkReproduceDays(parameters.get("sharkReproductionTime"));
+                cell.setSharkReproduceDays(parameters.get("sharkReproductionTime"));
+                cell.setSharkEnergyDays(parameters.get("sharkEnergy"));
+                return SHARK;
+            } else {
                 return EMPTY;
             }
-                return SHARK;
+        } else if (!open.isEmpty()) {
+            PredatorPreyCell mover = (PredatorPreyCell) open.get(new Random().nextInt(open.size()));
+            mover.setSharkReproduceDays(cell.getSharkReproduceDays());
+            mover.setSharkEnergyDays(cell.getSharkEnergyDays());
+            mover.setNextState(SHARK);
+            return EMPTY;
+        }
+        return SHARK;
     }
 
     private PredatorPreyState Fish(List<Cell> neighbors, PredatorPreyCell cell) {
-        if(cell.getFishReproduceDays()>=1)
+        if (cell.getFishReproduceDays() >= 1)
             cell.setFishReproduceDays(cell.getFishReproduceDays() - 1);
 
         ArrayList<Cell> open = new ArrayList<>();
-        //gather options
         for (Cell c : neighbors) {
             if (c.currentState == EMPTY && c.nextState == EMPTY) {
                 open.add(c);
@@ -106,9 +92,8 @@ public class PredatorPreyRuleSet implements RuleSet {
             mover.setNextState(FISH);
 
             if (cell.getFishReproduceDays() == 0) {
-                //"also reproduce"
-                mover.setFishReproduceDays(fishReproduce);
-                cell.setFishReproduceDays(fishReproduce);
+                mover.setFishReproduceDays(parameters.get("fishReproductionTime"));
+                cell.setFishReproduceDays(parameters.get("fishReproductionTime"));
                 return FISH;
             } else {
                 return EMPTY;
@@ -119,15 +104,4 @@ public class PredatorPreyRuleSet implements RuleSet {
         }
     }
 
-    public int getSharkHealth() {
-        return sharkHealth;
-    }
-
-    public int getFishReproduce() {
-        return fishReproduce;
-    }
-
-    public int getSharkReproduce() {
-        return sharkReproduce;
-    }
 }

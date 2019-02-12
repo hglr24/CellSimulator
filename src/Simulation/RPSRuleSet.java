@@ -8,32 +8,21 @@ import java.util.concurrent.ThreadLocalRandom;
 import static Simulation.RPSState.*;
 
 
-public class RPSRuleSet implements RuleSet {
+public class RPSRuleSet extends RuleSet {
+    private final double DEFAULT_THRESHOLD = .5;
 
-    private int threshold;
-    private double[] myParams;
-
-    public RPSRuleSet(double[] parameters) {
-        setParameters(parameters);
-    }
-
-    public RPSRuleSet() {}
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-        threshold = (int) parameters[0];
-    }
-
-    public double[] getParameters() {
-        return myParams;
+        this.parameters.put("winThreshold", DEFAULT_THRESHOLD);
+        super.setParameters(parameters);
     }
 
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
-        int tempThreshold = threshold + ThreadLocalRandom.current().nextInt(0, 3);
+        double tempThreshold = this.parameters.get("winThreshold") + ThreadLocalRandom.current().nextInt(0, 3);
 
         Map<State,Integer> cellCounts = new HashMap<>();
-        for (State t: RPSState.values()) {
+        for (State t: values()) {
             cellCounts.put(t,0);
         }
         for(Cell c: neighbors){
@@ -60,8 +49,4 @@ public class RPSRuleSet implements RuleSet {
         return cell.getCurrentState();
     }
 
-
-    public void setThreshold(int threshold) {
-        this.threshold = threshold;
-    }
 }

@@ -60,7 +60,13 @@ None
     * 0 = Rock
     * 1 = Paper
     * 2 = Scissors
-
+7. Ant:
+    * 0 = Empty
+    * 1 = Food 
+    * 2 = Home
+    * 3 = Ant No Food
+    * 4 = Ant With Food
+    
 ### Define how initialized
 1. Put "Random" in GridConfiguration to generate states randomly based off of probabilities
 2. Put "True Random" in GridConfiguration to generate states completely randomly
@@ -73,11 +79,16 @@ None
 1. "satisfactionPercentage"
 #### Predator-Prey:
 1. "fishReproductionTime"
-2. "sharkReproductionTime"
-3. "sharkEnergy"
+2. "sharkEnergy"
+3. "sharkReproductionTime"
 #### Fire:
 1. "burnProbability"
 #### Percolation
 None
 #### RPS: 
 1. "winThreshold"
+#### Ant:
+None
+#### Sugar-Scape:
+1. "metabolism"
+2. "growRate"
