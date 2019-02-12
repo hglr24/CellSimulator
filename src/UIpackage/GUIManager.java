@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -58,7 +59,7 @@ public class GUIManager {
         myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
         myBorderPane.setBottom(drawControls());
         myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
-        myScene.setOnKeyPressed(e -> keyboardHandler(e.getCode()));
+        myScene.setOnKeyPressed(e -> keyboardHandler(e, e.getCode()));
         resetGUI();
     }
 
@@ -286,20 +287,16 @@ public class GUIManager {
         buttonParam.setDisable(mySimType.getRules().getParameters().isEmpty());
     }
 
-    private void keyboardHandler(KeyCode code) {
-        switch (code) {
-            case ESCAPE:
-                loadNewSim();
-                break;
-            case CONTROL:
-                start();
-                break;
-            case SHIFT:
-                pause();
-                break;
-            case S:
-                step();
-                break;
+    private void keyboardHandler(KeyEvent event, KeyCode code) {
+        if (event.isControlDown()) {
+            switch (code) {
+                case O:
+                    loadNewSim();
+                    break;
+                case S:
+                    save();
+                    break;
+            }
         }
     }
 

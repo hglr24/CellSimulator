@@ -1,2 +1,3 @@
-Fix param shuffling
 Readme
+keyboard commands
+delete saved files from repo
