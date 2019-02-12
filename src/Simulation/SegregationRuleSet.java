@@ -3,27 +3,16 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import static Simulation.SegregationState.EMPTY;
 
-public class SegregationRuleSet implements RuleSet{
-    private double mySatPercent;
-    private double[] myParams;
+public class SegregationRuleSet extends RuleSet{
+    private final double DEFAULT_SATISFACTION_PERCENTAGE = .5;
 
-    public SegregationRuleSet(double[] parameters){
-        setParameters(parameters);
-    }
-
-    public SegregationRuleSet() {}
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-        mySatPercent = parameters[0];
-    }
-
-    public double[] getParameters() {
-        return myParams;
+        this.parameters.put("satisfactionPercentage", DEFAULT_SATISFACTION_PERCENTAGE);
+        super.setParameters(parameters);
     }
 
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
@@ -34,7 +23,7 @@ public class SegregationRuleSet implements RuleSet{
             }
         }
         double samePercent = sameNeighbors/neighbors.size();
-        if(samePercent < mySatPercent ){
+        if(samePercent < parameters.get("satisfactionPercentage") ){
             moveToEmpty((SegregationCell) cell, grid);
             return EMPTY;
         }

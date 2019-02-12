@@ -3,13 +3,15 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SugarScapeRuleSet implements RuleSet {
-    private int myMetabolism;
-    private int myGrowRate;
+public class SugarScapeRuleSet extends RuleSet {
+    private final double DEFAULT_METABOLISM = 1;
+    private final double DEFAULT_GROW_RATE = 1;
 
-    public SugarScapeRuleSet(double[] parameters){
-        myMetabolism = (int) parameters[0];
-        myGrowRate = (int) parameters[1];
+    @Override
+    public void setParameters(double[] parameters) {
+        this.parameters.put("metabolism", DEFAULT_METABOLISM);
+        this.parameters.put("growRate", DEFAULT_GROW_RATE);
+        super.setParameters(parameters);
     }
 
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
@@ -53,8 +55,4 @@ public class SugarScapeRuleSet implements RuleSet {
         cell.setAgent(false);
     }
 
-    public void setParameters(double[] parameters){
-        myMetabolism = (int) parameters[0];
-        myGrowRate = (int) parameters[1];
-    }
 }

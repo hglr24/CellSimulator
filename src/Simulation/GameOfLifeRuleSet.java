@@ -2,18 +2,11 @@ package Simulation;
 
 import java.util.List;
 
-public class GameOfLifeRuleSet implements RuleSet {
+public class GameOfLifeRuleSet extends RuleSet {
 
-    private double[] myParams;
-
-    public GameOfLifeRuleSet() {}
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-    }
-
-    public double[] getParameters() {
-        return myParams;
+        super.setParameters(parameters);
     }
 
     @Override

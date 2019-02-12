@@ -4,25 +4,16 @@ import java.util.List;
 
 import static Simulation.FireState.*;
 
-public class FireRuleSet implements RuleSet {
+public class FireRuleSet extends RuleSet {
 
-    private double[] myParams;
-    private double probCatch;
+    private final double DEFAULT_BURN_PROBABILITY = .5;
 
-    public FireRuleSet(double[] parameters) {
-        setParameters(parameters);
-    }
-
-    public FireRuleSet() {}
-
+    @Override
     public void setParameters(double[] parameters) {
-        myParams = parameters;
-        probCatch = parameters[0];
+        this.parameters.put("burnProbability", DEFAULT_BURN_PROBABILITY);
+        super.setParameters(parameters);
     }
 
-    public double[] getParameters() {
-        return myParams;
-    }
 
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
@@ -40,7 +31,7 @@ public class FireRuleSet implements RuleSet {
                     }
                 }
 
-                if (fireNear && Math.random() < probCatch) {
+                if (fireNear && Math.random() < parameters.get("burnProbability")) {
                     return BURNING;
                 } else {
                     return TREE;

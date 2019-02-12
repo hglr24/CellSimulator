@@ -1,11 +1,33 @@
 package Simulation;
 
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public interface RuleSet{
-    State applyRules(List<Cell> neighbors, Cell cell, Grid grid);
+public abstract class RuleSet implements RuleSetInterface {
 
-    void setParameters(double[] parameters);
+    protected TreeMap<String, Double> parameters = new TreeMap<>();
 
-    double[] getParameters();
+    public RuleSet(double[] parameters) {
+        setParameters(parameters);
+    }
+
+    public RuleSet() {
+    }
+
+    public void setParameters(double[] parameters) {
+        try {
+            int i = 0;
+            for (Map.Entry<String, Double> entry : this.parameters.entrySet()) {
+                entry.setValue(parameters[i]);
+                i++;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Incorrect Parameter Length, No Further Parameter Changes");
+            return;
+        }
+    }
+
+    public Map<String, Double> getParameters() {
+        return parameters;
+    }
 }

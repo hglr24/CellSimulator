@@ -37,7 +37,7 @@ public class AntCell extends Cell {
         }
     }
 
-    public void stateCheck(){
+    public void stateCheck(){//append for clicking
         switch((AntState)currentState){
             case FOOD:
                 foodPheromone = MAX_FOOD;
