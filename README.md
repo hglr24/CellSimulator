@@ -54,11 +54,11 @@ Names: Lucas Liu, Harry Ross, Ian Hanus
     Finite and Toroidal Options
 
 #### Errors Checked For in Configuration
-   * Parameters of the wrong type
-   * Wrong number of parameters
-   * Probabilities must be doubles and add up to approximately 1
-   * All fields in the XML must be filled out
-   * Strings in xml must map to SimulationType, Shape, Edge, and Neighbor enums
+    Parameters of the wrong type
+    Wrong number of parameters
+    Probabilities must be doubles and add up to approximately 1
+    All fields in the XML must be filled out
+    Strings in xml must map to SimulationType, Shape, Edge, and Neighbor enums
 
 ## Impressions
     Lucas: Good first group project
