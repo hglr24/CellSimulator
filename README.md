@@ -62,4 +62,4 @@ Names: Lucas Liu, Harry Ross, Ian Hanus
 
 ## Impressions
     Lucas: Good first group project
-    Ian: Great team, interesting project
+    Ian: Great team, interesting and challenging project
