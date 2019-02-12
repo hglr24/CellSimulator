@@ -75,7 +75,6 @@ None
 1. "fishReproductionTime"
 2. "sharkReproductionTime"
 3. "sharkEnergy"
->>>>>>> 4388c91507812987555dd59238fc57f48ae49804
 #### Fire:
 1. "burnProbability"
 #### Percolation
