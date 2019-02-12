@@ -57,7 +57,7 @@ public class SimulationInfo {
         setSimType(simType);
         configureSimSpecific(configuration);
         CheckParameters checker = new CheckParameters();
-        myParameters = checker.checkValidParameters(mySimType, myParameters);
+        myParameters = checker.checkValidParameters(mySimType, myParameters, new double[0]);
         myProbabilities = checker.checkValidProbabilities(mySimType, myProbabilities);
         try {
             myNeighborhood = stringToNeighborhood(neighborhood);

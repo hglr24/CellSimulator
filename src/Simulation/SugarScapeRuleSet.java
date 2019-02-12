@@ -57,4 +57,8 @@ public class SugarScapeRuleSet implements RuleSet {
         myMetabolism = (int) parameters[0];
         myGrowRate = (int) parameters[1];
     }
+
+    public double[] getParameters(){
+        return new double[]{(double) myMetabolism,(double) myGrowRate};
+    }
 }
