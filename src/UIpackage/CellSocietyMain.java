@@ -2,6 +2,7 @@ package UIpackage;
 
 import Configuration.*;
 import Simulation.Grid;
+import Configuration.Shape;
 import Simulation.SimulationType;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
