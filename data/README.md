@@ -70,14 +70,14 @@ None
 ### Game of Life: 
 None
 #### Segregation:
-1. "satPercent"
+1. "satisfactionPercent"
 #### Predator-Prey:
-1. "fishRepTime"
-2. "sharkRepTime"
+1. "fishReproductionTime"
+2. "sharkReproductionTime"
 3. "startingEnergy"
 #### Fire:
-1. "probBurn"
+1. "probabilityBurn"
 #### Percolation
 None
 #### RPS: 
-1. "winThresh"
+1. "winThreshold"
