@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +21,7 @@ class ParamWindow extends Stage {
 
     private RuleSet myRules;
     private Map<String, Double> myParams;
-    private Map<String, Double> myOldVals;
+    private ArrayList<Double> myOldVals;
     private SimulationType mySimType;
     private HashMap<TextField, String> myFieldMap = new HashMap<>();
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
@@ -59,7 +58,7 @@ class ParamWindow extends Stage {
         paramGrid.getStyleClass().add("legend-item");
         paramGrid.setHgap(10);
         myParams = myRules.getParameters();
-        myOldVals = new HashMap<>(myParams);
+        myOldVals = new ArrayList<>(myParams.values());
         int row = 0;
         for (String label : myParams.keySet()) {
             drawParamField(paramGrid, label, myParams.get(label), row);
@@ -78,16 +77,18 @@ class ParamWindow extends Stage {
     }
 
     private void applyParams() {
-        double[] toCheck = new double[myParams.keySet().size()];
+        double[] paramsToCheck = new double[myParams.keySet().size()];
+        double[] paramToRevert = new double[paramsToCheck.length];
         CheckParameters checker = new CheckParameters();
         ArrayList<TextField> indexedFieldList = new ArrayList<>(myFieldMap.keySet());
-        for (TextField tf : indexedFieldList) {
-            toCheck[indexedFieldList.indexOf(tf)] = Double.parseDouble(tf.getText());
+        for (int i = 0; i < paramToRevert.length; i++) {
+            paramToRevert[i] = myOldVals.get(i);
+            paramsToCheck[i] = Double.parseDouble(indexedFieldList.get(i).getText());
         }
-        double[] checked = checker.checkValidParameters(mySimType, toCheck);
+        double[] checkedParams = checker.checkValidParameters(mySimType, paramsToCheck, paramToRevert);
         int index = 0;
         for (String validParam : myParams.keySet()) {
-            myParams.put(validParam, checked[index]);
+            myParams.put(validParam, checkedParams[index]);
             index++;
         }
         this.close();
