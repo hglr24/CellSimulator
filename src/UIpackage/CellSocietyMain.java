@@ -32,7 +32,7 @@ public class CellSocietyMain extends Application {
     public void start (Stage stage) {
         initializeFileOpener();
         initializeFileSaver();
-        File dataFile = new File("data\\TestAnt.xml");
+        File dataFile = new File("data\\TestFire.xml");
         openFile(dataFile, stage);
     }
 
