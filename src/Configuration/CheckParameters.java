@@ -5,7 +5,7 @@ import Simulation.SimulationType;
 public class CheckParameters {
     double third = 0.33;
     double half = 0.5;
-    int defaultChronons = 5;
+    int defaultTime = 5;
     int defaultLives = 5;
 
     public CheckParameters(){
@@ -21,6 +21,7 @@ public class CheckParameters {
                     checkProbability(parameters);
                 }
                 catch(XMLException e){
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     double[] defaultParameters = new double[]{half};
                     return defaultParameters;
                 }
@@ -33,6 +34,7 @@ public class CheckParameters {
                     }
                 }
                 catch(XMLException e) {
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     double[] defaultParameters = new double[0];
                     return defaultParameters;
                 }
@@ -45,7 +47,8 @@ public class CheckParameters {
                     checkInts(parameters);
                 }
                 catch(XMLException e) {
-                    double[] defaultParameters = new double[]{defaultChronons, defaultChronons, defaultLives};
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
+                    double[] defaultParameters = new double[]{defaultTime, defaultTime, defaultLives};
                     return defaultParameters;
                 }
                 return parameters;
@@ -58,6 +61,7 @@ public class CheckParameters {
                 }
                 catch(XMLException e) {
                     double[] defaultParameters = new double[]{0.33};
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     return defaultParameters;
                 }
                 return parameters;
@@ -72,6 +76,7 @@ public class CheckParameters {
                     checkInts(parameters);
                 }
                 catch(XMLException e){
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     double[] defaultParameters = new double[]{2};
                     return defaultParameters;
                 }
