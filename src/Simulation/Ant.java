@@ -16,6 +16,7 @@ public class Ant {
     private static final int ANT_MAX_HOME = 100;
     private static final int ANT_DIFFUSE_HOME = 2;
     private static final int ANT_DIFFUSE_FOOD = 2;
+    private static final double RANDOM_FACTOR = .1;
 
     public Ant(boolean hasFood, Heading heading, Location location) {
         this.hasFood = hasFood;
@@ -61,7 +62,7 @@ public class Ant {
             }
         }
 
-        if(Math.random() <.1){
+        if(Math.random() < RANDOM_FACTOR){
             Collections.shuffle(antNeighbors);
             optimal = antNeighbors.get(0);
         }
@@ -78,7 +79,7 @@ public class Ant {
                 optimal = a;
             }
         }
-        if(Math.random() <.1){
+        if(Math.random() < RANDOM_FACTOR){
             Collections.shuffle(antNeighbors);
             optimal = antNeighbors.get(0);
         }
