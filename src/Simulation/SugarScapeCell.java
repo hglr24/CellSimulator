@@ -7,10 +7,10 @@ public class SugarScapeCell extends Cell {
     private int myRegenDays;
     private int myRegenDaysMax;
 
-    public SugarScapeCell(int xPosition, int yPosition, int maxSugar, boolean agent, int regenDays){
+    public SugarScapeCell(int xPosition, int yPosition, SugarScapeState state, boolean agent, int regenDays){
         location = new SquareLocation(xPosition, yPosition);
-        mySugarMax = maxSugar;
-        mySugar = maxSugar;
+        mySugarMax = state.getValue();
+        mySugar = state.getValue();
         myAgent = agent;
         myRegenDays = regenDays;
         myRegenDaysMax = regenDays;

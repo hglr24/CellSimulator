@@ -55,4 +55,5 @@ public class SugarScapeRuleSet extends RuleSet {
         cell.setAgent(false);
     }
 
+
 }

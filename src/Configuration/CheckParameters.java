@@ -5,13 +5,13 @@ import Simulation.SimulationType;
 public class CheckParameters {
     double third = 0.33;
     double half = 0.5;
-    int defaultChronons = 5;
+    int defaultTime = 5;
     int defaultLives = 5;
 
     public CheckParameters(){
     }
 
-    public double[] checkValidParameters(SimulationType simtype, double[] parameters){
+    public double[] checkValidParameters(SimulationType simtype, double[] parameters, double[] newParameters){
         switch(simtype){
             case FIRE:
                 try{
@@ -20,8 +20,13 @@ public class CheckParameters {
                     }
                     checkProbability(parameters);
                 }
-                catch(XMLException e){
+                catch(XMLException e){ ;
+                    if(newParameters.length == 1){
+                        System.out.println("Reverted to old parameters.");
+                        return newParameters;
+                    }
                     double[] defaultParameters = new double[]{half};
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     return defaultParameters;
                 }
                 return parameters;
@@ -33,6 +38,7 @@ public class CheckParameters {
                     }
                 }
                 catch(XMLException e) {
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     double[] defaultParameters = new double[0];
                     return defaultParameters;
                 }
@@ -45,7 +51,12 @@ public class CheckParameters {
                     checkInts(parameters);
                 }
                 catch(XMLException e) {
-                    double[] defaultParameters = new double[]{defaultChronons, defaultChronons, defaultLives};
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
+                    if(newParameters.length == 3){
+                        System.out.println("Reverted to old parameters.");
+                        return newParameters;
+                    }
+                    double[] defaultParameters = new double[]{defaultTime, defaultTime, defaultLives};
                     return defaultParameters;
                 }
                 return parameters;
@@ -58,6 +69,11 @@ public class CheckParameters {
                 }
                 catch(XMLException e) {
                     double[] defaultParameters = new double[]{0.33};
+                    if(parameters.length == 1){
+                        System.out.println("Reverted to old parameters.");
+                        return newParameters;
+                    }
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     return defaultParameters;
                 }
                 return parameters;
@@ -72,6 +88,11 @@ public class CheckParameters {
                     checkInts(parameters);
                 }
                 catch(XMLException e){
+                    if(newParameters.length != 1){
+                        System.out.println("Reverted to old parameters.");
+                        return newParameters;
+                    }
+                    System.out.println("Invalid parameters entered. Defaults enabled.");
                     double[] defaultParameters = new double[]{2};
                     return defaultParameters;
                 }
