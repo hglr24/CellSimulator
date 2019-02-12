@@ -14,16 +14,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 class ParamWindow extends Stage {
 
     private RuleSet myRules;
-    private Map<String, Double> myParams;
+    private TreeMap<String, Double> myParams;
     private ArrayList<Double> myOldVals;
+    private ArrayList<TextField> myFieldList = new ArrayList<>();
     private SimulationType mySimType;
-    private HashMap<TextField, String> myFieldMap = new HashMap<>();
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
     ParamWindow(SimulationInfo simInfo) {
@@ -57,7 +56,7 @@ class ParamWindow extends Stage {
         GridPane paramGrid = new GridPane();
         paramGrid.getStyleClass().add("legend-item");
         paramGrid.setHgap(10);
-        myParams = myRules.getParameters();
+        myParams = new TreeMap<>(myRules.getParameters());
         myOldVals = new ArrayList<>(myParams.values());
         int row = 0;
         for (String label : myParams.keySet()) {
@@ -71,7 +70,7 @@ class ParamWindow extends Stage {
         Text paramLabel = new Text(label);
         TextField paramField = new TextField();
         paramField.setText(Double.toString(startVal));
-        myFieldMap.put(paramField, label);
+        myFieldList.add(paramField);
         paramGrid.add(paramLabel, 0, row);
         paramGrid.add(paramField, 1, row);
     }
@@ -80,17 +79,12 @@ class ParamWindow extends Stage {
         double[] paramsToCheck = new double[myParams.keySet().size()];
         double[] paramToRevert = new double[paramsToCheck.length];
         CheckParameters checker = new CheckParameters();
-        ArrayList<TextField> indexedFieldList = new ArrayList<>(myFieldMap.keySet());
         for (int i = 0; i < paramToRevert.length; i++) {
             paramToRevert[i] = myOldVals.get(i);
-            paramsToCheck[i] = Double.parseDouble(indexedFieldList.get(i).getText());
+            paramsToCheck[i] = Double.parseDouble(myFieldList.get(i).getText());
         }
         double[] checkedParams = checker.checkValidParameters(mySimType, paramsToCheck, paramToRevert);
-        int index = 0;
-        for (String validParam : myParams.keySet()) {
-            myParams.put(validParam, checkedParams[index]);
-            index++;
-        }
+        myRules.setParameters(checkedParams);
         this.close();
     }
 
