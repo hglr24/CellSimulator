@@ -1,6 +1,9 @@
 package UIpackage;
 
+import Configuration.CheckParameters;
 import Configuration.SimulationInfo;
+import Simulation.RuleSet;
+import Simulation.SimulationType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,29 +13,30 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class ParamWindow extends Stage {
 
-    private Scene myScene;
-    private BorderPane myBorderPane;
-    private SimulationInfo mySimInfo;
-    private ArrayList<TextField> myFieldList = new ArrayList<>();
-    private ArrayList<Double> myOldVals = new ArrayList<>();
-    private ArrayList<Double> myNewVals = new ArrayList<>();
-    private static final Dimension DEFAULT_SIZE = new Dimension(200, 120);
+    private RuleSet myRules;
+    private Map<String, Double> myParams;
+    private ArrayList<Double> myOldVals;
+    private SimulationType mySimType;
+    private HashMap<TextField, String> myFieldMap = new HashMap<>();
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
     ParamWindow(SimulationInfo simInfo) {
-        mySimInfo = simInfo;
-        myBorderPane = new BorderPane();
-        myScene = new Scene(myBorderPane, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
-        myScene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
-        myBorderPane.setBottom(drawButtons());
-        myBorderPane.setCenter(drawFieldGrid());
+        myRules = simInfo.getType().getRules();
+        mySimType = simInfo.getType();
+        BorderPane bp = new BorderPane();
+        Scene scene = new Scene(bp);
+        scene.getStylesheets().add(getClass().getResource(DEFAULT_STYLESHEET).toExternalForm());
+        bp.setBottom(drawButtons());
+        bp.setCenter(drawFieldGrid());
+        this.sizeToScene();
         this.setTitle("Edit Parameters");
-        this.setScene(myScene);
+        this.setScene(scene);
         this.setResizable(false);
         this.show();
     }
@@ -51,36 +55,42 @@ class ParamWindow extends Stage {
 
     private Node drawFieldGrid() {
         GridPane paramGrid = new GridPane();
-        double[] paramVals = mySimInfo.getParameters();
+        paramGrid.getStyleClass().add("legend-item");
+        paramGrid.setHgap(10);
+        myParams = myRules.getParameters();
+        myOldVals = new ArrayList<>(myParams.values());
         int row = 0;
-        for (double v : paramVals) {
-            myOldVals.add(v);
-            myNewVals.add(v);
-            paramGrid.add(drawParamField("Parameter " + (row + 1), v), 0, row); //TODO get real labels
+        for (String label : myParams.keySet()) {
+            drawParamField(paramGrid, label, myParams.get(label), row);
             row++;
         }
         return paramGrid;
     }
 
-    private Node drawParamField(String label, double startVal) {
-        HBox fieldBox = new HBox();
-        fieldBox.getStyleClass().add("legend-item");
+    private void drawParamField(GridPane paramGrid, String label, double startVal, int row) {
         Text paramLabel = new Text(label);
         TextField paramField = new TextField();
         paramField.setText(Double.toString(startVal));
-        myFieldList.add(paramField);
-        fieldBox.getChildren().addAll(paramLabel, paramField);
-        return fieldBox;
+        myFieldMap.put(paramField, label);
+        paramGrid.add(paramLabel, 0, row);
+        paramGrid.add(paramField, 1, row);
     }
 
     private void applyParams() {
-        double[] rtn = new double[myNewVals.size()];
-        for (TextField tf : myFieldList) {
-            myNewVals.set(myFieldList.indexOf(tf), Double.parseDouble(tf.getText()));
-            rtn[myFieldList.indexOf(tf)] = Double.parseDouble(tf.getText());
+        double[] paramsToCheck = new double[myParams.keySet().size()];
+        double[] paramToRevert = new double[paramsToCheck.length];
+        CheckParameters checker = new CheckParameters();
+        ArrayList<TextField> indexedFieldList = new ArrayList<>(myFieldMap.keySet());
+        for (int i = 0; i < paramToRevert.length; i++) {
+            paramToRevert[i] = myOldVals.get(i);
+            paramsToCheck[i] = Double.parseDouble(indexedFieldList.get(i).getText());
         }
-        System.out.println(myNewVals);
-        mySimInfo.getSimType().getRules().setParameters(rtn);
+        double[] checkedParams = checker.checkValidParameters(mySimType, paramsToCheck, paramToRevert);
+        int index = 0;
+        for (String validParam : myParams.keySet()) {
+            myParams.put(validParam, checkedParams[index]);
+            index++;
+        }
         this.close();
     }
 

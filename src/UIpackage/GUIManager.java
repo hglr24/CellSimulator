@@ -27,6 +27,7 @@ public class GUIManager {
     private Button buttonStart;
     private Button buttonStep;
     private Button buttonPause;
+    private Button buttonParam;
     private Grid myGrid;
     private BorderPane myBorderPane;
     private HBox myTitlePane;
@@ -132,7 +133,7 @@ public class GUIManager {
         buttonStep = drawButton("Step", event -> step());
         buttonPause = drawButton("Pause", event -> pause());
         Button buttonSave = drawButton("Save", event -> save());
-        Button buttonParam = drawButton("Edit Parameters", event -> paramEdit());
+        buttonParam = drawButton("Edit Parameters", event -> paramEdit());
 
         controls.getChildren().addAll(buttonStart, buttonStop, buttonPause, buttonStep, buttonSave, buttonParam);
         return controls;
@@ -231,7 +232,8 @@ public class GUIManager {
             myShapeGrid.get(row).get(col).setFill(newState.getColor());
         }
         catch (IndexOutOfBoundsException e) {
-            errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+            ErrorBox error = new ErrorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+            error.display();
         }
     }
 
@@ -243,10 +245,11 @@ public class GUIManager {
 
     private void loadNewSim() {
         try {
-            mySim.loadNewSim(myStageID);
+            mySim.loadNewSim();
         }
         catch (FileNotFoundException e) {
-            errorBox("Load Error", "Invalid file selection");
+            ErrorBox error = new ErrorBox("Load Error", "Invalid file selection");
+            error.display();
         }
     }
 
@@ -280,14 +283,7 @@ public class GUIManager {
         buttonStart.setDisable(mySim.hasStarted(myStageID));
         buttonStep.setDisable(mySim.hasStarted(myStageID) && !mySim.isPaused(myStageID));
         buttonPause.setDisable(!mySim.hasStarted(myStageID));
-    }
-
-    void errorBox(String errorType, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(errorType);
-        alert.setContentText(message);
-        alert.showAndWait();
+        buttonParam.setDisable(mySimType.getRules().getParameters().isEmpty());
     }
 
     private void keyboardHandler(KeyCode code) {

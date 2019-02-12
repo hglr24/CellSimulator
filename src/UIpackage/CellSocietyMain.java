@@ -33,10 +33,10 @@ public class CellSocietyMain extends Application {
         initializeFileOpener();
         initializeFileSaver();
         File dataFile = new File("data\\TestAnt.xml");
-        openFile(dataFile, stage, 0);
+        openFile(dataFile, stage);
     }
 
-    private void openFile(File file, Stage stage, int oldStageIndex) {
+    private void openFile(File file, Stage stage) {
         myStages.add(stage);
         int newStageIndex = myStages.indexOf(stage);
         try {
@@ -45,7 +45,8 @@ public class CellSocietyMain extends Application {
             makeGUI(stage);
         }
         catch (IllegalStateException | IllegalArgumentException | XMLException e) {
-            myGUIs.get(oldStageIndex).errorBox("Load Error", "Invalid XML file");
+            ErrorBox error = new ErrorBox("Load Error", "Invalid XML file");
+            error.display();
             myStages.remove(stage);
         }
     }
@@ -111,11 +112,11 @@ public class CellSocietyMain extends Application {
         myFileSaver.getExtensionFilters().add(new FileChooser.ExtensionFilter("Simulation XML", "*.xml"));
     }
 
-    void loadNewSim(int stageIndex) throws FileNotFoundException {
+    void loadNewSim() throws FileNotFoundException {
         File newFile = myFileChooser.showOpenDialog(new Stage());
         if (newFile != null) {
             Stage newStage = new Stage();
-            openFile(newFile, newStage, stageIndex);
+            openFile(newFile, newStage);
         }
         else {
             throw new FileNotFoundException();

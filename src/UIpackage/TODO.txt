@@ -1,13 +1,2 @@
-Now:
-Labels for params
-does GoL have parameters?
-Does ant have parameters?
-Address null params that display as 0 from XML
-
-Reliant:
-Image or shape overlay on grid from CSS
-State colors from XML
-
-Optional:
-Reduce dependencies in GUIManager
-Toggle grid borders on/off from GUI
+Fix param shuffling
+Readme
