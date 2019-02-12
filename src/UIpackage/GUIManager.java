@@ -232,7 +232,8 @@ public class GUIManager {
             myShapeGrid.get(row).get(col).setFill(newState.getColor());
         }
         catch (IndexOutOfBoundsException e) {
-            errorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+            ErrorBox error = new ErrorBox("Cell Error", "Attempted to access out-of-bounds cell!");
+            error.display();
         }
     }
 
@@ -244,10 +245,11 @@ public class GUIManager {
 
     private void loadNewSim() {
         try {
-            mySim.loadNewSim(myStageID);
+            mySim.loadNewSim();
         }
         catch (FileNotFoundException e) {
-            errorBox("Load Error", "Invalid file selection");
+            ErrorBox error = new ErrorBox("Load Error", "Invalid file selection");
+            error.display();
         }
     }
 
@@ -282,14 +284,6 @@ public class GUIManager {
         buttonStep.setDisable(mySim.hasStarted(myStageID) && !mySim.isPaused(myStageID));
         buttonPause.setDisable(!mySim.hasStarted(myStageID));
         buttonParam.setDisable(mySimType.getRules().getParameters().isEmpty());
-    }
-
-    void errorBox(String errorType, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(errorType);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void keyboardHandler(KeyCode code) {

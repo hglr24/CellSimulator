@@ -1,2 +1,2 @@
-Errorbox on bad param value
+Fix param shuffling
 Readme

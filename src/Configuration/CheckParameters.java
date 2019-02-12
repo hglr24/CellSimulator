@@ -1,6 +1,7 @@
 package Configuration;
 
 import Simulation.SimulationType;
+import UIpackage.ErrorBox;
 
 public class CheckParameters {
     double third = 0.33;
@@ -22,7 +23,7 @@ public class CheckParameters {
                 }
                 catch(XMLException e){ ;
                     if(newParameters.length == 1){
-                        System.out.println("Reverted to old parameters.");
+                        paramError();
                         return newParameters;
                     }
                     double[] defaultParameters = new double[]{half};
@@ -53,7 +54,7 @@ public class CheckParameters {
                 catch(XMLException e) {
                     System.out.println("Invalid parameters entered. Defaults enabled.");
                     if(newParameters.length == 3){
-                        System.out.println("Reverted to old parameters.");
+                        paramError();
                         return newParameters;
                     }
                     double[] defaultParameters = new double[]{defaultTime, defaultTime, defaultLives};
@@ -70,7 +71,7 @@ public class CheckParameters {
                 catch(XMLException e) {
                     double[] defaultParameters = new double[]{0.33};
                     if(parameters.length == 1){
-                        System.out.println("Reverted to old parameters.");
+                        paramError();
                         return newParameters;
                     }
                     System.out.println("Invalid parameters entered. Defaults enabled.");
@@ -89,7 +90,7 @@ public class CheckParameters {
                 }
                 catch(XMLException e){
                     if(newParameters.length != 1){
-                        System.out.println("Reverted to old parameters.");
+                        paramError();
                         return newParameters;
                     }
                     System.out.println("Invalid parameters entered. Defaults enabled.");
@@ -155,5 +156,11 @@ public class CheckParameters {
                 throw new XMLException("Probability parameters are not valid. Default values chosed instead");
             }
         }
+    }
+
+    private void paramError() {
+        ErrorBox error = new ErrorBox("Parameter Error",
+                "Invalid parameters, reverted to previous value.");
+        error.display();
     }
 }
