@@ -7,7 +7,7 @@
     </GridConfiguration>
     <GridWidth> 70 </GridWidth>
     <GridHeight> 70 </GridHeight>
-    <Shape>Square</Shape>
+    <Shape>Hexagon</Shape>
     <SimParameters>2</SimParameters>
     <RandomProbabilities> 0.3, 0.4, 0.3 </RandomProbabilities>
     <Neighborhood> Square </Neighborhood>

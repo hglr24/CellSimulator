@@ -28,9 +28,9 @@ Names: Lucas Liu, Harry Ross, Ian Hanus
     Data files needed: Simulation Files in data folder. Css file in resources.
     
     Interesting data files: Example simulations provided in data folder. 
-    Additional details concerning mappings also provided in data/README.md
+    Additional details concerning XML keywords and mappings also provided in data/README.md
     
-    Known Bugs:
+    Known Bugs: None
     
 ### Assumptions or Simplifications
     Predator Prey: Decided that a "group of fish in a cell" may move and be eaten at
@@ -41,9 +41,21 @@ Names: Lucas Liu, Harry Ross, Ian Hanus
     
     Percolation: The simulation stops once percolation is achieved
     
-    
-
 ### Features Implemented
+    Scrollable grid display
+    Click cell to change state
+    Chart to track cell counts
+    Variable speed slider
+    Legend to denote state colors for each simulation type
+    Mulitple simulatneous simulations in different windows
+    Start, step, pause, resume, controls for simulation
+    Save/load funcionality to store simulation data mid-execution
+    Editable parameters via GUI for simulations with editable parameters
+    Different neighborhood types defined in XML
+    Square, hexagonal, triangular cell shapes defined in XML
+    Finite, toridial edge types defined in XML
+    Random or preset intiial configurations defined in XML
+    Cell size predefined in XML
 
 #### Simulations Available 
     Game of Life, Fire, Percolation, Segregation, Predator Prey, Rock Paper Scissors, Ant
@@ -63,3 +75,4 @@ Names: Lucas Liu, Harry Ross, Ian Hanus
 ## Impressions
     Lucas: Good first group project
     Ian: Great team, interesting and challenging project
+    Harry: Very enjoyable, no major hitches, good team
