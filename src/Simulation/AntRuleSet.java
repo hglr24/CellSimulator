@@ -3,13 +3,27 @@ package Simulation;
 
 import java.util.List;
 
+/**
+ * Rules for Ant simulation
+ */
 public class AntRuleSet extends RuleSet {
 
+    /**
+     * Set parameters
+     * @param parameters
+     */
     @Override
     public void setParameters(double[] parameters) {
         super.setParameters(parameters);
     }
 
+    /**
+     * Apply the rules
+     * @param neighbors
+     * @param cell
+     * @param grid
+     * @return
+     */
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
         AntCell antCell = (AntCell) cell;

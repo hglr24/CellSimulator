@@ -3,7 +3,10 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * An Ant, used in the Ant simulation to represent individual ants moving about. Ants always belong
+ * to an AntCell's ants.
+ */
 public class Ant {
 
     private boolean hasFood;
@@ -18,6 +21,12 @@ public class Ant {
     private static final int ANT_DIFFUSE_FOOD = 2;
     private static final double RANDOM_FACTOR = .1;
 
+    /**
+     * Instantiate a new ant with parameters
+     * @param hasFood
+     * @param heading
+     * @param location
+     */
     public Ant(boolean hasFood, Heading heading, Location location) {
         this.hasFood = hasFood;
         this.foodPheromones = 0;
@@ -26,6 +35,12 @@ public class Ant {
         this.location = (SquareLocation) location;
     }
 
+    /**
+     * A method for the ant to make the necessary actions based on the environment.
+     * Includes a neighbor calculation
+     * @param grid
+     * @param antCell
+     */
     public void act(AntGrid grid, AntCell antCell) {
 
         updatePheromones((AntState) antCell.getCurrentState());
@@ -123,6 +138,10 @@ public class Ant {
         }
     }
 
+    /**
+     * Whether or not the ant has food
+     * @return
+     */
     public boolean hasFood() {
         return hasFood;
     }
