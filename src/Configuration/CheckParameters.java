@@ -9,9 +9,21 @@ public class CheckParameters {
     int defaultTime = 5;
     int defaultLives = 5;
 
+    /**
+     * Create a new checkParameters method that will check if entered parameters and probabilities are valid for
+     * a given simulation when the checkValidParameters method is called
+     */
     public CheckParameters(){
     }
 
+    /**
+     * Check if parameters entered by user or XML are valid and if not, return either default parameters if no
+     * parameters had been entered prior or the last valid parameters if there had been valid parameters entered before
+     * @param simtype is the SimulationType enumeration of the current simulation
+     * @param parameters is the double array of the parameters that you want to check
+     * @param newParameters is the set of parameters that the method will turn to if default values are not desired
+     * @return the double array of new parameters that the simulation will use
+     */
     public double[] checkValidParameters(SimulationType simtype, double[] parameters, double[] newParameters){
         switch(simtype){
             case FIRE:
@@ -101,6 +113,13 @@ public class CheckParameters {
         return parameters;
     }
 
+    /**
+     * Checks if there are the right number of probabilities for the simulation and makes sure that the probabilities
+     * add up to approximately 1
+     * @param simtype
+     * @param probabilities
+     * @return
+     */
     public double[] checkValidProbabilities(SimulationType simtype, double[] probabilities){
         switch(simtype){
             case FIRE:

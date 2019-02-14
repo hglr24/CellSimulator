@@ -10,6 +10,11 @@ import java.util.Map;
 import static Simulation.Edge.*;
 import static Simulation.SimulationType.*;
 
+/**
+ * Create a SimulationInfo object using an XMLReader object that holds the desired XML to check that all fields are valid
+ * and set them to default values if they are invalid. The SimulationInfo object will then hold all of the intial values
+ * for the simulation.
+ */
 public class SimulationInfo {
     static final List<String> dataFields = List.of(
             "Title",
@@ -92,6 +97,17 @@ public class SimulationInfo {
         myValues.addAll(Arrays.asList(arrayValues));
     }
 
+    /**
+     * Pass all of the values read from the xml into the constructor of the SimulationInfo object. The constructor
+     * will then check the validity of each of the values, using a CheckParameters object for the probabilities and parameters
+     * as those can be changed throughout the progression of the program, and so a special object was created to check them.
+     * Each of the values, including title, width, height, shape, parameters, probabilities, configuration type (either
+     * string of integers or "Random" or "True Random"), neighborhood, edge type, cell size, outline, and colors of the cells
+     * are checked and put into their instance values.
+     * @param values Is the list of initial parameters read from the XML file, in the order of title, simulation type, initial
+     *               integer configuration or "Random" string, width, height, shape, parameters, probabilities, neighborhood,
+     *               edge, grid size, outline, and state colors.
+     */
     public SimulationInfo(Map<String, String> values) {
         init(values.get(dataFields.get(0)), values.get(dataFields.get(1)), values.get(dataFields.get(2).trim()),
                 values.get(dataFields.get(3)), values.get(dataFields.get(4)), values.get(dataFields.get(5)),
@@ -293,26 +309,6 @@ public class SimulationInfo {
         }
     }
 
-    private Shape stringToShape(String shapeName){
-        switch(shapeName){
-            case "Triangle":
-                return Shape.TRIANGLE;
-            case "Square":
-                return Shape.SQUARE;
-            case "Hexagon":
-                return Shape.HEXAGON;
-        }
-        return Shape.SQUARE;
-    }
-
-    public String getTitle(){
-        return myTitle;
-    }
-
-    public SimulationType getType(){
-        return mySimType;
-    }
-
     private double[] parseDoubles(String parameters){
         String[] splitParams = parameters.replaceAll("\\s","").split(",");
         double[] paramsOut = new double[splitParams.length];
@@ -327,57 +323,136 @@ public class SimulationInfo {
         }
     }
 
-    public SimulationType getSimType() {
+    private Shape stringToShape(String shapeName){
+        switch(shapeName){
+            case "Triangle":
+                return Shape.TRIANGLE;
+            case "Square":
+                return Shape.SQUARE;
+            case "Hexagon":
+                return Shape.HEXAGON;
+        }
+        return Shape.SQUARE;
+    }
+
+    /**
+     * Used to get the title read in from the XML file
+     * @return a string corresponding to the title of the simulation
+     */
+    public String getTitle(){
+        return myTitle;
+    }
+
+    /**
+     * Getter used to get the type of simulation loaded in from the xml file.
+     * @return a SimulationType enumeration corresponding to the type of simulation.
+     */
+    public SimulationType getType(){
         return mySimType;
     }
 
+    /**
+     * Used to return the type of grid used so only a single switch case statement is necessary to initialize a
+     * grid subclass instead of putting another switch case in main.
+     * @return Grid subclass corresponding to the type of simulation.
+     */
     public Grid getGridType() {
         return myGridType;
     }
 
+    /**
+     * Getter used to get the neighborhood used to apply rules to each cell.
+     * @return Neighborhood enumeration type corresponding to neighbors that should be considered in calculating the
+     * state of the current cell.
+     */
     public Neighborhood getNeighborhood(){
         return myNeighborhood;
     }
 
+    /**
+     * Getter used to get the type of edge (toroidal, infinite, or finite)
+     * @return Edge enumeration type corresponding to desired edge
+     */
     public Edge getEdge(){
         return myEdge;
     }
 
+    /**
+     * Getter used to get the maximum size of a cell in each direction in value of int, regardless of shape
+     * @return integer corresponding to the desired size of each cell in the visualization
+     */
     public int getCellSize(){
         return myCellSize;
     }
 
-    public Paint[] getStateColors(){
-        return myColors;
-    }
-
+    /**
+     * Getter that will return either true or false, true corresponding to the lines between cells being visualized and
+     * false corresponding to the lines not being visualized
+     * @return boolean corresponding to whether or not the lines between cells should be visualized (true is visualized,
+     * false is not visualized)
+     */
     public boolean getOutline(){
         return myOutline;
     }
 
+    /**
+     * Returns an array of doubles corresponding to the parameters from the XML file, after they have been checked to be
+     * valid by CheckParameters above
+     * @return double array of valid parameters for the current simulation
+     */
     public double[] getParameters(){
         return myParameters;
     }
+
+    /**
+     * Getter for the width of the grid in cells
+     * @return An integer corresponding to the number of cells in each row of the simulation
+     */
     public int getWidth(){
         return Integer.parseInt(myWidth.trim());
     }
 
+    /**
+     * Getter for the height of the grid in cells
+     * @return An integer corresponding to the number of cells in each column of the simulation
+     */
     public int getHeight(){
         return Integer.parseInt(myHeight.trim());
     }
 
+    /**
+     * Gets the shape of the cells for the visualization
+     * @return Shape enumeration type corresponding to how cells will be visualized
+     */
     public Shape getShape(){
         return myShape;
     }
 
+    /**
+     * Returns the entered probabilities from the XML file, given that they were valid otherwise defaults were enabled,
+     * @return
+     */
     private double[] getProbability(){
         return myProbabilities;
     }
 
+    /**
+     * Returns the initial configuration in integers, that later maps to the states in each SimulationGrid subclass.
+     * Can be taken in from the xml file (String of integers matching stated size)or generated randomly from entered
+     * probabilities ("Random in XML file) or truly randomly, with each State having an equal chance ("True Random" in
+     * XML file or default).
+     * @return 2 Dimensional integer array corresponding to the inital states of each of the cells in the simulation
+     */
     public int[][] getIntegerConfiguration(){
         return myConfiguration;
     }
 
+    /**
+     * Return the total list of values. This makes it easier to save the current configuration to an xml, as all that is
+     * needed is the information in SimulationInfo and the current grid status then.
+     * @return A list of strings containing the title, simulation type, initial integer configuration or "Random" string,
+     * width, height, shape, parameters, probabilities, neighborhood, edge, grid size, outline, and state colors.
+     */
     public List<String> getSimStrings(){
         return myValues;
     }
