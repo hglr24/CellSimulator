@@ -1,5 +1,8 @@
 package Simulation;
 
+/**
+ * Enumeration to give a direction. Gives information about relative cell calculations
+ */
 enum Heading{
     N(new int[][]{{-1,0,1},
             { 1,1,1}},0,1),
@@ -28,6 +31,10 @@ enum Heading{
         this.relativeY = relativeY;
     }
 
+    /**
+     * Get relative cell positions for specific headings
+     * @return
+     */
     public int[][] getDeltas() {
         return deltas;
     }

@@ -2,8 +2,18 @@ package Simulation;
 
 import static Simulation.RPSState.*;
 
+/**
+ * RPS Grid
+ */
 public class RPSGrid extends BasicGrid {
-
+    /**
+     * Instantiate
+     * @param height
+     * @param width
+     * @param initInts
+     * @param ruleSet
+     * @param neighborhood
+     */
     public RPSGrid(int height, int width, int[][] initInts, RPSRuleSet ruleSet, Neighborhood neighborhood) {
         super(height,width,neighborhood, ruleSet, GridType.BOUNDED);
         for (State t: RPSState.values()) {
