@@ -2,6 +2,9 @@ package Simulation;
 
 import static Simulation.PredatorPreyState.*;
 
+/**
+ * Predator Prey Grid, Wa-Tor is a donut planet, so Toroidal grid.
+ */
 public class PredatorPreyGrid extends BasicGrid {
 
     public PredatorPreyGrid(int height, int width, int[][] initInts, PredatorPreyRuleSet ruleSet, Neighborhood neighborhood) {

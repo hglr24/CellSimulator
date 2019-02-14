@@ -5,6 +5,9 @@ import java.util.List;
 import static Simulation.PercolationState.OPEN;
 import static Simulation.PercolationState.PERCOLATED;
 
+/**
+ * Percolation Rules
+ */
 public class PercolationRuleSet extends RuleSet {
     private boolean hasPercolated;
 
@@ -13,6 +16,13 @@ public class PercolationRuleSet extends RuleSet {
         super.setParameters(parameters);
     }
 
+    /**
+     * Rule Application. Checks to see if bottom row has any percolated cells
+     * @param neighbors
+     * @param baseCell
+     * @param grid
+     * @return
+     */
     @Override
     public State applyRules(List<Cell> neighbors, Cell baseCell, Grid grid) {
         PercolationCell cell = (PercolationCell) baseCell;

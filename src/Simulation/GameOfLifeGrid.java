@@ -3,6 +3,9 @@ package Simulation;
 import static Simulation.GameOfLifeState.DEAD;
 import static Simulation.GameOfLifeState.LIVE;
 
+/**
+ * Game of Life grid. Can set grid type and neighborhood, require Game of Life components
+ */
 public class GameOfLifeGrid extends BasicGrid {
 
     public GameOfLifeGrid(int height, int width, int[][] initInts, GameOfLifeRuleSet ruleSet, Neighborhood neighborhood) {

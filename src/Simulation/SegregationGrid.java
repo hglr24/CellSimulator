@@ -2,7 +2,18 @@ package Simulation;
 
 import static Simulation.SegregationState.*;
 
+/**
+ * Segregation Grid
+ */
 public class SegregationGrid extends BasicGrid {
+    /**
+     * Instantiate specific simulation
+     * @param height
+     * @param width
+     * @param initInts
+     * @param ruleSet
+     * @param neighborhood
+     */
     public SegregationGrid(int height, int width, int[][] initInts, SegregationRuleSet ruleSet, Neighborhood neighborhood) {
         super(height, width, neighborhood, ruleSet, GridType.BOUNDED);
         for (State t: SegregationState.values()) {

@@ -6,15 +6,29 @@ import java.util.List;
 
 import static Simulation.SegregationState.EMPTY;
 
+/**
+ * Segregation Rules
+ */
 public class SegregationRuleSet extends RuleSet{
     private final double DEFAULT_SATISFACTION_PERCENTAGE = .5;
 
+    /**
+     * Only parameter is the neighbors proportion required to not move
+     * @param parameters
+     */
     @Override
     public void setParameters(double[] parameters) {
         this.parameters.put("satisfactionPercentage", DEFAULT_SATISFACTION_PERCENTAGE);
         super.setParameters(parameters);
     }
 
+    /**
+     * Rule Application
+     * @param neighbors
+     * @param cell
+     * @param grid
+     * @return
+     */
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         double sameNeighbors = 0;
         for(Cell c:neighbors){
@@ -30,7 +44,7 @@ public class SegregationRuleSet extends RuleSet{
         return cell.getCurrentState();
     }
 
-    public void moveToEmpty(SegregationCell cell,Grid grid){
+    private void moveToEmpty(SegregationCell cell,Grid grid){
         ArrayList<SegregationCell> openings = new ArrayList<>();
         for(int k = 0; k < grid.getHeight(); k++){
             for(int j = 0; j < grid.getWidth(); j++){

@@ -7,7 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static Simulation.RPSState.*;
 
-
+/**
+ * RPS Rules
+ */
 public class RPSRuleSet extends RuleSet {
     private final double DEFAULT_THRESHOLD = .5;
 
@@ -17,6 +19,13 @@ public class RPSRuleSet extends RuleSet {
         super.setParameters(parameters);
     }
 
+    /**
+     * Rule application. Classic Rock, Paper, Scissors logic
+     * @param neighbors
+     * @param cell
+     * @param grid
+     * @return
+     */
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         double tempThreshold = this.parameters.get("winThreshold") + ThreadLocalRandom.current().nextInt(0, 3);

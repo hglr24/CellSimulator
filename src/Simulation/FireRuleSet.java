@@ -4,10 +4,17 @@ import java.util.List;
 
 import static Simulation.FireState.*;
 
+/**
+ * Rules for fire simulation
+ */
 public class FireRuleSet extends RuleSet {
 
     private final double DEFAULT_BURN_PROBABILITY = .5;
 
+    /**
+     * Parameter setup. Parameter is probability of tree catching fire if next to cell that is on fire
+     * @param parameters
+     */
     @Override
     public void setParameters(double[] parameters) {
         this.parameters.put("burnProbability", DEFAULT_BURN_PROBABILITY);

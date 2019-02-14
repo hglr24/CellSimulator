@@ -6,11 +6,18 @@ import java.util.Random;
 
 import static Simulation.PredatorPreyState.*;
 
+/**
+ * Rules for Predator Prey
+ */
 public class PredatorPreyRuleSet extends RuleSet {
     private final double DEFAULT_FISH_REPRODUCTION_TIME = .5;
     private final double DEFAULT_SHARK_REPRODUCTION_TIME = .5;
     private final double DEFAULT_SHARK_ENERGY = .5;
 
+    /**
+     * Set parameters.
+     * @param parameters
+     */
     @Override
     public void setParameters(double[] parameters) {
         this.parameters.put("fishReproductionTime", DEFAULT_FISH_REPRODUCTION_TIME);
@@ -19,6 +26,13 @@ public class PredatorPreyRuleSet extends RuleSet {
         super.setParameters(parameters);
     }
 
+    /**
+     * Specific application of the rules
+     * @param neighbors
+     * @param cell
+     * @param grid
+     * @return
+     */
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid) {
         switch ((PredatorPreyState) cell.getCurrentState()) {
