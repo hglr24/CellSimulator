@@ -1,5 +1,8 @@
 package Simulation;
 
+/**
+ * Used to calculate a neighborhood of cells
+ */
 public enum Neighborhood {
     SQUARE(new int[][]{{0, 0,1, 1,1,-1,-1,-1},
                        {1,-1,1,-1,0,-1, 0, 1}}),
@@ -30,6 +33,10 @@ public enum Neighborhood {
         this.deltas = deltas;
     }
 
+    /**
+     * Get relative cells for a specific neighborhood type
+     * @return
+     */
     public int[][] getDeltas() {
         return deltas;
     }

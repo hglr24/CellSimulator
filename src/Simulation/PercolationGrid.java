@@ -2,7 +2,18 @@ package Simulation;
 
 import static Simulation.PercolationState.*;
 
+/**
+ * Grid for Percolation
+ */
 public class PercolationGrid extends BasicGrid{
+    /**
+     * Instantiation. Uses bounded grid.
+     * @param height
+     * @param width
+     * @param initInts
+     * @param ruleSet
+     * @param neighborhood
+     */
     public PercolationGrid(int height, int width, int[][] initInts, PercolationRuleSet ruleSet, Neighborhood neighborhood) {
         super(height,width,neighborhood, ruleSet, GridType.BOUNDED);
         for (State t: PercolationState.values()) {

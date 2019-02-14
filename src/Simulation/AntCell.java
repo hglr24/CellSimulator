@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Cell class for Ant simulation. Keeps track of its ants, and holds certain parameters
+ */
 public class AntCell extends Cell {
 
     private ArrayList<Ant> ants = new ArrayList<>();
@@ -18,7 +21,12 @@ public class AntCell extends Cell {
     private static final int MAX_HOME = 1000;
     private static final int REDUCTION = 5;
 
-
+    /**
+     * Instantiate an AntCell
+     * @param xPosition
+     * @param yPosition
+     * @param initState
+     */
     public AntCell(int xPosition, int yPosition, AntState initState) {
         location = new SquareLocation(xPosition, yPosition);
         currentState = initState;
@@ -37,7 +45,7 @@ public class AntCell extends Cell {
         }
     }
 
-    public void stateCheck(){
+    private void stateCheck(){
         switch((AntState)currentState){
             case FOOD:
                 foodPheromone = MAX_FOOD;
@@ -49,6 +57,11 @@ public class AntCell extends Cell {
         }
 
     }
+
+    /**
+     * Make cell and Ant calculations based on grid status
+     * @param grid
+     */
     public void evaluate(AntGrid grid) {
         stateCheck();
 
@@ -61,15 +74,27 @@ public class AntCell extends Cell {
         }
     }
 
-    public boolean available() {
+    /**
+     * check if there is room for more ants
+     * @return
+     */
+     boolean available() {
         return ants.size() < MAX_ANTS;
     }
 
-    public boolean hasAnts() {
+    /**
+     * check if there are any ants
+     * @return
+     */
+    boolean hasAnts() {
         return !ants.isEmpty();
     }
 
-    public boolean hasFoodAnts() {
+    /**
+     * check if any of the ants have food
+     * @return
+     */
+     boolean hasFoodAnts() {
         for (Ant a : ants) {
             if (a.hasFood())
                 return true;
@@ -77,14 +102,21 @@ public class AntCell extends Cell {
         return false;
     }
 
-    public void diffuse() {
+    /**
+     * reduce the pheromone levels
+     */
+     void diffuse() {
         if (foodPheromone > 0)
             foodPheromone -= DIFFUSE_FOOD;
         if (homePheromone > 0)
             homePheromone -= DIFFUSE_HOME;
     }
 
-    public void addFood(int food) {
+    /**
+     * increment food pheromone
+     * @param food
+     */
+    void addFood(int food) {
         foodPheromone += food;
         if (foodPheromone > MAX_FOOD)
             foodPheromone = MAX_FOOD;
@@ -97,7 +129,11 @@ public class AntCell extends Cell {
             foodPheromone = temp-REDUCTION;
     }
 
-    public void addHome(int home) {
+    /**
+     * increment pheromone
+     * @param home
+     */
+     void addHome(int home) {
         homePheromone += home;
         if (homePheromone > MAX_HOME)
             homePheromone = MAX_HOME;
@@ -111,18 +147,33 @@ public class AntCell extends Cell {
             homePheromone = temp-REDUCTION;
     }
 
-    public int getFoodPheromone() {
+    /**
+     * get pheromone
+     * @return
+     */
+     int getFoodPheromone() {
         return foodPheromone;
     }
 
-    public int getHomePheromone() {
+    /**
+     * get pheromone
+     * @return
+     */
+     int getHomePheromone() {
         return homePheromone;
     }
 
-    public void addAnt(Ant ant) {
+    /**
+     * add an ant
+     * @param ant
+     */
+     void addAnt(Ant ant) {
         antsNext.add(ant);
     }
 
+    /**
+     * Proceed to state and reset
+     */
     @Override
     public void goToNextState(){
         currentState = nextState;
@@ -132,6 +183,10 @@ public class AntCell extends Cell {
         antsNext.clear();
     }
 
+    /**
+     * Need to override the method because it should still update even if the state has changed
+     * @param grid
+     */
     @Override
     public void determineState(Grid grid) {
 

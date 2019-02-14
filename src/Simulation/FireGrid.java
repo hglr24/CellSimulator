@@ -1,7 +1,17 @@
 package Simulation;
 
+/**
+ * Fire simulation grid. Grid is bounded.
+ */
 public class FireGrid extends BasicGrid {
-
+    /**
+     * Constructor, requires simulation specific object types
+     * @param height
+     * @param width
+     * @param initInts
+     * @param ruleSet
+     * @param neighborhood
+     */
     public FireGrid(int height, int width, int[][] initInts, FireRuleSet ruleSet, Neighborhood neighborhood) {
         super(height,width,neighborhood, ruleSet, GridType.BOUNDED);
         for (State t: FireState.values()) {

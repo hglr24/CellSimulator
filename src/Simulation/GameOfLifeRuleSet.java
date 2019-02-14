@@ -2,13 +2,18 @@ package Simulation;
 
 import java.util.List;
 
+/**
+ * Rules for Game of Life
+ */
 public class GameOfLifeRuleSet extends RuleSet {
 
-    @Override
-    public void setParameters(double[] parameters) {
-        super.setParameters(parameters);
-    }
-
+    /**
+     * Apply the Game of Life rules. There is a min and max number of live neighbors that dictates life and death
+     * @param neighbors
+     * @param cell
+     * @param grid
+     * @return
+     */
     @Override
     public State applyRules(List<Cell> neighbors, Cell cell, Grid grid){
         int live = 0;
