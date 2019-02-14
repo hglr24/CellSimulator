@@ -2,8 +2,19 @@ package Simulation;
 
 import java.util.ArrayList;
 
+/**
+ * Grid for the Ant simulation
+ *
+ */
 public class AntGrid extends BasicGrid {
-
+    /**
+     * Instantiation of Grid
+     * @param height
+     * @param width
+     * @param initInts
+     * @param ruleSet
+     * @param neighborhood
+     */
     public AntGrid(int height, int width, int[][] initInts, AntRuleSet ruleSet, Neighborhood neighborhood) {
         super(height,width,neighborhood, ruleSet, GridType.BOUNDED);
         for (State t: AntState.values()) {
@@ -34,6 +45,12 @@ public class AntGrid extends BasicGrid {
         this.cells = initCells;
     }
 
+    /**
+     * Special kind of neighbor finding that involves a heading. used by Ant objects
+     * @param location
+     * @param heading
+     * @return
+     */
     public ArrayList<AntCell> findForwardNeighbors(Location location, Heading heading) {
         ArrayList<AntCell> adjacent = new ArrayList<>();
 
@@ -49,6 +66,7 @@ public class AntGrid extends BasicGrid {
 
         return adjacent;
     }
+
     private void validNeighbors(Location location, ArrayList<AntCell> neighbors) {
 
         if (validLocation(location) && ((AntCell) getCell(location)).available())
