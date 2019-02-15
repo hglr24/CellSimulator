@@ -3,10 +3,17 @@ package Simulation;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Baseline ruleSet.
+ */
 public abstract class RuleSet implements RuleSetInterface {
 
     protected TreeMap<String, Double> parameters = new TreeMap<>();
 
+    /**
+     * Initialize with parameters
+     * @param parameters
+     */
     public RuleSet(double[] parameters) {
         setParameters(parameters);
     }
@@ -14,6 +21,10 @@ public abstract class RuleSet implements RuleSetInterface {
     public RuleSet() {
     }
 
+    /**
+     * Change the parameters
+     * @param parameters
+     */
     public void setParameters(double[] parameters) {
         try {
             int i = 0;
@@ -26,6 +37,11 @@ public abstract class RuleSet implements RuleSetInterface {
             return;
         }
     }
+
+    /**
+     * Get the parameters
+     * @return
+     */
 
     public Map<String, Double> getParameters() {
         return parameters;
