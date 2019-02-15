@@ -8,8 +8,8 @@
     <Shape>Hexagon</Shape>
     <SimParameters> 0.3 </SimParameters>
     <RandomProbabilities> 0.1, 0.8, 0.1 </RandomProbabilities>
-    <Neighborhood> Square </Neighborhood>
-    <Edge> Finite </Edge>
+    <Neighborhood> Knight </Neighborhood>
+    <Edge> Toroidal </Edge>
     <GridSize> 10 </GridSize>
     <OutlineFlag> False </OutlineFlag>
     <StateColors> WHITE, GREEN, RED </StateColors>
