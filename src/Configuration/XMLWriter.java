@@ -67,12 +67,20 @@ public class XMLWriter {
         myOutline = outline;
         myStateColors = stateColors;
     }
-
+    
+    /**
+     * Method that calls the constructor when all the information is taken in from a SimulationInfo object 
+    */
     public XMLWriter(List<String> values){
         this(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4), values.get(5), values.get(6),
                 values.get(7), values.get(8), values.get(9), values.get(10), values.get(11), values.get(12));
     }
-
+    
+    /**
+     * Write the XML file to a new save location
+     * @param grid is the current grid with the states to be saved
+     * @param saveLocation is the path where the XML will be saved
+     */
     public void writeXML(Grid grid, File saveLocation){
         try{
             String XMLPath = saveLocation.getPath();
