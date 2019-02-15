@@ -16,6 +16,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Create new XML file and write current state to it
+ */
 public class XMLWriter {
     private String myTitle;
     private String mySimType;
@@ -31,6 +34,22 @@ public class XMLWriter {
     private String myOutline;
     private String myStateColors;
 
+    /**
+     *
+     * @param title
+     * @param simType
+     * @param configuration
+     * @param width
+     * @param height
+     * @param shape
+     * @param parameters
+     * @param probabilities
+     * @param neighborhood
+     * @param edge
+     * @param cellSize
+     * @param outline
+     * @param stateColors
+     */
     public XMLWriter(String title, String simType, String configuration, String width, String height, String shape,
                      String parameters, String probabilities, String neighborhood, String edge, String cellSize,
                      String outline, String stateColors){

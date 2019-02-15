@@ -1,5 +1,8 @@
 package Simulation;
 
+/**
+ * Enumeration that gives SimulationType and maps to the equivalent strings, values, and rulesets
+ */
 public enum SimulationType {
     GAME_OF_LIFE("Game of Life", GameOfLifeState.values(), new GameOfLifeRuleSet()),
     SEGREGATION("Segregation", SegregationState.values(), new SegregationRuleSet()),
@@ -19,11 +22,25 @@ public enum SimulationType {
         myRules = rules;
     }
 
+    /**
+     * Creates a ruleset that is used to apply the rules in each simulation
+     * @param parameters
+     * @return ruleset with the influencing paramters set to the input
+     */
     public RuleSet setRules(double[] parameters) {
         myRules.setParameters(parameters);
         return myRules;
     }
 
+    /**
+     * Gets a grid of the correct type and casts the ruleset to a ruleset of the correct type
+     * @param height is the number of rows of the simulation
+     * @param width is the number of columns of the simulation
+     * @param initInts is the integer starting configuration
+     * @param ruleSet is the governing rules, at this point non-simulation specifice
+     * @param neighborhood is the Neighborhood enumeration that determines the neighbors considered in the cell updates
+     * @return the Grid containing the cells of the correct SimulationType used in the simulation
+     */
     public Grid setGrid(int height, int width, int[][] initInts, RuleSet ruleSet, Neighborhood neighborhood) {
         switch(this) {
             case GAME_OF_LIFE:
@@ -44,15 +61,27 @@ public enum SimulationType {
         return new GameOfLifeGrid(height, width, initInts, (GameOfLifeRuleSet) ruleSet, neighborhood);
     }
 
+    /**
+     * Return the string corresponding to the type of simulation
+     * @return string that maps to the type of simulation
+     */
     @Override
     public String toString() {
         return myLabel;
     }
 
+    /**
+     * Returns the possible states for the given simulation
+     * @return an array of the possible states for the simulation
+     */
     public State[] getState() {
         return myStates;
     }
 
+    /**
+     * Returns the uncast ruleset for the simulation
+     * @return a simulation RuleSet 
+     */
     public RuleSet getRules() {
         return myRules;
     }
