@@ -14,135 +14,105 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+
+
+/**
+ * This codes purpose is to save the state of the current simulation to an XML file to be loaded at a later date.
+ * I believe this code is well designed because it takes the burden off of other classes for providing the information,
+ * and instead just requires a SimulationInfo object and the current Grid configuration. I refactored a lot of the code,
+ * bringing it down from about 200 lines to about 150 by implementing a map to hold all of the values, and instead
+ * of creating a new node manually each time I created a method to add the new node element.
+ */
+
+
 
 /**
  * Create new XML file and write current state to it
+ * Creates all of the valid XML fields and puts the values from SimulationInfo object in them
  */
 public class XMLWriter {
-    private String myTitle;
-    private String mySimType;
-    private String myConfiguration;
-    private String myWidth;
-    private String myHeight;
-    private String myShape;
-    private String myParameters;
-    private String myProbabilities;
-    private String myNeighborhood;
-    private String myEdge;
-    private String myCellSize;
-    private String myOutline;
-    private String myStateColors;
+    private Document myDocument;
+    private Element myRoot;
+    private HashMap<String, String> myMap;
+    private String[] myFields;
+    private String[] myValues;
 
     /**
-     *
-     * @param title
-     * @param simType
-     * @param configuration
-     * @param width
-     * @param height
-     * @param shape
-     * @param parameters
-     * @param probabilities
-     * @param neighborhood
-     * @param edge
-     * @param cellSize
-     * @param outline
-     * @param stateColors
+     * Save the new simulation using the string parameters as fields
+     * @param title is the title of the simulation
+     * @param simType is the type of simulation
+     * @param configuration is the current state of the grid
+     * @param width is the number of columns in the grid
+     * @param height is the number of rows in the grid
+     * @param shape is the shape of the objects in the grid
+     * @param parameters is the state of the parameters of the grid
+     * @param probabilities is the probabilities affecting randomness in the grid
+     * @param neighborhood is the neighborhood of cells that get considered in calculating the next state
+     * @param edge is the edge of the grid that must be considered
+     * @param cellSize is the size of each cell
+     * @param outline is true or false, describing whether or not the cells outline should appear
+     * @param stateColors is a list of Strings representing the colors for each of the states
      */
+
     public XMLWriter(String title, String simType, String configuration, String width, String height, String shape,
                      String parameters, String probabilities, String neighborhood, String edge, String cellSize,
                      String outline, String stateColors){
-        myTitle = title;
-        mySimType = simType;
-        myConfiguration = configuration;
-        myWidth = width;
-        myHeight = height;
-        myShape = shape;
-        myParameters = parameters;
-        myProbabilities = probabilities;
-        myNeighborhood = neighborhood;
-        myEdge = edge;
-        myCellSize = cellSize;
-        myOutline = outline;
-        myStateColors = stateColors;
+        myFields = new String[]{"Title", "SimulationType", "GridConfiguration", "GridWidth", "GridHeight", "Shape",
+        "SimParameters", "RandomProbabilities", "Neighborhood", "Edge", "GridSize", "OutlineFlag", "StateColors"};
+        myValues = new String[]{title, simType, configuration, width, height, shape, parameters, probabilities, neighborhood,
+        edge, cellSize, outline, stateColors};
+        myMap = new HashMap<>();
+        for(int k = 0; k < myValues.length; k++){
+            myMap.put(myFields[k], myValues[k]);
+        }
     }
+
+    /**
+     * Method that calls the constructor when all the information is taken in from a SimulationInfo object
+     */
 
     public XMLWriter(List<String> values){
         this(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4), values.get(5), values.get(6),
                 values.get(7), values.get(8), values.get(9), values.get(10), values.get(11), values.get(12));
     }
 
+    /**
+     * Write the XML file to a new save location. The grid is converted from the array to a string
+     * and passed into the GridConfiguration so random is no longer enabled.
+     * @param grid is the current grid with the states to be saved
+     * @param saveLocation is the path where the XML will be saved
+     */
+
     public void writeXML(Grid grid, File saveLocation){
         try{
             String XMLPath = saveLocation.getPath();
             int[][] gridInt = grid.getIntArray(grid.getHeight(), grid.getWidth());
-            myConfiguration = arrayToString(gridInt);
+
+            String integerConfiguration = arrayToString(gridInt);
+            myMap.put("GridConfiguration", integerConfiguration);
 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document document = docBuilder.newDocument();
+            myDocument = document;
 
-            Element root = document.createElement("data");
-            document.appendChild(root);
+            myRoot = document.createElement("data");
+            document.appendChild(myRoot);
+
             Attr attribute = document.createAttribute("media");
             attribute.setValue("Simulation");
-            root.setAttributeNode(attribute);
+            myRoot.setAttributeNode(attribute);
 
-            Element title = document.createElement("Title");
-            title.appendChild(document.createTextNode(myTitle));
-            root.appendChild(title);
+            for(String s:myMap.keySet()){
+                myRoot.appendChild(myDocument.createTextNode("    "));
+                createChildElement(s, myMap.get(s));
+                myRoot.appendChild(myDocument.createTextNode("\n"));
+            }
 
-            Element simType = document.createElement("SimulationType");
-            simType.appendChild(document.createTextNode(mySimType));
-            root.appendChild(simType);
-
-            Element gridConfig = document.createElement("GridConfiguration");
-            gridConfig.appendChild(document.createTextNode(myConfiguration));
-            root.appendChild(gridConfig);
-
-            Element gridWidth = document.createElement("GridWidth");
-            gridWidth.appendChild(document.createTextNode(myWidth));
-            root.appendChild(gridWidth);
-
-            Element gridHeight = document.createElement("GridHeight");
-            gridHeight.appendChild(document.createTextNode(myHeight));
-            root.appendChild(gridHeight);
-
-            Element shape = document.createElement("Shape");
-            shape.appendChild(document.createTextNode(myShape));
-            root.appendChild(shape);
-
-            Element simParams =document.createElement("SimParameters");
-            simParams.appendChild(document.createTextNode(myParameters));
-            root.appendChild(simParams);
-
-            Element randProbs = document.createElement("RandomProbabilities");
-            randProbs.appendChild(document.createTextNode(myProbabilities));
-            root.appendChild(randProbs);
-
-            Element neighborhood = document.createElement("Neighborhood");
-            neighborhood.appendChild(document.createTextNode(myNeighborhood));
-            root.appendChild(neighborhood);
-
-            Element edge = document.createElement("Edge");
-            edge.appendChild(document.createTextNode(myEdge));
-            root.appendChild(edge);
-
-            Element gridSize = document.createElement("GridSize");
-            gridSize.appendChild(document.createTextNode(myCellSize));
-            root.appendChild(gridSize);
-
-            Element outlineFlag = document.createElement("OutlineFlag");
-            outlineFlag.appendChild(document.createTextNode(myOutline));
-            root.appendChild(outlineFlag);
-
-            Element stateColors = document.createElement("StateColors");
-            stateColors.appendChild(document.createTextNode(myStateColors));
-            root.appendChild(stateColors);
-
-            TransformerFactory transformFac = TransformerFactory.newInstance();
-            Transformer transformer = transformFac.newTransformer();
+            TransformerFactory transformFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult((new File(XMLPath)));
             transformer.transform(domSource, streamResult);
@@ -156,6 +126,12 @@ public class XMLWriter {
         catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Error, array size must be same as initial configuration file.");
         }
+    }
+
+    private void createChildElement(String elementName, String stringValue){
+        Element newElement = myDocument.createElement(elementName);
+        newElement.appendChild(myDocument.createTextNode(stringValue));
+        myRoot.appendChild(newElement);
     }
 
     private String arrayToString(int[][] gridArray){
