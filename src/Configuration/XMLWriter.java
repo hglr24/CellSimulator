@@ -23,7 +23,8 @@ import java.util.List;
  * I believe this code is well designed because it takes the burden off of other classes for providing the information,
  * and instead just requires a SimulationInfo object and the current Grid configuration. I refactored a lot of the code,
  * bringing it down from about 200 lines to about 150 by implementing a map to hold all of the values, and instead
- * of creating a new node manually each time I created a method to add the new node element.
+ * of creating a new node manually each time I created a method to add the new node element. Also made the XML
+ * file format cleaner now including lines and indents.
  */
 
 
