@@ -18,10 +18,18 @@ public enum SugarScapeState implements State{
         myValue = value;
     }
 
+    /**
+     * Returns the color that corresponds to the state
+     * @return
+     */
     public Color getColor(){
         return myColor;
     }
 
+    /**
+     * Returns the value that corresponds to the state
+     * @return
+     */
     public int getValue(){
         return myValue;
     }
