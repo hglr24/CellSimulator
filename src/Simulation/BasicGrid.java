@@ -3,6 +3,10 @@ package Simulation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The fundamental type of grid. Lots of common use methods. Holds all of the Cells.
+ * @param <E>
+ */
 abstract public class BasicGrid<E> implements Grid<E> {
 
     protected Cell[][] cells;
@@ -13,6 +17,14 @@ abstract public class BasicGrid<E> implements Grid<E> {
     protected GridType gridType;
     protected HashMap<State,Integer> cellCounts = new HashMap<>();
 
+    /**
+     * Instantiate
+     * @param height
+     * @param width
+     * @param neighborhood
+     * @param ruleSet
+     * @param gridType
+     */
     public BasicGrid(int height, int width, Neighborhood neighborhood, RuleSet ruleSet, GridType gridType){
         this.height = height;
         this.width = width;
@@ -22,6 +34,10 @@ abstract public class BasicGrid<E> implements Grid<E> {
 
     }
 
+    /**
+     * Get the quantity of each cell type currently. Useful for graph display of populations on front end.
+     * @return
+     */
     public HashMap<Simulation.State,Integer> getCounts(){
 
         for (State key : cellCounts.keySet()) {
@@ -37,6 +53,11 @@ abstract public class BasicGrid<E> implements Grid<E> {
         return cellCounts;
     }
 
+    /**
+     * Ensure location is valid
+     * @param location
+     * @return
+     */
     @Override
     public boolean validLocation(Location location) {
         assert(location instanceof SquareLocation);
@@ -44,6 +65,9 @@ abstract public class BasicGrid<E> implements Grid<E> {
         return sl.getX() >= 0 && sl.getY() >= 0 && sl.getX()< height && sl.getY() < width;
     }
 
+    /**
+     * iterate through all cells, telling them to update. Serves to step the simulation.
+     */
     @Override
     public void update(){
         for(Cell[] r: cells){
@@ -66,6 +90,11 @@ abstract public class BasicGrid<E> implements Grid<E> {
         return cells;
     }
 
+    /**
+     * Get a specific cell. Errors out if invalid.
+     * @param location
+     * @return
+     */
     @Override
     public Cell getCell(Location location) {
         if (!validLocation(location) || !(location instanceof SquareLocation))
@@ -73,6 +102,13 @@ abstract public class BasicGrid<E> implements Grid<E> {
         SquareLocation sl = (SquareLocation) location;
         return cells[sl.getX()][sl.getY()];
     }
+
+    /**
+     * A generic way to find neighbors of a cell, based on its custom Neighborhood
+     * @param location
+     * @return
+     */
+
     @Override
     public ArrayList<Cell> findNeighbors(Location location) {
         ArrayList<Cell> adjacent = new ArrayList<>();
@@ -108,6 +144,11 @@ abstract public class BasicGrid<E> implements Grid<E> {
         return intArray;
     }
 
+    /**
+     * Get wrapped co-ordinates of locations by translating to their base level position counts
+     * @param r
+     * @param c
+     */
     private void wrapLocation(int r, int c){
 
         while(r<0)
@@ -121,6 +162,12 @@ abstract public class BasicGrid<E> implements Grid<E> {
 
 
     }
+
+    /**
+     * add neighbors, with a check for validity 
+     * @param location
+     * @param neighbors
+     */
     protected void appendNeighbors(Location location, ArrayList<Cell> neighbors) {
 
         if (validLocation(location))
