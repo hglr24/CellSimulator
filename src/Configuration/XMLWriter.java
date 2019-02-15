@@ -35,20 +35,20 @@ public class XMLWriter {
     private String myStateColors;
 
     /**
-     *
-     * @param title
-     * @param simType
-     * @param configuration
-     * @param width
-     * @param height
-     * @param shape
-     * @param parameters
-     * @param probabilities
-     * @param neighborhood
-     * @param edge
-     * @param cellSize
-     * @param outline
-     * @param stateColors
+     * Save the new simulation using the string parameters as fields
+     * @param title is the title of the simulation
+     * @param simType is the type of simulation
+     * @param configuration is the current state of the grid 
+     * @param width is the number of columns in the grid
+     * @param height is the number of rows in the grid
+     * @param shape is the shape of the objects in the grid
+     * @param parameters is the state of the parameters of the grid
+     * @param probabilities is the probabilities affecting randomness in the grid
+     * @param neighborhood is the neighborhood of cells that get considered in calculating the next state
+     * @param edge is the edge of the grid that must be considered
+     * @param cellSize is the size of each cell
+     * @param outline is true or false, describing whether or not the cells outline should appear
+     * @param stateColors is a list of Strings representing the colors for each of the states
      */
     public XMLWriter(String title, String simType, String configuration, String width, String height, String shape,
                      String parameters, String probabilities, String neighborhood, String edge, String cellSize,
