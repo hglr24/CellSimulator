@@ -3,6 +3,9 @@ package Simulation;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * State enumeration for Rock/Paper/Scissors simulation
+ */
 public enum RPSState implements State {
     ROCK("Rock", Color.SALMON, 0), PAPER("Paper", Color.CORNFLOWERBLUE, 1),
     SCISSORS("Scissors", Color.PALEGREEN, 2);
@@ -17,16 +20,28 @@ public enum RPSState implements State {
         myValue = value;
     }
 
+    /**
+     * Returns the color that corresponds to the state
+     * @return State color
+     */
     @Override
-    public int getValue() {
-        return myValue;
-    }
-
-    @Override
-    public Paint getColor() {
+    public Paint getColor(){
         return myColor;
     }
 
+    /**
+     * Returns the integer value that corresponds to the state
+     * @return State value
+     */
+    @Override
+    public int getValue(){
+        return myValue;
+    }
+
+    /**
+     * Returns String label of state
+     * @return State label
+     */
     @Override
     public String toString() {
         return myLabel;

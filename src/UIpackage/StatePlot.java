@@ -8,6 +8,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import java.util.HashMap;
 
+/**
+ * Creates a JavaFX LineChart that displays the current numbers of each cell type in a simulation from grid
+ */
 class StatePlot extends HBox {
     private LineChart myChart;
     private HashMap<State, Integer> myDataMap;

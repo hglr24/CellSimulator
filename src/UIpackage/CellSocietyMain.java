@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ * Main class for CellSociety project, initializes and monitors simulation, handles timing, file load/save
+ */
 public class CellSocietyMain extends Application {
     private ArrayList<Stage> myStages = new ArrayList<>();
     private ArrayList<SimulationType> mySimTypes = new ArrayList<>();
@@ -28,6 +31,10 @@ public class CellSocietyMain extends Application {
     private static final FileChooser myFileSaver = new FileChooser();
     private static final double SECOND_IN_NANOS = 1000000000;
 
+    /**
+     * Starts the simulation given the specified JavaFX stage
+     * @param stage Stage to load simulation into
+     */
     @Override
     public void start (Stage stage) {
         initializeFileOpener();
@@ -90,6 +97,11 @@ public class CellSocietyMain extends Application {
     private void initializeTimer(int stageIndex) {
         myTimers.add(stageIndex, new AnimationTimer() {
             private long lastUpdate = 0;
+
+            /**
+             * Handles update of simulation based on a timer
+             * @param currTime Time elapsed since timer was started
+             */
             @Override
             public void handle(long currTime) {
                 if (currTime - lastUpdate >= mySpeeds.get(stageIndex) * SECOND_IN_NANOS) {

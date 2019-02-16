@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Creates grid of abstract shapes with given grid and simulation type
+ */
 abstract class ShapeGrid extends GridPane {
     private int myHSize;
     private int myVSize;

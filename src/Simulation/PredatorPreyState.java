@@ -3,6 +3,9 @@ package Simulation;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * State enumeration for Predator/Prey simulation
+ */
 public enum PredatorPreyState implements State {
 EMPTY("Empty", Color.LIGHTGRAY, 0), FISH("Fish", Color.SALMON, 1),
     SHARK("Shark", Color.SLATEBLUE, 2);
@@ -17,16 +20,28 @@ EMPTY("Empty", Color.LIGHTGRAY, 0), FISH("Fish", Color.SALMON, 1),
         myValue = value;
     }
 
+    /**
+     * Returns the color that corresponds to the state
+     * @return State color
+     */
     @Override
-    public int getValue() {
-        return myValue;
-    }
-
-    @Override
-    public Paint getColor() {
+    public Paint getColor(){
         return myColor;
     }
 
+    /**
+     * Returns the integer value that corresponds to the state
+     * @return State value
+     */
+    @Override
+    public int getValue(){
+        return myValue;
+    }
+
+    /**
+     * Returns String label of state
+     * @return State label
+     */
     @Override
     public String toString() {
         return myLabel;

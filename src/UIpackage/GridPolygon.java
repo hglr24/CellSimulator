@@ -2,6 +2,9 @@ package UIpackage;
 
 import javafx.scene.shape.Polygon;
 
+/**
+ * Creates a polygon to be displayed in the simulation grid with specified coordinates and size
+ */
 abstract class GridPolygon extends Polygon {
     private int myRow;
     private int myCol;

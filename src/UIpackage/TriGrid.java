@@ -8,6 +8,9 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 import java.util.ArrayList;
 
+/**
+ * Creates triangular grid with given parameters
+ */
 public class TriGrid extends ShapeGrid {
     private double myCellRadius;
     private boolean myGridBorder;
@@ -25,6 +28,12 @@ public class TriGrid extends ShapeGrid {
         this.setPadding(new Insets(0, super.getHSize() / PAD_H_OFFSET, super.getVSize() / PAD_V_OFFSET, 0));
     }
 
+    /**
+     * Draws each triangle in grid
+     * @param hsize Number of columns in grid
+     * @param vsize Number of rows in grid
+     * @param shapes Shape grid passed from GUIManager
+     */
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {

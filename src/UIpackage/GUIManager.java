@@ -22,6 +22,11 @@ import java.util.Arrays;
 import java.util.List;
 import Simulation.*;
 
+/**
+ * Class for managing GUI elements of a single simulation. Required for each single simulation.
+ * Communicates back to CellSocietyMain to relay timing events. Handles mouse and keyboard input.
+ * Instantiates display grid for simulation.
+ */
 public class GUIManager {
     private Scene myScene;
     private ArrayList<ArrayList<Shape>> myShapeGrid;
@@ -45,6 +50,16 @@ public class GUIManager {
     private static final int MAX_SIM_SPEED = 10;
     private static final String DEFAULT_STYLESHEET = "/resources/default.css";
 
+    /**
+     * Instantiates a new GUI with specified parameters
+     * @param initData Initial grid data
+     * @param sim Main class that called this object
+     * @param simtype Simulation type
+     * @param shape Shape to create in grid cell
+     * @param stageID Index of simulation
+     * @param cellsize Size to make each cell
+     * @param gridBorder Whether to have grid borders between cells
+     */
     public GUIManager(Grid initData, CellSocietyMain sim, SimulationType simtype,
                       Configuration.Shape shape, int stageID, int cellsize, boolean gridBorder) {
         myGrid = initData;

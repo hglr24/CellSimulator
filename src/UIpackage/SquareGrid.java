@@ -8,6 +8,9 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 import java.util.ArrayList;
 
+/**
+ * Creates square grid with given parameters
+ */
 public class SquareGrid extends ShapeGrid {
     private double myCellSize;
     private boolean myGridBorder;
@@ -22,6 +25,12 @@ public class SquareGrid extends ShapeGrid {
         this.setPadding(new Insets(0, PAD_OFFSET, PAD_OFFSET, 0));
     }
 
+    /**
+     * Draws each square in grid
+     * @param hsize Number of columns in grid
+     * @param vsize Number of rows in grid
+     * @param shapes Shape grid passed from GUIManager
+     */
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {

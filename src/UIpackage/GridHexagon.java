@@ -1,5 +1,8 @@
 package UIpackage;
 
+/**
+ * Creates a hexagon to be displayed in the simulation grid
+ */
 class GridHexagon extends GridPolygon {
     private Double[] myCoords;
 

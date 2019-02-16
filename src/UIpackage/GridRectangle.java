@@ -1,5 +1,8 @@
 package UIpackage;
 
+/**
+ * Creates a rectangle to be displayed in the simulation grid
+ */
 class GridRectangle extends GridPolygon {
     private Double[] myCoords;
 

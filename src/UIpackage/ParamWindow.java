@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Creates a new parameter display window for given simulation, closes itself when user selects apply or close
+ */
 class ParamWindow extends Stage {
 
     private RuleSet myRules;

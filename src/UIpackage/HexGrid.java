@@ -10,6 +10,9 @@ import javafx.scene.shape.StrokeType;
 
 import java.util.ArrayList;
 
+/**
+ * Creates hexagonal grid with given parameters
+ */
 public class HexGrid extends ShapeGrid {
     private double myCellRadius;
     private boolean myGridBorder;
@@ -36,6 +39,12 @@ public class HexGrid extends ShapeGrid {
         }
     }
 
+    /**
+     * Draws each hexagon in grid
+     * @param hsize Number of columns in grid
+     * @param vsize Number of rows in grid
+     * @param shapes Shape grid passed from GUIManager
+     */
     public void draw(int hsize, int vsize, ArrayList<ArrayList<Shape>> shapes) {
         for (int i = 0; i < vsize; i++) {
             for (int j = 0; j < hsize; j++) {

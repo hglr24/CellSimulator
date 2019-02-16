@@ -3,6 +3,9 @@ package Simulation;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * State enumeration for Game of Life simulation
+ */
 public enum GameOfLifeState implements State {
     LIVE("Live", Color.GOLDENROD, 1), DEAD("Dead", Color.GRAY, 0);
 
@@ -16,16 +19,28 @@ public enum GameOfLifeState implements State {
         myValue = value;
     }
 
+    /**
+     * Returns the color that corresponds to the state
+     * @return State color
+     */
     @Override
-    public int getValue() {
-        return myValue;
-    }
-
-    @Override
-    public Paint getColor() {
+    public Paint getColor(){
         return myColor;
     }
 
+    /**
+     * Returns the integer value that corresponds to the state
+     * @return State value
+     */
+    @Override
+    public int getValue(){
+        return myValue;
+    }
+
+    /**
+     * Returns String label of state
+     * @return State label
+     */
     @Override
     public String toString() {
         return myLabel;
