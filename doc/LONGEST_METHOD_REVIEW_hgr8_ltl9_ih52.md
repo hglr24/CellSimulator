@@ -33,4 +33,4 @@ It would have been better coding practice to give copies of each of the objects,
 ## Resolutions
 1. Elaborate characteristic values for different possible subclasses in the enumeration of the given types instead of a switch case statement later in the code.
 2. Avoid using magic numbers by either including them in the aforementioned enumerations or setting them equal to characteristic labels.
-3. Don't try to do too much in one method. If there is a modular part of the process, write a new method with an informative name, and extract the logic. This improves readability, and also makes it easier to change specific components of the logic. 
+3. Don't try to do too much in one method. If there is a modular part of the process, write a new method with an informative name, and extract the logic. This improves readability, and also makes it easier to change specific components of the logic.  
